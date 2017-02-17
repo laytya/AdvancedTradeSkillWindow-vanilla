@@ -17,8 +17,11 @@ ATSW shows you what reagents you need to process the whole production queue. It 
 #Changelog:
 
 v0.5.0:
+
 - changed: the "continue queue" popup window has been removed, instead you are now requested to click the "process queue" button to continue queue processing
+
 v0.5.1:
+
 - added:   compatibility w/ Aux and WIM
 - added:   ruRU locale
 - changed: some placement fixes
