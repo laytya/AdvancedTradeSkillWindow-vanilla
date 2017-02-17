@@ -14,3 +14,19 @@ The ATSW is able to consider items you have to produce in order to use them as r
 ATSW helps you telling your friends what reagents you need for a specific item: just click on a recipe with your shift-key pressed and the chat line opened and the reagent info will be added to the chat line. 
 ATSW shows you what reagents you need to process the whole production queue. It even tells you how many of each reagent you have in your bank, on alternative characters on the same server (in this case, it can even tell you on which characters) and which reagents are buyable from merchants. In case of buyable reagents ATSW can automatically buy all missing and available items from a merchant when you are speaking to him. 
 
+#Changelog:
+
+v0.5.0:
+- changed: the "continue queue" popup window has been removed, instead you are now requested to click the "process queue" button to continue queue processing
+v0.5.1:
+- added:   compatibility w/ Aux and WIM
+- added:   ruRU locale
+- changed: some placement fixes
+
+#Downloads:
+
+https://github.com/laytya/AdvancedTradeSkillWindow-vanilla/releases
+
+#Installation:
+
+Copy dir "AdvancedTradeSkillWindow" to your addon's dir.
