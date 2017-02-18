@@ -56,6 +56,7 @@ atsw_disabled={};
 atsw_savedqueue={};
 atsw_savednecessaryitems={};
 atsw_is_sorted=false;
+local previousRecipies = {}
 
 function ATSW_OnLoad()
 	SLASH_ATSW1 = "/atsw";
@@ -571,6 +572,13 @@ function ATSWFrame_Update()
 	for i=1,ATSW_TRADE_SKILLS_DISPLAYED,1 do
 		getglobal("ATSWSkill"..i):Hide();
 	end
+	
+	if table.getn(previousRecipies) > 0 then
+        ATSWPreviousItemButton:Show()
+    else
+        ATSWPreviousItemButton:Hide()
+    end
+	
 	if(atsw_orderby[UnitName("player")][atsw_selectedskill]=="nothing" or atsw_orderby[UnitName("player")][atsw_selectedskill]=="custom") then
 		ATSWExpandButtonFrame:Show();
 		local numTradeSkills=table.getn(atsw_skilllisting);
@@ -924,6 +932,49 @@ function ATSWFrame_SetSelection(id,wasClicked)
 		end
 	end
 end
+function ATSW_ItemOnClick(link)
+	if ( IsControlKeyDown() ) then
+		DressUpItemLink(link);
+	elseif ( IsShiftKeyDown() ) then
+		if	WIM_EditBoxInFocus then
+			WIM_EditBoxInFocus:Insert(link);
+		elseif AuxFrame:IsVisible() then
+			local _,_,linkid = string.find(link, 'item:(%d+)') 
+			local link = string.format("item:%d",tonumber(linkid)) 
+			SetItemRef(link,"","RightButton")
+		elseif(CanSendAuctionQuery()) then
+			BrowseName:SetText(link);
+			AuctionFrameBrowse_Search();
+			BrowseNoResultsText:SetText(BROWSE_NO_RESULTS);
+		elseif ( ChatFrameEditBox:IsVisible() ) then
+			ChatFrameEditBox:Insert(link);
+		end
+	end
+end
+
+function ATSW_ItemOnDoubleClick()
+	local reagent = ATSW_GetItemID(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, this:GetID()))
+
+	for i=1,ATSW_GetNumTradeSkills(),1 do
+		local skillLink = ATSW_GetTradeSkillItemLink(i)
+--	Sea.io.print(reagent .. " -> ".. (ATSW_GetItemID(skillLink) or "nil"))
+		if skillLink and reagent == ATSW_GetItemID(skillLink) then
+			table.insert(previousRecipies,ATSWFrame.selectedSkill)
+			Sea.io.print(ATSWFrame.selectedSkill)
+			ATSWFrame_SetSelection(i,false)
+			ATSWFrame_Update();
+		end
+	end
+end
+
+function ATSW_GoToPreviousRecipe()
+    local itemID = table.remove(previousRecipies)
+    if itemID then
+        ATSWFrame_SetSelection(itemID,false)
+		ATSWFrame_Update();
+    end
+end
+
 
 function ATSWSubClassDropDown_OnLoad()
 	UIDropDownMenu_Initialize(this, ATSWSubClassDropDown_Initialize);

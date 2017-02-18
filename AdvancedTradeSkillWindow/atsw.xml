@@ -354,14 +354,11 @@
 				CursorOnUpdate();
 			</OnUpdate>
 			<OnClick>
-				if ( IsControlKeyDown() ) then
-					DressUpItemLink(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, this:GetID()));
-				elseif ( IsShiftKeyDown() ) then
-					if ( ChatFrameEditBox:IsVisible() ) then
-						ChatFrameEditBox:Insert(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, this:GetID()));
-					end
-				end
+				ATSW_ItemOnClick(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, this:GetID()));
 			</OnClick>
+		<OnDoubleClick>
+				ATSW_ItemOnDoubleClick()
+			</OnDoubleClick>
 		</Scripts>
 	</Button>
 
@@ -1294,13 +1291,9 @@
 						this.hasItem = 1;
 					</OnLoad>
 					<OnClick>
-						if ( IsControlKeyDown() ) then
-							DressUpItemLink(ATSW_GetTradeSkillItemLink(ATSWFrame.selectedSkill));
-						elseif ( IsShiftKeyDown() ) then
-							if ( ChatFrameEditBox:IsVisible() ) then
-								ChatFrameEditBox:Insert(ATSW_GetTradeSkillItemLink(ATSWFrame.selectedSkill));
-							end
-						end
+						ATSW_ItemOnClick(ATSW_GetTradeSkillItemLink(ATSWFrame.selectedSkill));
+						
+						
 					</OnClick>
 					<OnEnter>
 						if ( ATSWFrame.selectedSkill ~= 0 ) then
@@ -1599,7 +1592,27 @@
 				<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
 				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
 			</Button>
-
+			<Button name="ATSWPreviousItemButton" >
+                <Size>
+                    <AbsDimension x="32" y="32"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="ATSWQueueButton" relativePoint="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="0" y="3"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <NormalTexture file="Interface\Buttons\UI-RotationRight-Button-Up"/>
+                <PushedTexture file="Interface\Buttons\UI-RotationRight-Button-Down"/>
+                <HighlightTexture file="Interface\Buttons\ButtonHilight-Round" alphaMode="ADD"/>
+                <Scripts>
+                    <OnClick>
+                        ATSW_GoToPreviousRecipe()
+                    </OnClick>
+                </Scripts>
+            </Button>
+			
 			<Frame name="ATSWQueueItem1" inherits="ATSWQueueItemButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="ATSWFrame" relativePoint="TOPLEFT">

@@ -16,15 +16,22 @@ ATSW shows you what reagents you need to process the whole production queue. It 
 
 #Changelog:
 
-v0.5.0:
+v0.5.2:
 
-- changed: the "continue queue" popup window has been removed, instead you are now requested to click the "process queue" button to continue queue processing
+- added: More Aux and WIM support - now you can Shift-LeftClick on Item or Reagent to search it on AH or send link to WIM window
+- added: DoubleClick on reagent will search and display recipe of it if you have it. And you can return later by clickig return button.
 
 v0.5.1:
 
 - added:   compatibility w/ Aux and WIM
 - added:   ruRU locale
 - changed: some placement fixes
+
+v0.5.0:
+
+- changed: the "continue queue" popup window has been removed, instead you are now requested to click the "process queue" button to continue queue processing
+
+
 
 #Downloads:
 

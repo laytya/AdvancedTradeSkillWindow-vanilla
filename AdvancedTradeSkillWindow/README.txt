@@ -242,3 +242,8 @@ v0.5.1:
 - added:   compatibility w/ Aux and WIM
 - added:   ruRU locale
 - changed: some placement fixes
+
+v0.5.2:
+
+- added: More Aux and WIM support - now you can Shift-LeftClick on Item or Reagent to search it on AH or send link to WIM window
+- added: DoubleClick on reagent will search and display recipe of it if you have it. And you can return later by clickig return button.
