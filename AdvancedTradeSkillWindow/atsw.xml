@@ -649,7 +649,7 @@
 					<Anchors>
 						<Anchor point="TOPLEFT">
 							<Offset>
-								<AbsDimension x="86" y="-98"/>
+								<AbsDimension x="68" y="-98"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -1863,7 +1863,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="ATSWFrame" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="126" y="-94"/>
+							<AbsDimension x="108" y="-94"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -1928,6 +1928,28 @@
 			</EditBox>
 
 
+<Button name="ATSWFilterBoxClear" inherits="UIPanelButtonTemplate">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>					
+				<Anchors>
+					 <Anchor point="LEFT" relativeTo="ATSWFilterBox" relativePoint="RIGHT">
+                        <Offset>
+                            <AbsDimension x="1" y="0"/>
+                        </Offset>
+                    </Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetText("X");
+					</OnLoad>
+					<OnClick>
+						ATSWFilterBox:SetText("")
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			
         </Frames>
         <Scripts>
           <OnLoad>

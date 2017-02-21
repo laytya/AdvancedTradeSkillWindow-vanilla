@@ -122,6 +122,9 @@ function ATSW_ShowWindow()
 	ATSWFrame_Update();
 	ATSWInputBox:SetText("1");
 	atsw_updatedelay=0.5;
+	ATSWQueueStartStopButton:Enable();
+	ATSWQueueStartStopButton:SetText(ATSW_STARTQUEUE);
+	ATSWQueueDeleteButton:Enable();
 end
 
 function ATSW_HideWindow()
@@ -425,6 +428,12 @@ function ATSWFrame_OnEvent()
 		elseif(event=="PLAYER_LOGOUT") then
 		ATSW_SaveQueue(false);
 		elseif(event=="UI_ERROR_MESSAGE") then
+		if atsw_working and arg1 == "Interraupted" then
+			ATSW_SpellcastStop();
+			ATSW_SpellcastInterrupted();
+		end
+		
+--		Sea.io.printTable({arg1 or "nil",event})
 		if(ATSWFrame:IsVisible()) then
 			if(arg1==INVENTORY_FULL) then
 				ATSW_SpellcastStop();
@@ -810,6 +819,33 @@ function ATSWFrame_SetSelection(id,wasClicked)
 		ATSWFrame_Update();
 		return;
 	end
+	
+	local skillOffset = FauxScrollFrame_GetOffset(ATSWListScrollFrame);
+	
+	local numTradeSkills = ATSW_GetNumTradeSkills()
+	
+	if (numTradeSkills > ATSW_TRADE_SKILLS_DISPLAYED) then
+		
+		--Sea.io.printTable({id,skillOffset,numTradeSkills,ATSW_TRADE_SKILLS_DISPLAYED})
+		-- if (id - skillOffset > ATSW_TRADE_SKILLS_DISPLAYED) or (id - skillOffset < 0) then
+			-- skillOffset = math.floor( id / ATSW_TRADE_SKILLS_DISPLAYED) * ATSW_TRADE_SKILLS_DISPLAYED
+			
+			
+			-- FauxScrollFrame_SetOffset(ATSWListScrollFrame, skillOffset);
+			-- ATSWListScrollFrameScrollBar:SetValue(skillOffset * ATSW_TRADE_SKILL_HEIGHT);
+		-- end
+		if (id - skillOffset > ATSW_TRADE_SKILLS_DISPLAYED) or (id - skillOffset < 0) then
+			if (id < numTradeSkills - ATSW_TRADE_SKILLS_DISPLAYED) then
+				FauxScrollFrame_SetOffset(ATSWListScrollFrame, id - 1);
+				ATSWListScrollFrameScrollBar:SetValue((id - 1) * ATSW_TRADE_SKILL_HEIGHT);
+			else
+				FauxScrollFrame_SetOffset(ATSWListScrollFrame, numTradeSkills - ATSW_TRADE_SKILLS_DISPLAYED);
+				ATSWListScrollFrameScrollBar:SetValue((numTradeSkills - ATSW_TRADE_SKILLS_DISPLAYED) * ATSW_TRADE_SKILL_HEIGHT);
+			end
+		end
+	end
+	
+	
 	ATSWFrame.selectedSkillName=skillName;
 	ATSWFrame.selectedSkill = id;
 	ATSW_SelectTradeSkill(id);
@@ -960,7 +996,7 @@ function ATSW_ItemOnDoubleClick()
 --	Sea.io.print(reagent .. " -> ".. (ATSW_GetItemID(skillLink) or "nil"))
 		if skillLink and reagent == ATSW_GetItemID(skillLink) then
 			table.insert(previousRecipies,ATSWFrame.selectedSkill)
-			Sea.io.print(ATSWFrame.selectedSkill)
+--			Sea.io.print(ATSWFrame.selectedSkill)
 			ATSWFrame_SetSelection(i,false)
 			ATSWFrame_Update();
 		end
@@ -2056,7 +2092,7 @@ function ATSW_Filter(skillname)
 				return false;
 			end
 		end
-		if(parameters[i].name=="reagent") then
+		if(parameters[i].name=="reagent" or parameters[i].name=="r") then
 			local index=ATSW_GetTradeSkillListPosByName(skillname);
 			if(index~=-1) then
 				local found=false;
