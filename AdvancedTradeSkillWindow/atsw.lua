@@ -969,12 +969,8 @@ function ATSWFrame_SetSelection(id,wasClicked)
 	end
 end
 function ATSW_ItemOnClick(link)
-	if ( IsControlKeyDown() ) then
-		DressUpItemLink(link);
-	elseif ( IsShiftKeyDown() ) then
-		if	WIM_EditBoxInFocus then
-			WIM_EditBoxInFocus:Insert(link);
-		elseif AuxFrame:IsVisible() then
+	if( arg1 and arg1 == "RightButton") then
+		if AuxFrame:IsVisible() then
 			local _,_,linkid = string.find(link, 'item:(%d+)') 
 			local link = string.format("item:%d",tonumber(linkid)) 
 			SetItemRef(link,"","RightButton")
@@ -982,6 +978,12 @@ function ATSW_ItemOnClick(link)
 			BrowseName:SetText(link);
 			AuctionFrameBrowse_Search();
 			BrowseNoResultsText:SetText(BROWSE_NO_RESULTS);
+		end
+	elseif ( IsControlKeyDown() ) then
+		DressUpItemLink(link);
+	elseif ( IsShiftKeyDown() ) then
+		if	WIM_EditBoxInFocus then
+			WIM_EditBoxInFocus:Insert(link);
 		elseif ( ChatFrameEditBox:IsVisible() ) then
 			ChatFrameEditBox:Insert(link);
 		end
