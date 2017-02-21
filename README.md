@@ -1,6 +1,6 @@
 # AdvancedTradeSkillWindow for Vanilla
 
-![Imgur](http://i.imgur.com/3eZ4THj.jpg)
+![Imgur](http://i.imgur.com/7EVSPrE.jpg)
 
 ATSW is a complete replacement for Blizzards tradeskill window with more overview and special functions. 
 
