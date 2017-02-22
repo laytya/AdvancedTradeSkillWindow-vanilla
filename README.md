@@ -43,10 +43,16 @@ of "green".
 
 #Changelog:
 
-v0.5.3:
+v0.5.4:
 
 - changed: Right-Click to Search  on AH
 - Added: Shift-Click on Reagent or Item w/ out chatbox active will search this reagent in skill tree.
+
+v0.5.3:
+
+- fix for #2
+- added ':r' shortcaut for filter
+- scroll folow selected skill
 
 v0.5.2:
 
