@@ -43,6 +43,11 @@ of "green".
 
 #Changelog:
 
+v0.5.3:
+
+- changed: Right-Click to Search  on AH
+- Added: Shift-Click on Reagent or Item w/ out chatbox active will search this reagent in skill tree.
+
 v0.5.2:
 
 - added: More Aux and WIM support - now you can Shift-LeftClick on Item or Reagent to search it on AH or send link to WIM window

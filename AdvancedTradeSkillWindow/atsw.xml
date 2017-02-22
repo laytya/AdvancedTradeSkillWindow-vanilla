@@ -337,6 +337,9 @@
 
 	<Button name="ATSWItemTemplate" inherits="QuestItemTemplate" virtual="true">
 		<Scripts>
+			<OnLoad>
+				this:RegisterForClicks("LeftButtonUp", "LeftButtonDown","RightButtonUp","RightButtonDown")
+			</OnLoad>
 			<OnEnter>
 				GameTooltip:SetOwner(this, "ANCHOR_TOPLEFT");
 				if(atsw_oldmode) then
@@ -1289,6 +1292,7 @@
 				<Scripts>
 					<OnLoad>
 						this.hasItem = 1;
+						this:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 					</OnLoad>
 					<OnClick>
 						ATSW_ItemOnClick(ATSW_GetTradeSkillItemLink(ATSWFrame.selectedSkill));

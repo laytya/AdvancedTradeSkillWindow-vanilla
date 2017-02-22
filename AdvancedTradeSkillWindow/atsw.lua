@@ -986,6 +986,9 @@ function ATSW_ItemOnClick(link)
 			WIM_EditBoxInFocus:Insert(link);
 		elseif ( ChatFrameEditBox:IsVisible() ) then
 			ChatFrameEditBox:Insert(link);
+		else
+			local _,_,name = string.find(link, "^.*%[(.*)%].*$");
+			ATSWFilterBox:SetText(":r "..(name or ""))
 		end
 	end
 end

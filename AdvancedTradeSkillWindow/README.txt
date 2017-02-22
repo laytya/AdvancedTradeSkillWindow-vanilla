@@ -1,6 +1,7 @@
-Advanced Trade Skill Window v0.5.0
+Advanced Trade Skill Window v0.5.3
 a World of Warcraft UI Addon
 written 2006 by Rene Schneider (Slarti on EU-Blackhand)
+fixed 2017 by laytya
 ----------------------------------------------------------------
 
 1. Installation
@@ -32,20 +33,28 @@ into the search box and have ATSW filter the recipe list according to your entry
 or you can use one of the following parameters:
 ----------------------------------------------------------------------------------
 :reagent [reagent name] - filters the list to only include items that need the
-                          specified reagent
+:r [reagent name]         specified reagent
+
 :minlevel [level] - filters the list to only include recipes for items with at
                     least the given level requirement
+					
 :maxlevel [level] - the same as minlevel, just the other way round
+
 :minrarity [grey/white/green/blue/purple] - filters the list to only include recipes
                                             for items with at least the given rarity
+											
 :maxrarity [grey/white/green/blue/purple] - should be self-explanatory
+
 :minpossible [count] - filters the list to only include items that can be produced
                        at least [count] times with the material in your inventory
+					   
 :maxpossible [count] - do I really need to explain this?
+
 :minpossibletotal [count] - like minpossible, but considers material in your bank,
                             your alt's banks and buyable materials (actually it
 			    depends on what you have activated in the options
 			    window!)
+				
 :maxpossibletotal [count] - doh!
 ----------------------------------------------------------------------------------
 You can even combine multiple parameters and a text for a name search, like this:
@@ -244,6 +253,9 @@ v0.5.1:
 - changed: some placement fixes
 
 v0.5.2:
-
 - added: More Aux and WIM support - now you can Shift-LeftClick on Item or Reagent to search it on AH or send link to WIM window
 - added: DoubleClick on reagent will search and display recipe of it if you have it. And you can return later by clickig return button.
+
+v0.5.3:
+- changed: Right-Click to Search  on AH
+- Added: Shift-Click on Reagent or Item w/ out chatbox active will search this reagent in skill tree.
