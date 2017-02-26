@@ -36,6 +36,7 @@ atsw_tradeskillheaders={};
 atsw_skilllisting={};
 atsw_tradeskillcounter={};
 atsw_selectedskill="";
+atsw_craftskillclick=nil;
 atsw_displayedgroup="";
 atsw_retries=0;
 atsw_retrydelay=0;
@@ -98,6 +99,22 @@ function ATSW_ShowWindow()
 	if(atsw_invslotfiltered[atsw_selectedskill]==nil) then atsw_invslotfiltered[atsw_selectedskill]={}; end
 	ShowUIPanel(ATSWCheckerFrame);
 	SetPortraitTexture(ATSWFramePortrait, "player");
+	
+	if(atsw_oldmode) then
+		if atsw_craftskillclick ~= nil then
+			ATSWFrame_SetSelection(atsw_craftskillclick)
+		end
+		if(ATSW_GetTradeSkillSelectionIndex()>1) then
+			ATSWFrame_SetSelection(ATSW_GetTradeSkillSelectionIndex());
+		else
+			if(ATSW_GetNumTradeSkills()>0) then
+				ATSWFrame_SetSelection(ATSW_GetFirstTradeSkill());
+				FauxScrollFrame_SetOffset(ATSWListScrollFrame, 0);
+			end
+			ATSWListScrollFrameScrollBar:SetValue(0);
+		end
+	end
+	
 	if(not atsw_oldmode) then
 		ExpandTradeSkillSubClass(0);
 		if(ATSW_GetTradeSkillSelectionIndex()>1) then
@@ -820,6 +837,14 @@ function ATSWFrame_SetSelection(id,wasClicked)
 		return;
 	end
 	
+	if atsw_oldmode then
+		skillName, craftSubSpellName, skillType, numAvailable = GetCraftInfo(id)
+		ATSWSkillName:SetText();
+	else
+		skillName, skillType, numAvailable = GetTradeSkillInfo(id)
+		ATSWSkillName:SetText();		
+	end
+	
 	local skillOffset = FauxScrollFrame_GetOffset(ATSWListScrollFrame);
 	
 	local numTradeSkills = ATSW_GetNumTradeSkills()
@@ -966,6 +991,9 @@ function ATSWFrame_SetSelection(id,wasClicked)
 			FRC_Orig_CraftFrame_SetSelection=ATSW_Orig_CraftFrame_SetSelection;
 			ATSWReagentLabel:SetText(CraftReagentLabel:GetText());
 		end
+	end
+	if atsw_oldmode then
+		atsw_craftskillclick = id;
 	end
 end
 function ATSW_ItemOnClick(link)
@@ -1698,7 +1726,7 @@ function ATSW_SetHeaderExpanded(id,value)
 		else
 		if(id==1001) then
 			atsw_uncategorizedexpanded=value;
-			else
+		elseif atsw_customheaders[UnitName("player")][atsw_selectedskill][id/1000] then
 			atsw_customheaders[UnitName("player")][atsw_selectedskill][id/1000].expanded=value;
 		end
 	end
