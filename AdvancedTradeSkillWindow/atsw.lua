@@ -99,7 +99,7 @@ function ATSW_ShowWindow()
 	if(atsw_invslotfiltered[atsw_selectedskill]==nil) then atsw_invslotfiltered[atsw_selectedskill]={}; end
 	ShowUIPanel(ATSWCheckerFrame);
 	SetPortraitTexture(ATSWFramePortrait, "player");
-	
+-- pullreq#1	
 	if(atsw_oldmode) then
 		if atsw_craftskillclick ~= nil then
 			ATSWFrame_SetSelection(atsw_craftskillclick)
@@ -114,7 +114,7 @@ function ATSW_ShowWindow()
 			ATSWListScrollFrameScrollBar:SetValue(0);
 		end
 	end
-	
+-- /pullreq#1	
 	if(not atsw_oldmode) then
 		ExpandTradeSkillSubClass(0);
 		if(ATSW_GetTradeSkillSelectionIndex()>1) then
@@ -836,7 +836,7 @@ function ATSWFrame_SetSelection(id,wasClicked)
 		ATSWFrame_Update();
 		return;
 	end
-	
+-- pullreq#1	
 	if atsw_oldmode then
 		skillName, craftSubSpellName, skillType, numAvailable = GetCraftInfo(id)
 		ATSWSkillName:SetText();
@@ -844,7 +844,7 @@ function ATSWFrame_SetSelection(id,wasClicked)
 		skillName, skillType, numAvailable = GetTradeSkillInfo(id)
 		ATSWSkillName:SetText();		
 	end
-	
+-- /pullreq#1	
 	local skillOffset = FauxScrollFrame_GetOffset(ATSWListScrollFrame);
 	
 	local numTradeSkills = ATSW_GetNumTradeSkills()
@@ -859,10 +859,12 @@ function ATSWFrame_SetSelection(id,wasClicked)
 			-- FauxScrollFrame_SetOffset(ATSWListScrollFrame, skillOffset);
 			-- ATSWListScrollFrameScrollBar:SetValue(skillOffset * ATSW_TRADE_SKILL_HEIGHT);
 		-- end
-		if (id - skillOffset > ATSW_TRADE_SKILLS_DISPLAYED) or (id - skillOffset < 0) then
-			if (id < numTradeSkills - ATSW_TRADE_SKILLS_DISPLAYED) then
-				FauxScrollFrame_SetOffset(ATSWListScrollFrame, id - 1);
-				ATSWListScrollFrameScrollBar:SetValue((id - 1) * ATSW_TRADE_SKILL_HEIGHT);
+		local idpos = atsw_is_sorted and ATSW_TradeSkillIdPos(id) or id
+		--Sea.io.printTable({id,idpos})
+		if (idpos - skillOffset > ATSW_TRADE_SKILLS_DISPLAYED) or (idpos - skillOffset < 0) then
+			if (idpos < numTradeSkills - ATSW_TRADE_SKILLS_DISPLAYED) then
+				FauxScrollFrame_SetOffset(ATSWListScrollFrame, idpos - 1);
+				ATSWListScrollFrameScrollBar:SetValue((idpos - 1) * ATSW_TRADE_SKILL_HEIGHT);
 			else
 				FauxScrollFrame_SetOffset(ATSWListScrollFrame, numTradeSkills - ATSW_TRADE_SKILLS_DISPLAYED);
 				ATSWListScrollFrameScrollBar:SetValue((numTradeSkills - ATSW_TRADE_SKILLS_DISPLAYED) * ATSW_TRADE_SKILL_HEIGHT);
@@ -992,7 +994,7 @@ function ATSWFrame_SetSelection(id,wasClicked)
 			ATSWReagentLabel:SetText(CraftReagentLabel:GetText());
 		end
 	end
-	if atsw_oldmode then
+	if atsw_oldmode then                    -- pullreq#1
 		atsw_craftskillclick = id;
 	end
 end
@@ -1635,6 +1637,16 @@ function ATSW_CreateTradeSkillList()
 	if(check==false) then
 		ATSW_CreateSkillListing();
 	end
+end
+
+function ATSW_TradeSkillIdPos(id)
+	for i=1,table.getn(atsw_tradeskillid),1 do
+		if(atsw_tradeskillid[i]==id) then 
+			return i;
+		end
+	end
+	return -1;	
+	
 end
 
 function ATSW_GetSkillListingPos(id)
