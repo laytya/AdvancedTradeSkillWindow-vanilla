@@ -257,7 +257,6 @@ v0.5.2:
 - added: DoubleClick on reagent will search and display recipe of it if you have it. And you can return later by clickig return button.
 
 v0.5.3:
-
 - fix for #2
 - added: ':r' shortcaut for filter
 - added: scroll folow selected skill
@@ -266,3 +265,7 @@ v0.5.3:
 v0.5.4:
 - changed: Right-Click to Search  on AH
 - Added: Shift-Click on Reagent or Item w/ out chatbox active will search this reagent in skill tree.
+
+v0.5.5:
+- enchanting customsort fix
+- fix position bug on sorted list

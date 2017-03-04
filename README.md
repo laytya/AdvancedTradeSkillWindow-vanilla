@@ -43,6 +43,11 @@ of "green".
 
 #Changelog:
 
+v0.5.5:
+
+- enchanting customsort fix
+- fix position bug on sorted list
+
 v0.5.4:
 
 - changed: Right-Click to Search  on AH
