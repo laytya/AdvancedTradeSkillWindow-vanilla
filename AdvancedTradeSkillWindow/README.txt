@@ -1,4 +1,4 @@
-Advanced Trade Skill Window v0.5.4
+Advanced Trade Skill Window v0.5.5a
 a World of Warcraft UI Addon
 written 2006 by Rene Schneider (Slarti on EU-Blackhand)
 fixed 2017 by laytya
@@ -269,3 +269,6 @@ v0.5.4:
 v0.5.5:
 - enchanting customsort fix
 - fix position bug on sorted list
+
+v0.5.5a:
+- fix position bug on sorted list finally

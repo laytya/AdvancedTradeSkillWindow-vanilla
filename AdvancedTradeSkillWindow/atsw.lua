@@ -851,16 +851,10 @@ function ATSWFrame_SetSelection(id,wasClicked)
 	
 	if (numTradeSkills > ATSW_TRADE_SKILLS_DISPLAYED) then
 		
-		--Sea.io.printTable({id,skillOffset,numTradeSkills,ATSW_TRADE_SKILLS_DISPLAYED})
-		-- if (id - skillOffset > ATSW_TRADE_SKILLS_DISPLAYED) or (id - skillOffset < 0) then
-			-- skillOffset = math.floor( id / ATSW_TRADE_SKILLS_DISPLAYED) * ATSW_TRADE_SKILLS_DISPLAYED
 			
-			
-			-- FauxScrollFrame_SetOffset(ATSWListScrollFrame, skillOffset);
-			-- ATSWListScrollFrameScrollBar:SetValue(skillOffset * ATSW_TRADE_SKILL_HEIGHT);
-		-- end
 		local idpos = atsw_is_sorted and ATSW_TradeSkillIdPos(id) or id
-		--Sea.io.printTable({id,idpos})
+		idpos = atsw_orderby[UnitName("player")][atsw_selectedskill] == "custom" and (listpos > 0 and listpos or 0) or idpos
+--[[
 		if (idpos - skillOffset > ATSW_TRADE_SKILLS_DISPLAYED) or (idpos - skillOffset < 0) then
 			if (idpos < numTradeSkills - ATSW_TRADE_SKILLS_DISPLAYED) then
 				FauxScrollFrame_SetOffset(ATSWListScrollFrame, idpos - 1);
@@ -870,6 +864,15 @@ function ATSWFrame_SetSelection(id,wasClicked)
 				ATSWListScrollFrameScrollBar:SetValue((numTradeSkills - ATSW_TRADE_SKILLS_DISPLAYED) * ATSW_TRADE_SKILL_HEIGHT);
 			end
 		end
+		]]
+		if (idpos - skillOffset > ATSW_TRADE_SKILLS_DISPLAYED) or (idpos - skillOffset < 0) then
+			skillOffset = math.floor( idpos / ATSW_TRADE_SKILLS_DISPLAYED) * ATSW_TRADE_SKILLS_DISPLAYED
+			
+			
+			FauxScrollFrame_SetOffset(ATSWListScrollFrame, skillOffset);
+			ATSWListScrollFrameScrollBar:SetValue(skillOffset * ATSW_TRADE_SKILL_HEIGHT);
+		end
+		
 	end
 	
 	
