@@ -1,11 +1,8 @@
--- Advanced Trade Skill Window v0.5.0
--- copyright 2006 by Rene Schneider (Slarti on EU-Blackhand)
-
--- language file
+п»ї-- language file
 
 -- German and English Language by myself
 -- French Language by Nilyn (EU Dalaran Alliance Server)
--- Espaсol por Jsr1976-Fili
+-- EspaСЃol por Jsr1976-Fili
 
 ATSW_VERSION = "ATSW ".. GetAddOnMetadata("AdvancedTradeSkillWindow", "Version").." by laytya";
 
@@ -38,8 +35,8 @@ if(GetLocale()=="deDE") then
 	ATSW_OPTIONS_TITLE = "ATSW-Optionen";
 	ATSWOFIB_TEXT = "Items in eigener Bank bei der Berechnung der\nherstellbaren Items ber\195\188cksichtigen";
 	ATSW_OPTIONSBUTTON = "Optionen";
-	ATSWOFUCB_TEXT = "Anzeige einer Gesamtzahl produzierbarer Items, die alles\nim Folgenden gew\195\164hlte berьcksichtigt";
-	ATSWOFSCB_TEXT = "Anzeige von mit Inventarinhalt herstellbaren Items und einer\nGesamtzahl, die alles im Folgenden gew\195\164hlte berьcksichtigt";
+	ATSWOFUCB_TEXT = "Anzeige einer Gesamtzahl produzierbarer Items, die alles\nim Folgenden gew\195\164hlte ber\195\188cksichtigt";
+	ATSWOFSCB_TEXT = "Anzeige von mit Inventarinhalt herstellbaren Items und einer\nGesamtzahl, die alles im Folgenden gew\195\164hlte ber\195\188cksichtigt";
 	ATSWOFTB_TEXT = "Rezept-Tooltips anzeigen";
 	ATSWOFIA_TEXT = "Items im Inventar und der Bank von Twinks bei der\nBerechnung der herstellbaren Items ber\195\188cksichtigen";
 	ATSWOFIM_TEXT = "Bei H\195\164ndlern kaufbare Items bei der Berechnung\nder herstellbaren Items ber\195\188cksichtigen";
@@ -105,8 +102,8 @@ elseif (GetLocale()=="frFR") then
 	ATSW_ITEMSMISSING2 = ":";
 	ATSW_FILTERLABEL = "Filtre:";
 	ATSW_REAGENTLIST1 = "Pour produir 1x ";
-	ATSW_REAGENTLIST2 = " les composants suivants sont nйcessaire:";
-	ATSW_REAGENTFRAMETITLE = "Les Composants suivants sont nйcessaire pour produire la file:";
+	ATSW_REAGENTLIST2 = " les composants suivants sont n\195\169cessaire:";
+	ATSW_REAGENTFRAMETITLE = "Les Composants suivants sont n\195\169cessaire pour produire la file:";
 	ATSW_REAGENTBUTTON = "Composant";
 	ATSW_REAGENTFRAME_CH1 = "Inv.";
 	ATSW_REAGENTFRAME_CH2 = "Banque";
@@ -237,77 +234,78 @@ elseif(GetLocale()=="esES") then
 	ATSWCS_UNCATEGORIZED = "Sin Categoria";
 	
 elseif (GetLocale()=="ruRU") then
-	ATSW_SORTBYHEADERS = "Сортировка по категориям";
-	ATSW_SORTBYNAMES = "Сортировка по имени";
-	ATSW_SORTBYDIFFICULTY = "Сортировка по навыку";
-	ATSW_CUSTOMSORTING = "Своя сортировка";
-	ATSW_QUEUE = "Очередь";
-	ATSW_QUEUEALL = "Все в очередь";
+
+	ATSW_SORTBYHEADERS = "РЎРѕСЂС‚РёСЂРѕРІРєР° РїРѕ РєР°С‚РµРіРѕСЂРёСЏРј";
+	ATSW_SORTBYNAMES = "РЎРѕСЂС‚РёСЂРѕРІРєР° РїРѕ РёРјРµРЅРё";
+	ATSW_SORTBYDIFFICULTY = "РЎРѕСЂС‚РёСЂРѕРІРєР° РїРѕ РЅР°РІС‹РєСѓ";
+	ATSW_CUSTOMSORTING = "РЎРІРѕСЏ СЃРѕСЂС‚РёСЂРѕРІРєР°";
+	ATSW_QUEUE = "РћС‡РµСЂРµРґСЊ";
+	ATSW_QUEUEALL = "Р’СЃРµ РІ РѕС‡РµСЂ.";
 	ATSW_DELETELETTER = "-";
-	ATSW_STARTQUEUE = "Обработать очередь";
-	ATSW_STOPQUEUE = "Остановить обработку";
-	ATSW_DELETEQUEUE = "Очистить очередь";
-	ATSW_ITEMSMISSING1 = "К сожалению для создания ";
-	ATSW_ITEMSMISSING2 = " отсутствуют следущие предметы:";
-	ATSW_FILTERLABEL = "Фильтр:";
-	ATSW_REAGENTLIST1 = "Чтобы создать 1x ";
-	ATSW_REAGENTLIST2 = ", нужны следующие реагенты:";
-	ATSW_REAGENTFRAMETITLE = "Для обработки очереди нужны следующие реагенты:";
-	ATSW_REAGENTBUTTON = "Реагенты";
-	ATSW_REAGENTFRAME_CH1 = "Инвентарь";
-	ATSW_REAGENTFRAME_CH2 = "Банк";
-	ATSW_REAGENTFRAME_CH3 = "Альт";
-	ATSW_REAGENTFRAME_CH4 = "Продавец";
-	ATSW_ALTLIST1 = "Следующие альты имеют '";
+	ATSW_STARTQUEUE = "РћР±СЂР°Р±РѕС‚Р°С‚СЊ РѕС‡РµСЂРµРґСЊ";
+	ATSW_STOPQUEUE = "РћСЃС‚Р°РЅРѕРІРёС‚СЊ РѕР±СЂР°Р±РѕС‚РєСѓ";
+	ATSW_DELETEQUEUE = "РћС‡РёСЃС‚РёС‚СЊ РѕС‡РµСЂРµРґСЊ";
+	ATSW_ITEMSMISSING1 = "Рљ СЃРѕР¶Р°Р»РµРЅРёСЋ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ ";
+	ATSW_ITEMSMISSING2 = " РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ СЃР»РµРґСѓС‰РёРµ РїСЂРµРґРјРµС‚С‹:";
+	ATSW_FILTERLABEL = "Р¤РёР»СЊС‚СЂ:";
+	ATSW_REAGENTLIST1 = "Р§С‚РѕР±С‹ СЃРѕР·РґР°С‚СЊ 1x ";
+	ATSW_REAGENTLIST2 = ", РЅСѓР¶РЅС‹ СЃР»РµРґСѓСЋС‰РёРµ СЂРµР°РіРµРЅС‚С‹:";
+	ATSW_REAGENTFRAMETITLE = "Р”Р»СЏ РѕР±СЂР°Р±РѕС‚РєРё РѕС‡РµСЂРµРґРё РЅСѓР¶РЅС‹ СЃР»РµРґСѓСЋС‰РёРµ СЂРµР°РіРµРЅС‚С‹:";
+	ATSW_REAGENTBUTTON = "Р РµР°РіРµРЅС‚С‹";
+	ATSW_REAGENTFRAME_CH1 = "РРЅРІРµРЅС‚Р°СЂСЊ";
+	ATSW_REAGENTFRAME_CH2 = "Р‘Р°РЅРє";
+	ATSW_REAGENTFRAME_CH3 = "РђР»СЊС‚";
+	ATSW_REAGENTFRAME_CH4 = "РџСЂРѕРґР°РІРµС†";
+	ATSW_ALTLIST1 = "РЎР»РµРґСѓСЋС‰РёРµ Р°Р»СЊС‚С‹ РёРјРµСЋС‚ '";
 	ATSW_ALTLIST2 = "':";
-	ATSW_ALTLIST3 = " в инвентаре на  ";
-	ATSW_ALTLIST4 = " в банке на  ";
-	ATSW_OPTIONS_TITLE = "Настройки ATSW";
-	ATSWOFIB_TEXT = "Учитывать предметы в своем банке при расчете\nпроизводимых предметов";
-	ATSW_OPTIONSBUTTON = "Настройки";
-	ATSWOFUCB_TEXT = "Показать только общее количество производимых предметов,\nрассматривая следующие варианты";
-	ATSWOFSCB_TEXT = "Показать количество предметов, которые можно создать из содержимого \nинвентаря, и количество предметов, рассматривая следущие варианты";
-	ATSWOFTB_TEXT = "Показать подсказку для рецептов";
-	ATSWOFIA_TEXT = "Учитывать предметы в инвентаре и в банке альтов при\nрасчете производимых предметов";
-	ATSWOFIM_TEXT = "Учитывать покупаемые у продавцов предметы при\nрасчете создаваемых предметов";
-	ATSW_BUYREAGENTBUTTON = "Купить доступные реагенты у выбранного продавца";
-	ATSWOFAB_TEXT = "Автоматически покупать все для очереди при разговоре с продавцом";
-	ATSW_AUTOBUYMESSAGE = "ATSW купил автоматически следущие предметы:";
-	ATSW_TOOLTIP_PRODUCABLE = " можно создать из реагентов в инвентаре"
-	ATSW_TOOLTIP_NECESSARY = "Чтобы создать один экземпляр, нужны следующие реагенты:";
-	ATSW_TOOLTIP_BUYABLE = " (покупаемо)";
-	ATSW_TOOLTIP_LEGEND = "(Предметы в инвентаре / Предметы в банке / Предметы на альтах)";
-	ATSW_CONTINUEQUEUE = "Продолжить";
-	ATSW_ABORTQUEUE = "Отменить";
-	ATSWCF_TITLE = "Возобновить обработку очереди?";
-	ATSWCF_TEXT = "К сожаления с патча 1.10 для создания предметов требуется нажимать кнопку вручную. При нажатии на 'Продолжить' Вы производите это действие, и обработка очереди может продолжиться.";
-	ATSWCF_TITLE2 = "Следущий предмет в очереди:";
-	ATSW_CSBUTTON = "редактировать";
-	ATSW_AUTOBUYBUTTON_TOPTEXT = "Этот продавец продает нужные реагенты!";
-	ATSW_AUTOBUYBUTTON_TEXT = "Купить реагенты";
-	ATSW_AUTOBUYCLOSEBUTTON_TEXT = "Нет";
-	ATSW_SHOPPINGLISTFRAMETITLE = "Список покупок, которые нужны для создания предметов из очереди:";
-	ATSWOFSLB_TEXT = "Показывать список покупок у аукционного дома";
-	ATSW_ENCHANT = "Зачаровать";
-	ATSW_ACTIVATIONMESSAGE = "ATSW для актуального умения был";
-	ATSW_ACTIVATED = "активирован";
-	ATSW_DEACTIVATED = "деактивирован";
-	ATSW_SCAN_MINLEVEL = "Нужен уровень (%d+)";
+	ATSW_ALTLIST3 = " РІ РёРЅРІРµРЅС‚Р°СЂРµ РЅР°  ";
+	ATSW_ALTLIST4 = " РІ Р±Р°РЅРєРµ РЅР°  ";
+	ATSW_OPTIONS_TITLE = "РќР°СЃС‚СЂРѕР№РєРё ATSW";
+	ATSWOFIB_TEXT = "РЈС‡РёС‚С‹РІР°С‚СЊ РїСЂРµРґРјРµС‚С‹ РІ СЃРІРѕРµРј Р±Р°РЅРєРµ РїСЂРё СЂР°СЃС‡РµС‚Рµ\nРїСЂРѕРёР·РІРѕРґРёРјС‹С… РїСЂРµРґРјРµС‚РѕРІ";
+	ATSW_OPTIONSBUTTON = "РќР°СЃС‚СЂРѕР№РєРё";
+	ATSWOFUCB_TEXT = "РџРѕРєР°Р·Р°С‚СЊ С‚РѕР»СЊРєРѕ РѕР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРёР·РІРѕРґРёРјС‹С… РїСЂРµРґРјРµС‚РѕРІ,\nСЂР°СЃСЃРјР°С‚СЂРёРІР°СЏ СЃР»РµРґСѓСЋС‰РёРµ РІР°СЂРёР°РЅС‚С‹";
+	ATSWOFSCB_TEXT = "РџРѕРєР°Р·Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРµРґРјРµС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РјРѕР¶РЅРѕ СЃРѕР·РґР°С‚СЊ РёР· СЃРѕРґРµСЂР¶РёРјРѕРіРѕ \nРёРЅРІРµРЅС‚Р°СЂСЏ, Рё РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРµРґРјРµС‚РѕРІ, СЂР°СЃСЃРјР°С‚СЂРёРІР°СЏ СЃР»РµРґСѓС‰РёРµ РІР°СЂРёР°РЅС‚С‹";
+	ATSWOFTB_TEXT = "РџРѕРєР°Р·Р°С‚СЊ РїРѕРґСЃРєР°Р·РєСѓ РґР»СЏ СЂРµС†РµРїС‚РѕРІ";
+	ATSWOFIA_TEXT = "РЈС‡РёС‚С‹РІР°С‚СЊ РїСЂРµРґРјРµС‚С‹ РІ РёРЅРІРµРЅС‚Р°СЂРµ Рё РІ Р±Р°РЅРєРµ Р°Р»СЊС‚РѕРІ РїСЂРё\nСЂР°СЃС‡РµС‚Рµ РїСЂРѕРёР·РІРѕРґРёРјС‹С… РїСЂРµРґРјРµС‚РѕРІ";
+	ATSWOFIM_TEXT = "РЈС‡РёС‚С‹РІР°С‚СЊ РїРѕРєСѓРїР°РµРјС‹Рµ Сѓ РїСЂРѕРґР°РІС†РѕРІ РїСЂРµРґРјРµС‚С‹ РїСЂРё\nСЂР°СЃС‡РµС‚Рµ СЃРѕР·РґР°РІР°РµРјС‹С… РїСЂРµРґРјРµС‚РѕРІ";
+	ATSW_BUYREAGENTBUTTON = "РљСѓРїРёС‚СЊ РґРѕСЃС‚СѓРїРЅС‹Рµ СЂРµР°РіРµРЅС‚С‹ Сѓ РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїСЂРѕРґР°РІС†Р°";
+	ATSWOFAB_TEXT = "РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїРѕРєСѓРїР°С‚СЊ РІСЃРµ РґР»СЏ РѕС‡РµСЂРµРґРё РїСЂРё СЂР°Р·РіРѕРІРѕСЂРµ СЃ РїСЂРѕРґР°РІС†РѕРј";
+	ATSW_AUTOBUYMESSAGE = "ATSW РєСѓРїРёР» Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃР»РµРґСѓС‰РёРµ РїСЂРµРґРјРµС‚С‹:";
+	ATSW_TOOLTIP_PRODUCABLE = " РјРѕР¶РЅРѕ СЃРѕР·РґР°С‚СЊ РёР· СЂРµР°РіРµРЅС‚РѕРІ РІ РёРЅРІРµРЅС‚Р°СЂРµ"
+	ATSW_TOOLTIP_NECESSARY = "Р§С‚РѕР±С‹ СЃРѕР·РґР°С‚СЊ РѕРґРёРЅ СЌРєР·РµРјРїР»СЏСЂ, РЅСѓР¶РЅС‹ СЃР»РµРґСѓСЋС‰РёРµ СЂРµР°РіРµРЅС‚С‹:";
+	ATSW_TOOLTIP_BUYABLE = " (РїРѕРєСѓРїР°РµРјРѕ)";
+	ATSW_TOOLTIP_LEGEND = "(РџСЂРµРґРјРµС‚С‹ РІ РёРЅРІРµРЅС‚Р°СЂРµ / РџСЂРµРґРјРµС‚С‹ РІ Р±Р°РЅРєРµ / РџСЂРµРґРјРµС‚С‹ РЅР° Р°Р»СЊС‚Р°С…)";
+	ATSW_CONTINUEQUEUE = "РџСЂРѕРґРѕР»Р¶РёС‚СЊ";
+	ATSW_ABORTQUEUE = "РћС‚РјРµРЅРёС‚СЊ";
+	ATSWCF_TITLE = "Р’РѕР·РѕР±РЅРѕРІРёС‚СЊ РѕР±СЂР°Р±РѕС‚РєСѓ РѕС‡РµСЂРµРґРё?";
+	ATSWCF_TEXT = "Рљ СЃРѕР¶Р°Р»РµРЅРёСЏ СЃ РїР°С‚С‡Р° 1.10 РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РїСЂРµРґРјРµС‚РѕРІ С‚СЂРµР±СѓРµС‚СЃСЏ РЅР°Р¶РёРјР°С‚СЊ РєРЅРѕРїРєСѓ РІСЂСѓС‡РЅСѓСЋ. РџСЂРё РЅР°Р¶Р°С‚РёРё РЅР° 'РџСЂРѕРґРѕР»Р¶РёС‚СЊ' Р’С‹ РїСЂРѕРёР·РІРѕРґРёС‚Рµ СЌС‚Рѕ РґРµР№СЃС‚РІРёРµ, Рё РѕР±СЂР°Р±РѕС‚РєР° РѕС‡РµСЂРµРґРё РјРѕР¶РµС‚ РїСЂРѕРґРѕР»Р¶РёС‚СЊСЃСЏ.";
+	ATSWCF_TITLE2 = "РЎР»РµРґСѓС‰РёР№ РїСЂРµРґРјРµС‚ РІ РѕС‡РµСЂРµРґРё:";
+	ATSW_CSBUTTON = "Р РµРґ.";
+	ATSW_AUTOBUYBUTTON_TOPTEXT = "Р­С‚РѕС‚ РїСЂРѕРґР°РІРµС† РїСЂРѕРґР°РµС‚ РЅСѓР¶РЅС‹Рµ СЂРµР°РіРµРЅС‚С‹!";
+	ATSW_AUTOBUYBUTTON_TEXT = "РљСѓРїРёС‚СЊ СЂРµР°РіРµРЅС‚С‹";
+	ATSW_AUTOBUYCLOSEBUTTON_TEXT = "РќРµС‚";
+	ATSW_SHOPPINGLISTFRAMETITLE = "РЎРїРёСЃРѕРє РїРѕРєСѓРїРѕРє, РєРѕС‚РѕСЂС‹Рµ РЅСѓР¶РЅС‹ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РїСЂРµРґРјРµС‚РѕРІ РёР· РѕС‡РµСЂРµРґРё:";
+	ATSWOFSLB_TEXT = "РџРѕРєР°Р·С‹РІР°С‚СЊ СЃРїРёСЃРѕРє РїРѕРєСѓРїРѕРє Сѓ Р°СѓРєС†РёРѕРЅРЅРѕРіРѕ РґРѕРјР°";
+	ATSW_ENCHANT = "Р—Р°С‡Р°СЂРѕРІР°С‚СЊ";
+	ATSW_ACTIVATIONMESSAGE = "ATSW РґР»СЏ Р°РєС‚СѓР°Р»СЊРЅРѕРіРѕ СѓРјРµРЅРёСЏ Р±С‹Р»";
+	ATSW_ACTIVATED = "Р°РєС‚РёРІРёСЂРѕРІР°РЅ";
+	ATSW_DEACTIVATED = "РґРµР°РєС‚РёРІРёСЂРѕРІР°РЅ";
+	ATSW_SCAN_MINLEVEL = "РќСѓР¶РµРЅ СѓСЂРѕРІРµРЅСЊ (%d+)";
 
 	atsw_blacklist = {
-		[1] = "Тонкая кожа",
-		[2] = "Жесткая кожа",
-		[3] = "Толстая кожа",
-		[4] = "Плотная кожа",
-		[5] = "Грубая кожа",
+		[1] = "РўРѕРЅРєР°СЏ РєРѕР¶Р°",
+		[2] = "Р–РµСЃС‚РєР°СЏ РєРѕР¶Р°",
+		[3] = "РўРѕР»СЃС‚Р°СЏ РєРѕР¶Р°",
+		[4] = "РџР»РѕС‚РЅР°СЏ РєРѕР¶Р°",
+		[5] = "Р“СЂСѓР±Р°СЏ РєРѕР¶Р°",
 	};
 
-	ATSWCS_TITLE = "Advanced Trade Skill Window - Редактор сортировки рецептов";
-	ATSWCS_TRADESKILLISTTITLE = "Рецепты без категории";
-	ATSWCS_CATEGORYLISTTITLE = "Рецепты с категорией";
-	ATSWCS_ADDCATEGORY = "Новая категория";
-	ATSWCS_NOTHINGINCATEGORY = "< Категория пуста >";
-	ATSWCS_UNCATEGORIZED = "Без категории";
+	ATSWCS_TITLE = "Advanced Trade Skill Window - Р РµРґР°РєС‚РѕСЂ СЃРѕСЂС‚РёСЂРѕРІРєРё СЂРµС†РµРїС‚РѕРІ";
+	ATSWCS_TRADESKILLISTTITLE = "Р РµС†РµРїС‚С‹ Р±РµР· РєР°С‚РµРіРѕСЂРёРё";
+	ATSWCS_CATEGORYLISTTITLE = "Р РµС†РµРїС‚С‹ СЃ РєР°С‚РµРіРѕСЂРёРµР№";
+	ATSWCS_ADDCATEGORY = "РќРѕРІР°СЏ РєР°С‚РµРіРѕСЂРёСЏ";
+	ATSWCS_NOTHINGINCATEGORY = "< РљР°С‚РµРіРѕСЂРёСЏ РїСѓСЃС‚Р° >";
+	ATSWCS_UNCATEGORIZED = "Р‘РµР· РєР°С‚РµРіРѕСЂРёРё";
 
 else
 	ATSW_SORTBYHEADERS = "Order by Categories";
@@ -315,7 +313,7 @@ else
 	ATSW_SORTBYDIFFICULTY = "Order by Difficulty";
 	ATSW_CUSTOMSORTING = "Custom Sorting";
 	ATSW_QUEUE = "Queue";
-	ATSW_QUEUEALL = "Queue all";
+	ATSW_QUEUEALL = "Queue All";
 	ATSW_DELETELETTER = "D";
 	ATSW_STARTQUEUE = "Process Queue";
 	ATSW_STOPQUEUE = "Stop Processing";

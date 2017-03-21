@@ -43,6 +43,14 @@ of "green".
 
 #Changelog:
 
+v0.5.5b:
+
+- fix ruRU locale #5
+
+v0.5.5a:
+
+- fix position bug on sorted list finally
+
 v0.5.5:
 
 - enchanting customsort fix

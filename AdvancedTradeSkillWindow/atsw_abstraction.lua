@@ -1,6 +1,3 @@
--- Advanced Trade Skill Window v0.5.0
--- copyright 2006 by Rene Schneider (Slarti on EU-Blackhand)
-
 -- Blizzard API abstraction code
 
 function ATSW_GetTradeSkillSelectionIndex()

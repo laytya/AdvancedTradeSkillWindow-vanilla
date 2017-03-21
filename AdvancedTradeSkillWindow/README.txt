@@ -1,4 +1,4 @@
-Advanced Trade Skill Window v0.5.5a
+Advanced Trade Skill Window v0.5.5b for Vanilla
 a World of Warcraft UI Addon
 written 2006 by Rene Schneider (Slarti on EU-Blackhand)
 fixed 2017 by laytya
@@ -272,3 +272,6 @@ v0.5.5:
 
 v0.5.5a:
 - fix position bug on sorted list finally
+
+v0.5.5b:
+- fix ruRU locale
