@@ -275,3 +275,7 @@ v0.5.5a:
 
 v0.5.5b:
 - fix ruRU locale
+
+
+v0.5.5c:
+- fix AUX support (Shift-RightClick on item to auto search it)

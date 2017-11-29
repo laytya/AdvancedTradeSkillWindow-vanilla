@@ -43,6 +43,10 @@ of "green".
 
 #Changelog:
 
+v0.5.5c:
+
+- fix AUX support (Shift-RightClick on item to auto search it)
+
 v0.5.5b:
 
 - fix ruRU locale #5

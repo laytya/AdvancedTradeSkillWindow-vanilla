@@ -1930,8 +1930,6 @@
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>
 			</EditBox>
-
-
 <Button name="ATSWFilterBoxClear" inherits="UIPanelButtonTemplate">
 				<Size>
 					<AbsDimension x="16" y="16"/>

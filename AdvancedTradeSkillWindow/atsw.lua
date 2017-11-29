@@ -879,7 +879,6 @@ function ATSWFrame_SetSelection(id,wasClicked)
 	ATSWFrame.selectedSkillName=skillName;
 	ATSWFrame.selectedSkill = id;
 	ATSW_SelectTradeSkill(id);
-	
 	if(ATSW_GetTradeSkillSelectionIndex()>ATSW_GetNumTradeSkills())then
 		return;
 	end
@@ -1003,7 +1002,7 @@ function ATSWFrame_SetSelection(id,wasClicked)
 end
 function ATSW_ItemOnClick(link)
 	if( arg1 and arg1 == "RightButton") then
-		if AuxFrame:IsVisible() then
+		if aux_frame:IsVisible() then
 			local _,_,linkid = string.find(link, 'item:(%d+)') 
 			local link = string.format("item:%d",tonumber(linkid)) 
 			SetItemRef(link,"","RightButton")
@@ -2736,7 +2735,7 @@ function ATSWAuction_UpdateReagentList()
 end
 
 function ATSWAuction_SearchForItem(itemname)
-	if AuxFrame:IsVisible() then
+	if aux_frame:IsVisible() then
 		local _,_,linkid = string.find(this.link, 'item:(%d+)') 
 		local link = string.format("item:%d",tonumber(linkid)) 
 		SetItemRef(link,"","RightButton")
