@@ -279,3 +279,6 @@ v0.5.5b:
 
 v0.5.5c:
 - fix AUX support (Shift-RightClick on item to auto search it)
+
+v0.5.5d
+- more fix for AUX support (reagent list #7)

@@ -2636,12 +2636,12 @@ atsw_displayshoppinglist=true;
 function ATSWAuction_ShowShoppingList()
 	if(AuctionFrame:IsVisible() and table.getn(atsw_queue)>0 and atsw_displayshoppinglist) then
 		ATSWShoppingListFrame:Show();
-		if not AuxFrame:IsVisible() then
+		if not aux_frame:IsVisible() then
 			ATSWShoppingListFrame:SetPoint("TOPLEFT","AuctionFrame","TOPLEFT",353,-436);
 			else
-			ATSWShoppingListFrame:SetParent(AuxFrame);
+			ATSWShoppingListFrame:SetParent(aux_frame);
 			ATSWShoppingListFrame:ClearAllPoints();
-			ATSWShoppingListFrame:SetPoint("TOPRIGHT","AuxFrame","BOTTOMRIGHT",0,0);
+			ATSWShoppingListFrame:SetPoint("TOPRIGHT","aux_frame","BOTTOMRIGHT",0,0);
 		end
 		ATSW_NoteNecessaryItemsForQueue();
 		ATSWAuction_UpdateReagentList();
