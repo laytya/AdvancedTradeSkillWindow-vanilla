@@ -59,34 +59,40 @@ atsw_savednecessaryitems={};
 atsw_is_sorted=false;
 local previousRecipies = {}
 
-function ATSW_OnLoad()
-	SLASH_ATSW1 = "/atsw";
-	SlashCmdList["ATSW"] = ATSW_Command;
-	ATSWFrame:RegisterEvent("TRADE_SKILL_UPDATE");
-	ATSWFrame:RegisterEvent("TRADE_SKILL_CLOSE");
-	ATSWFrame:RegisterEvent("TRADE_SKILL_SHOW");
-	ATSWFrame:RegisterEvent("UNIT_PORTRAIT_UPDATE");
-	ATSWFrame:RegisterEvent("UPDATE_TRADESKILL_RECAST");
-	ATSWFrame:RegisterEvent("BANKFRAME_OPENED");
-	ATSWFrame:RegisterEvent("BANKFRAME_CLOSED");
-	ATSWFrame:RegisterEvent("PLAYERBANKSLOTS_CHANGED");
-	ATSWFrame:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED");
-	ATSWFrame:RegisterEvent("MERCHANT_SHOW");
-	ATSWFrame:RegisterEvent("MERCHANT_UPDATE");
-	ATSWFrame:RegisterEvent("MERCHANT_CLOSED");
-	ATSWFrame:RegisterEvent("BAG_UPDATE");
-	ATSWFrame:RegisterEvent("TRAINER_CLOSED");
-	ATSWFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
-	ATSWFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
-	ATSWFrame:RegisterEvent("AUCTION_HOUSE_CLOSED");
-	ATSWFrame:RegisterEvent("AUCTION_HOUSE_SHOW");
-	ATSWFrame:RegisterEvent("CRAFT_SHOW");
-	ATSWFrame:RegisterEvent("CRAFT_CLOSE");
-	ATSWFrame:RegisterEvent("PLAYER_LOGOUT");
-	ATSWFrame:RegisterEvent("UI_ERROR_MESSAGE");
+function setn(t,n)
+    setmetatable(t,{__len=function() return n end})
 end
 
-function ATSW_ShowWindow()
+function ATSW_OnLoad(self)
+	ATSW_DisplayMessage("Starting ATSW onLoad")
+	SLASH_ATSW1 = "/atsw";
+	SlashCmdList["ATSW"] = ATSW_Command;
+	self:RegisterEvent("TRADE_SKILL_UPDATE");
+	self:RegisterEvent("TRADE_SKILL_CLOSE");
+	self:RegisterEvent("TRADE_SKILL_SHOW");
+	self:RegisterEvent("UNIT_PORTRAIT_UPDATE");
+	self:RegisterEvent("UPDATE_TRADESKILL_RECAST");
+	self:RegisterEvent("BANKFRAME_OPENED");
+	self:RegisterEvent("BANKFRAME_CLOSED");
+	self:RegisterEvent("PLAYERBANKSLOTS_CHANGED");
+	self:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED");
+	self:RegisterEvent("MERCHANT_SHOW");
+	self:RegisterEvent("MERCHANT_UPDATE");
+	self:RegisterEvent("MERCHANT_CLOSED");
+	self:RegisterEvent("BAG_UPDATE");
+	self:RegisterEvent("TRAINER_CLOSED");
+	self:RegisterEvent("PLAYER_REGEN_DISABLED");
+	self:RegisterEvent("PLAYER_REGEN_ENABLED");
+	self:RegisterEvent("AUCTION_HOUSE_CLOSED");
+	self:RegisterEvent("AUCTION_HOUSE_SHOW");
+	self:RegisterEvent("CRAFT_SHOW");
+	self:RegisterEvent("CRAFT_CLOSE");
+	self:RegisterEvent("PLAYER_LOGOUT");
+	self:RegisterEvent("UI_ERROR_MESSAGE");
+	ATSW_DisplayMessage("Done ATSW onLoad")
+end
+
+function ATSW_ShowWindow(self)
 	if(type(atsw_orderby)~="table") then atsw_orderby={}; end
 	if(not atsw_orderby[UnitName("player")]) then atsw_orderby[UnitName("player")]={}; end
 	if(not atsw_orderby[UnitName("player")][atsw_selectedskill]) then atsw_orderby[UnitName("player")][atsw_selectedskill]="nothing"; end
@@ -127,7 +133,7 @@ function ATSW_ShowWindow()
 			ATSWListScrollFrameScrollBar:SetValue(0);
 		end
 	end
-	ATSWFrameTitleText:SetText(format(TEXT(TRADE_SKILL_TITLE), ATSW_GetTradeSkillLine()).." - "..ATSW_VERSION);
+	ATSWFrameTitleText:SetText(format(TRADE_SKILL_TITLE, ATSW_GetTradeSkillLine()).." - "..ATSW_VERSION);
 	ATSW_AdjustFrame();
 	ATSW_ResetPossibleItemCounts();
 	ATSW_CreateTradeSkillList();
@@ -144,12 +150,12 @@ function ATSW_ShowWindow()
 	ATSWQueueDeleteButton:Enable();
 end
 
-function ATSW_HideWindow()
+function ATSW_HideWindow(self)
 	ATSW_SaveQueue(false);
 	HideUIPanel(ATSWFrame);
 end
 
-function ATSW_GetSelectedSkill()
+function ATSW_GetSelectedSkill(self)
 	atsw_selectedskill=ATSW_GetTradeSkillLine();
 	if(not atsw_disabled[UnitName("player")]) then
 		atsw_disabled[UnitName("player")]={};
@@ -159,7 +165,7 @@ function ATSW_GetSelectedSkill()
 	end
 end
 
-function ATSW_CheckForRescan()
+function ATSW_CheckForRescan(self)
 	atsw_scans=0;
 	skillname=ATSW_GetTradeSkillLine();
 	if(skillname) then
@@ -200,7 +206,7 @@ function ATSW_CheckForRescan()
 	end
 end
 
-function ATSW_OnHide()
+function ATSW_OnHide(self)
 	if(not atsw_oldmode) then 
 		TradeSkillFrame_Hide(); 
 		else
@@ -215,17 +221,17 @@ end
 
 function ATSW_Command(cmd)
 	if(cmd=="show") then
-		ATSW_ShowWindow();
+		ATSW_ShowWindow(self);
 		elseif(cmd=="disable") then
-		ATSW_DisableForActiveTradeskill();
+		ATSW_DisableForActiveTradeskill(self);
 		elseif(cmd=="enable") then
-		ATSW_EnableForActiveTradeskill();
+		ATSW_EnableForActiveTradeskill(self);
 		elseif(cmd=="reagents") then
 		ShowUIPanel(ATSWAllReagentListFrame);
 	end
 end
 
-function ATSW_DisableForActiveTradeskill()
+function ATSW_DisableForActiveTradeskill(self)
 	if(atsw_oldmode) then
 		if(CraftFrame and CraftFrame:IsVisible()) then
 			atsw_disabled[UnitName("player")][atsw_selectedskill]=1;
@@ -253,7 +259,7 @@ function ATSW_DisableForActiveTradeskill()
 	end
 end
 
-function ATSW_EnableForActiveTradeskill()
+function ATSW_EnableForActiveTradeskill(self)
 	if(atsw_oldmode) then
 		if(CraftFrame and CraftFrame:IsVisible()) then
 			atsw_disabled[UnitName("player")][atsw_selectedskill]=0;
@@ -264,6 +270,7 @@ function ATSW_EnableForActiveTradeskill()
 		end
 		else
 		if(TradeSkillFrame and TradeSkillFrame:IsVisible()) then
+			ATSW_DisplayMessage("atsw_selectedskill is '"..atsw_selectedskill.."'");
 			atsw_disabled[UnitName("player")][atsw_selectedskill]=0;
 			ATSW_ShowWindow();
 			TradeSkillFrame:SetAlpha(0);
@@ -273,11 +280,12 @@ function ATSW_EnableForActiveTradeskill()
 	end
 end
 
-function ATSWFrame_Show()
+function ATSWFrame_Show(self)
 	ATSW_ShowWindow();
 end
 
-function ATSW_CheckForTradeSkillWindow(arg1)
+function ATSW_CheckForTradeSkillWindow(self, arg1)
+--	if arg1 is nil then arg1 = 0 end  -- ROB FIX
 	if(ATSWFrame:IsVisible()) then
 		if(atsw_updatedelay>0) then
 			atsw_updatedelay=atsw_updatedelay-arg1;
@@ -319,7 +327,8 @@ function ATSW_CheckForTradeSkillWindow(arg1)
 	end
 end
 
-function ATSWFrame_OnEvent()
+function ATSWFrame_OnEvent(self, event, ...)
+	local arg1 = ...
 	if(event=="TRADE_SKILL_SHOW") then
 		if(CraftFrame and CraftFrame:IsVisible()) then ATSW_HideWindow(); end
 		atsw_oldmode=false;
@@ -468,7 +477,7 @@ function ATSWFrame_OnEvent()
 	end
 end
 
-function ATSW_AdjustFrame()
+function ATSW_AdjustFrame(self)
 	if(atsw_oldmode) then
 		ATSWHeaderSortButton:Hide();
 		ATSWInvSlotDropDown:Hide();
@@ -518,7 +527,7 @@ function ATSW_AdjustFrame()
 	end
 end
 
-function ATSW_SortTradeSkills()
+function ATSW_SortTradeSkills(self)
 	local tradeskills={};
 	ExpandTradeSkillSubClass(0);
 	local numTradeSkills=ATSW_GetNumTradeSkills();
@@ -535,7 +544,7 @@ function ATSW_SortTradeSkills()
 	end
 	
 	atsw_tradeskillid={};
-	table.setn(atsw_tradeskillid,0);
+	setn(atsw_tradeskillid,0);
 	if(atsw_orderby[UnitName("player")][atsw_selectedskill]=="name") then
 		table.sort(tradeskills,ATSW_CompareName);
 		for i=1,table.getn(tradeskills),1 do
@@ -566,7 +575,7 @@ function ATSW_OrderBy(order)
 	ATSWFrame_Update();
 end
 
-function ATSWFrame_Update()
+function ATSWFrame_Update(self)
 	if(not ATSWFrame:IsVisible()) then return; end
 	if(type(atsw_orderby)~="table") then atsw_orderby={}; end
 	if(not atsw_orderby[UnitName("player")]) then atsw_orderby[UnitName("player")]={}; end
@@ -611,7 +620,7 @@ function ATSWFrame_Update()
 		local skillOffset=FauxScrollFrame_GetOffset(ATSWListScrollFrame);
 		
 		if(numTradeSkills==0) then
-			ATSWFrameTitleText:SetText(format(TEXT(TRADE_SKILL_TITLE), ATSW_GetTradeSkillLine()).." - "..ATSW_VERSION);
+			ATSWFrameTitleText:SetText(format(TRADE_SKILL_TITLE, ATSW_GetTradeSkillLine()).." - "..ATSW_VERSION);
 			ATSWSkillName:Hide();
 			ATSWSkillIcon:Hide();
 			ATSWRequirementLabel:Hide();
@@ -713,7 +722,7 @@ function ATSWFrame_Update()
 		local skillOffset=FauxScrollFrame_GetOffset(ATSWListScrollFrame);
 		
 		if(numTradeSkills==0) then
-			ATSWFrameTitleText:SetText(format(TEXT(TRADE_SKILL_TITLE), ATSW_GetTradeSkillLine()).." - "..ATSW_VERSION);
+			ATSWFrameTitleText:SetText(format(TRADE_SKILL_TITLE, ATSW_GetTradeSkillLine()).." - "..ATSW_VERSION);
 			ATSWSkillName:Hide();
 			ATSWSkillIcon:Hide();
 			ATSWRequirementLabel:Hide();
@@ -805,7 +814,7 @@ end
 
 function ATSWSkillButton_OnClick(button)
 	if(button=="LeftButton") then
-		ATSWFrame_SetSelection(this:GetID(),true);
+		ATSWFrame_SetSelection(self:GetID(),true);
 		ATSWFrame_Update();
 	end
 end
@@ -839,10 +848,10 @@ function ATSWFrame_SetSelection(id,wasClicked)
 -- pullreq#1	
 	if atsw_oldmode then
 		skillName, craftSubSpellName, skillType, numAvailable = GetCraftInfo(id)
-		ATSWSkillName:SetText();
+		ATSWSkillName:SetTest();
 	else
 		skillName, skillType, numAvailable = GetTradeSkillInfo(id)
-		ATSWSkillName:SetText();		
+		ATSWSkillName:SetTest();		
 	end
 -- /pullreq#1	
 	local skillOffset = FauxScrollFrame_GetOffset(ATSWListScrollFrame);
@@ -889,10 +898,10 @@ function ATSWFrame_SetSelection(id,wasClicked)
 	
 	-- General Info
 	local skillLineName, skillLineRank, skillLineMaxRank = ATSW_GetTradeSkillLine();
-	ATSWFrameTitleText:SetText(format(TEXT(TRADE_SKILL_TITLE), skillLineName).." - "..ATSW_VERSION);
+	ATSWFrameTitleText:SetText(format(TRADE_SKILL_TITLE, skillLineName).." - "..ATSW_VERSION);
 	-- Set statusbar info
 	ATSWRankFrameSkillName:SetText(skillLineName);
-	ATSWRankFrame:SetStatusBarColor(0.0, 0.0, 1.0, 0.5);
+	ATSWRankFrame:SetStatusBarColor( 0.0, 0.0, 1.0, 0.5);
 	ATSWRankFrameBackground:SetVertexColor(0.0, 0.0, 0.75, 0.5);
 	ATSWRankFrame:SetMinMaxValues(0, skillLineMaxRank);
 	ATSWRankFrame:SetValue(skillLineRank);
@@ -1031,8 +1040,8 @@ function ATSW_ItemOnClick(link)
 	end
 end
 
-function ATSW_ItemOnDoubleClick()
-	local reagent = ATSW_GetItemID(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, this:GetID()))
+function ATSW_ItemOnDoubleClick(self)
+	local reagent = ATSW_GetItemID(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, self:GetID()))
 
 	for i=1,ATSW_GetNumTradeSkills(),1 do
 		local skillLink = ATSW_GetTradeSkillItemLink(i)
@@ -1046,7 +1055,7 @@ function ATSW_ItemOnDoubleClick()
 	end
 end
 
-function ATSW_GoToPreviousRecipe()
+function ATSW_GoToPreviousRecipe(self)
     local itemID = table.remove(previousRecipies)
     if itemID then
         ATSWFrame_SetSelection(itemID,false)
@@ -1055,27 +1064,30 @@ function ATSW_GoToPreviousRecipe()
 end
 
 
-function ATSWSubClassDropDown_OnLoad()
-	UIDropDownMenu_Initialize(this, ATSWSubClassDropDown_Initialize);
+function ATSWSubClassDropDown_OnLoad(self)
+	UIDropDownMenu_Initialize( ATSWSubClassDropDown, ATSWSubClassDropDown_Initialize);
 	UIDropDownMenu_SetWidth(120);
 	UIDropDownMenu_SetSelectedID(ATSWSubClassDropDown, 1);
 end
 
-function ATSWSubClassDropDown_OnShow()
-	UIDropDownMenu_Initialize(this, ATSWSubClassDropDown_Initialize);
+function ATSWSubClassDropDown_OnShow(self)
+	UIDropDownMenu_Initialize( ATSWSubClassDropDown, ATSWSubClassDropDown_Initialize);
 	if(atsw_currentsubclassfilter[atsw_selectedskill]==nil or atsw_currentsubclassfilter[atsw_selectedskill]==0) then
 		UIDropDownMenu_SetSelectedID(ATSWSubClassDropDown, 1);
 	end
 end
 
-function ATSWSubClassDropDown_Initialize()
-	ATSWFilterFrame_LoadSubClasses(GetTradeSkillSubClasses());
+function ATSWSubClassDropDown_Initialize(self)
+	local skill_subs = GetTradeSkillSubClasses();
+	if skill_subs == nil then skill_subs = {} end  -- ROB FIX
+	ATSWFilterFrame_LoadSubClasses(skill_subs());
 end
 
 function ATSWFilterFrame_LoadSubClasses(...)
+	local arg = ...
 	local info = {};
-	if ( arg.n > 1 ) then
-		info.text = TEXT(ALL_SUBCLASSES);
+	if ( getn(arg) > 1 ) then
+		info.text = ALL_SUBCLASSES;
 		info.func = ATSWSubClassDropDownButton_OnClick;
 		info.checked = false;
 		if(atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0) then info.checked=true; end
@@ -1083,10 +1095,10 @@ function ATSWFilterFrame_LoadSubClasses(...)
 	end
 	
 	local checked;
-	for i=1, arg.n, 1 do
-		if (atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0 and arg.n > 1) then
+	for i=1, getn(arg), 1 do
+		if (atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
 			checked = nil;
-			UIDropDownMenu_SetText(TEXT(ALL_SUBCLASSES), ATSWSubClassDropDown);
+			UIDropDownMenu_SetText(ALL_SUBCLASSES, ATSWSubClassDropDown);
 			else
 			if(atsw_currentsubclassfilter[atsw_selectedskill] and i==atsw_currentsubclassfilter[atsw_selectedskill]) then
 				checked=true;
@@ -1103,27 +1115,30 @@ function ATSWFilterFrame_LoadSubClasses(...)
 	end
 end
 
-function ATSWInvSlotDropDown_OnLoad()
-	UIDropDownMenu_Initialize(this, ATSWInvSlotDropDown_Initialize);
-	UIDropDownMenu_SetWidth(120);
+function ATSWInvSlotDropDown_OnLoad(self)
+	UIDropDownMenu_Initialize( ATSWInvSlotDropDown, ATSWInvSlotDropDown_Initialize);
+	UIDropDownMenu_SetWidth(ATSWInvSlotDropDown, 120);
 	UIDropDownMenu_SetSelectedID(ATSWInvSlotDropDown, 1);
 end
 
-function ATSWInvSlotDropDown_OnShow()
-	UIDropDownMenu_Initialize(this, ATSWInvSlotDropDown_Initialize);
+function ATSWInvSlotDropDown_OnShow(self)
+	UIDropDownMenu_Initialize( ATSWInvSlotDropDown, ATSWInvSlotDropDown_Initialize);
 	if(atsw_currentinvslotfilter[atsw_selectedskill]==nil or atsw_currentinvslotfilter[atsw_selectedskill]==0) then
 		UIDropDownMenu_SetSelectedID(ATSWInvSlotDropDown, 1);
 	end
 end
 
-function ATSWInvSlotDropDown_Initialize()
-	ATSWFilterFrame_LoadInvSlots(GetTradeSkillInvSlots());
+function ATSWInvSlotDropDown_Initialize(self)
+	local inv_slots = GetTradeSkillInvSlots();
+	if inv_slots == nil then inv_slots = {} end -- ROB FIX
+	ATSWFilterFrame_LoadInvSlots(inv_slots);
 end
 
 function ATSWFilterFrame_LoadInvSlots(...)
+	local arg = ...
 	local info = {}
-	if (arg.n > 1) then
-		info.text = TEXT(ALL_INVENTORY_SLOTS);
+	if (getn(arg) > 1) then
+		info.text = ALL_INVENTORY_SLOTS;
 		info.func = ATSWInvSlotDropDownButton_OnClick;
 		info.checked = false;
 		if(atsw_currentinvslotfilter[atsw_selectedskill]==0) then info.checked=true; end
@@ -1131,10 +1146,10 @@ function ATSWFilterFrame_LoadInvSlots(...)
 	end
 	
 	local checked=false;
-	for i=1, arg.n, 1 do
-		if (atsw_currentinvslotfilter[atsw_selectedskill] and atsw_currentinvslotfilter[atsw_selectedskill]==0 and arg.n > 1) then
+	for i=1, getn(arg), 1 do
+		if (atsw_currentinvslotfilter[atsw_selectedskill] and atsw_currentinvslotfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
 			checked = false;
-			UIDropDownMenu_SetText(TEXT(ALL_INVENTORY_SLOTS), ATSWInvSlotDropDown);
+			UIDropDownMenu_SetText(ALL_INVENTORY_SLOTS, ATSWInvSlotDropDown);
 			else
 			if(atsw_currentinvslotfilter[atsw_selectedskill] and i==atsw_currentinvslotfilter[atsw_selectedskill]) then
 				checked=true;
@@ -1151,18 +1166,18 @@ function ATSWFilterFrame_LoadInvSlots(...)
 	end
 end
 
-function ATSWSubClassDropDownButton_OnClick()
-	UIDropDownMenu_SetSelectedID(ATSWSubClassDropDown, this:GetID());
-	if(this:GetID()==1) then
+function ATSWSubClassDropDownButton_OnClick(self)
+	UIDropDownMenu_SetSelectedID(ATSWSubClassDropDown, self:GetID());
+	if(self:GetID()==1) then
 		atsw_subclassfilter[atsw_selectedskill]=nil;
 		atsw_subclassfiltered[atsw_selectedskill]={};
 		atsw_currentsubclassfilter[atsw_selectedskill]=0;
 		ATSW_CreateSkillListing();
 		ATSWFrame_Update();
 		else
-		atsw_subclassfilter[atsw_selectedskill]=this:GetID()-1;
+		atsw_subclassfilter[atsw_selectedskill]=self:GetID()-1;
 		atsw_currentsubclassfilter[atsw_selectedskill]=atsw_subclassfilter[atsw_selectedskill];
-		SetTradeSkillSubClassFilter(this:GetID() - 1, 1, 1);
+		SetTradeSkillSubClassFilter(self:GetID() - 1, 1, 1);
 	end
 end
 
@@ -1173,18 +1188,18 @@ atsw_currentsubclassfilter={};
 atsw_subclassfilter={};
 atsw_subclassfiltered={};
 
-function ATSWInvSlotDropDownButton_OnClick()
-	UIDropDownMenu_SetSelectedID(ATSWInvSlotDropDown, this:GetID());
-	if(this:GetID()==1) then
+function ATSWInvSlotDropDownButton_OnClick(self)
+	UIDropDownMenu_SetSelectedID(ATSWInvSlotDropDown, self:GetID());
+	if(self:GetID()==1) then
 		atsw_invslotfilter[atsw_selectedskill]=nil;
 		atsw_invslotfiltered[atsw_selectedskill]={};
 		atsw_currentinvslotfilter[atsw_selectedskill]=0;
 		ATSW_CreateSkillListing();
 		ATSWFrame_Update();
 		else
-		atsw_invslotfilter[atsw_selectedskill]=this:GetID()-1;
+		atsw_invslotfilter[atsw_selectedskill]=self:GetID()-1;
 		atsw_currentinvslotfilter[atsw_selectedskill]=atsw_invslotfilter[atsw_selectedskill];
-		SetTradeSkillInvSlotFilter(this:GetID() - 1, 1, 1);
+		SetTradeSkillInvSlotFilter(self:GetID() - 1, 1, 1);
 	end
 end
 
@@ -1210,9 +1225,9 @@ function ATSW_FilterSubClass(skillName)
 	end	
 end
 
-function ATSWCollapseAllButton_OnClick()
-	if (this.collapsed) then
-		this.collapsed = nil;
+function ATSWCollapseAllButton_OnClick(self)
+	if (self.collapsed) then
+		self.collapsed = nil;
 		if(atsw_orderby[UnitName("player")][atsw_selectedskill]=="custom") then
 			if(atsw_customheaders[UnitName("player")]) then
 				if(atsw_customheaders[UnitName("player")][atsw_selectedskill]) then
@@ -1228,7 +1243,7 @@ function ATSWCollapseAllButton_OnClick()
 			end
 		end
 		else
-		this.collapsed = 1;
+		self.collapsed = 1;
 		ATSWListScrollFrameScrollBar:SetValue(0);
 		if(atsw_orderby[UnitName("player")][atsw_selectedskill]=="custom") then
 			if(atsw_customheaders[UnitName("player")]) then
@@ -1251,7 +1266,7 @@ end
 
 atsw_queue={};
 
-function ATSWFrame_UpdateQueue()
+function ATSWFrame_UpdateQueue(self)
 	local jobs=table.getn(atsw_queue);
 	local offset=FauxScrollFrame_GetOffset(ATSWQueueScrollFrame);
 	
@@ -1279,7 +1294,7 @@ end
 
 atsw_preventupdate=false;
 
-function ATSW_DeleteQueue()
+function ATSW_DeleteQueue(self)
 	atsw_queue={};
 	ATSW_ResetPossibleItemCounts();
 	ATSWInv_UpdateQueuedItemList();
@@ -1307,7 +1322,7 @@ function ATSW_SaveQueue(delete)
 	end
 end
 
-function ATSW_RestoreQueue()
+function ATSW_RestoreQueue(self)
 	if(ATSWFrame:IsVisible()) then
 		if(atsw_savedqueue[UnitName("player")]~=nil) then
 			if(atsw_savedqueue[UnitName("player")][atsw_selectedskill]~=nil) then
@@ -1398,7 +1413,7 @@ function ATSW_DeleteJobPartial(skillname, num)
 	end
 end
 
-function ATSW_StartStopProcessing()
+function ATSW_StartStopProcessing(self)
 	if(atsw_processing==true) then
 		--	SpellStopCasting();
 		ATSW_AddJobFirst(atsw_processingname,1);
@@ -1416,13 +1431,13 @@ function ATSW_StartStopProcessing()
 	end
 end
 
-function ATSW_Enchant()
+function ATSW_Enchant(self)
 	DoCraft(GetCraftSelectionIndex());
 end
 
-function ATSW_SetColumnWidth(width, frame)
+function ATSW_SetColumnWidth(self, width, frame)
 	if not frame then
-    	frame = this;
+    	frame = self;
 	end
 	frame:SetWidth(width);
   	getglobal(frame:GetName().."Middle"):SetWidth(width - 9);
@@ -1434,7 +1449,7 @@ atsw_processing=false;
 atsw_processnext=false;
 atsw_lastremoved="";
 
-function ATSW_StartProcessing()
+function ATSW_StartProcessing(self)
 	atsw_retries=0;
 	atsw_retry=false;
 	ATSWFrame:RegisterEvent("SPELLCAST_STOP");
@@ -1466,7 +1481,7 @@ function ATSW_ProcessNextQueueItem(directClick)
 	end
 end
 
-function ATSW_ProcessIt()
+function ATSW_ProcessIt(self)
 	atsw_processingname=atsw_queue[1].name;
 	atsw_working=true;
 	atsw_retries=atsw_retries+1;
@@ -1476,7 +1491,7 @@ function ATSW_ProcessIt()
 	DoTradeSkill(ATSW_GetTradeSkillID(atsw_queue[1].name),atsw_queue[1].count);	
 end
 
-function ATSW_SpellcastStop()
+function ATSW_SpellcastStop(self)
 	atsw_working=false;
 	if(atsw_queue[1]) then
 		atsw_lastremoved=atsw_processingname;
@@ -1499,7 +1514,7 @@ function ATSW_SpellcastStop()
 	end
 end
 
-function ATSW_SpellcastInterrupted()
+function ATSW_SpellcastInterrupted(self)
 	if(atsw_processing==true) then 
 		atsw_working=false;
 		ATSW_AddJobFirst(atsw_lastremoved,1);
@@ -1522,19 +1537,19 @@ function ATSW_SpellcastInterrupted()
 	end
 end
 
-function ATSW_SpellcastStart()
+function ATSW_SpellcastStart(self)
 	atsw_retry=false;
 	atsw_retrydelay=0;
 	atsw_processingtimeout=0;
 end
 
-function ATSWDBF_OnOK()
+function ATSWDBF_OnOK(self)
 	if(table.getn(atsw_queue)>0) then
 		ATSW_ProcessIt();
 	end
 end
 
-function ATSWDBF_OnAbort()
+function ATSWDBF_OnAbort(self)
 	ATSW_StartStopProcessing();	
 end
 
@@ -1565,7 +1580,7 @@ function ATSW_GetTradeSkillListPosByName(name)
 	return -1;	
 end
 
-function ATSW_CreateTradeSkillList()
+function ATSW_CreateTradeSkillList(self)
 	local numTradeSkills=ATSW_GetNumTradeSkills();
 	local currentHeader=0;
 	
@@ -1617,11 +1632,11 @@ function ATSW_CreateTradeSkillList()
 		atsw_invslotfiltered[atsw_selectedskill]={};
 		for i=1,table.getn(atsw_tradeskilllist),1 do
 			atsw_invslotfiltered[atsw_selectedskill][atsw_tradeskilllist[i].name]=1;
-			--	table.setn(atsw_invslotfiltered[atsw_selectedskill],table.getn(atsw_invslotfiltered[atsw_selectedskill])+1);
+			--	setn(atsw_invslotfiltered[atsw_selectedskill],table.getn(atsw_invslotfiltered[atsw_selectedskill])+1);
 		end
 		for i=1,table.getn(atsw_tradeskillheaders),1 do
 			atsw_invslotfiltered[atsw_selectedskill][atsw_tradeskillheaders[i].name]=1;
-			--	table.setn(atsw_invslotfiltered[atsw_selectedskill],table.getn(atsw_invslotfiltered[atsw_selectedskill])+1);
+			--	setn(atsw_invslotfiltered[atsw_selectedskill],table.getn(atsw_invslotfiltered[atsw_selectedskill])+1);
 		end
 		SetTradeSkillInvSlotFilter(0, 1, 1);
 		check=true;
@@ -1632,11 +1647,11 @@ function ATSW_CreateTradeSkillList()
 		atsw_subclassfiltered[atsw_selectedskill]={};
 		for i=1,table.getn(atsw_tradeskilllist),1 do
 			atsw_subclassfiltered[atsw_selectedskill][atsw_tradeskilllist[i].name]=1;
-			--	table.setn(atsw_subclassfiltered[atsw_selectedskill],table.getn(atsw_subclassfiltered[atsw_selectedskill])+1);
+			--	setn(atsw_subclassfiltered[atsw_selectedskill],table.getn(atsw_subclassfiltered[atsw_selectedskill])+1);
 		end
 		for i=1,table.getn(atsw_tradeskillheaders),1 do
 			atsw_subclassfiltered[atsw_selectedskill][atsw_tradeskillheaders[i].name]=1;
-			--	table.setn(atsw_subclassfiltered[atsw_selectedskill],table.getn(atsw_subclassfiltered[atsw_selectedskill])+1);
+			--	setn(atsw_subclassfiltered[atsw_selectedskill],table.getn(atsw_subclassfiltered[atsw_selectedskill])+1);
 		end
 		SetTradeSkillSubClassFilter(0, 1, 1);
 		check=true;
@@ -1666,7 +1681,7 @@ function ATSW_GetSkillListingPos(id)
 	return -1;	
 end
 
-function ATSW_CreateSkillListing()
+function ATSW_CreateSkillListing(self)
 	atsw_skilllisting={};
 	if(atsw_orderby[UnitName("player")][atsw_selectedskill]~="custom") then
 		for i=1,table.getn(atsw_tradeskillheaders),1 do
@@ -1780,13 +1795,13 @@ function ATSW_AddTradeSkillReagentLinksToChatFrame(skillName)
 	end
 end
 
-function ATSWFrameIncrement_OnClick()
+function ATSWFrameIncrement_OnClick(self)
 	if(ATSWInputBox:GetNumber()<100) then
 		ATSWInputBox:SetNumber(ATSWInputBox:GetNumber()+1);
 	end
 end
 
-function ATSWFrameDecrement_OnClick()
+function ATSWFrameDecrement_OnClick(self)
 	if(ATSWInputBox:GetNumber()>0) then
 		ATSWInputBox:SetNumber(ATSWInputBox:GetNumber()-1);
 	end
@@ -1831,7 +1846,7 @@ function ATSW_GetNumItemsPossibleWithInventory(skillName)
 	return count;
 end
 
-function ATSW_ToggleReagentFrame()
+function ATSW_ToggleReagentFrame(self)
 	if(ATSWReagentFrame:IsVisible()) then
 		HideUIPanel(ATSWReagentFrame);
 		else
@@ -1839,7 +1854,7 @@ function ATSW_ToggleReagentFrame()
 	end
 end
 
-function ATSW_ResetPossibleItemCounts()
+function ATSW_ResetPossibleItemCounts(self)
 	atsw_tradeskillcounter={};
 end
 
@@ -1972,7 +1987,7 @@ function ATSW_NoteNecessaryItems(skillName,count,itemLink)
 	end
 end
 
-function ATSW_NoteNecessaryItemsForQueue()
+function ATSW_NoteNecessaryItemsForQueue(self)
 	atsw_necessaryitems={};
 	for i=1,table.getn(atsw_queue),1 do
 		ATSW_NoteNecessaryItems(atsw_queue[i].name,atsw_queue[i].count,nil);
@@ -1980,7 +1995,7 @@ function ATSW_NoteNecessaryItemsForQueue()
 	ATSW_FilterNecessaryItems();
 end
 
-function ATSW_FilterNecessaryItems()
+function ATSW_FilterNecessaryItems(self)
 	for i=1,table.getn(atsw_necessaryitems),1 do
 		for k=1,table.getn(atsw_queue),1 do
 			if(atsw_necessaryitems[i].name==atsw_queue[k].name) then
@@ -2005,7 +2020,7 @@ function ATSW_NoteNecessaryItemsForTradeskill(skillName,skillCount)
 	atsw_preventupdate=false;
 end
 
-function ATSW_ShowNecessaryReagents()
+function ATSW_ShowNecessaryReagents(self)
 	ATSW_NoteNecessaryItemsForQueue();
 	for i=1,20,1 do
 		local count=getglobal("ATSWRFReagent"..i.."Count");
@@ -2085,16 +2100,16 @@ function ATSW_ShowNecessaryReagents()
 	ShowUIPanel(ATSWReagentFrame);
 end
 
-function ATSWItemButton_OnEnter()
-    if(this.link) then
-    	GameTooltip:SetOwner(this, "ANCHOR_NONE");
-        GameTooltip:SetPoint("BOTTOMLEFT",this:GetName(),"TOPLEFT");
-		GameTooltip:SetHyperlink(string.gsub(this.link, "|c(%x+)|H(item:%d+:%d+:%d+:%d+)|h%[(.-)%]|h|r", "%2"));
+function ATSWItemButton_OnEnter(self)
+    if(self.link) then
+    	GameTooltip:SetOwner( "ANCHOR_NONE");
+        GameTooltip:SetPoint("BOTTOMLEFT",self:GetName(),"TOPLEFT");
+		GameTooltip:SetHyperlink(string.gsub(self.link, "|c(%x+)|H(item:%d+:%d+:%d+:%d+)|h%[(.-)%]|h|r", "%2"));
         GameTooltip:Show();
 	end
 end
 
-function ATSWItemButton_OnLeave()
+function ATSWItemButton_OnLeave(self)
 	GameTooltip:Hide();
 end
 
@@ -2126,7 +2141,7 @@ function ATSW_Filter(skillname)
 	if(skillname==nil) then return false; end
 	if(skillname=="") then return true; end
 	local parameters={};
-	for w in string.gfind(atsw_filter, ":[^:]*") do
+	for w in string.gmatch(atsw_filter, ":[^:]*") do
 		local _, _, param_name, param_value=string.find(w, ":(%a+)%s([^:]*)");
 		if(param_name~=nil) then _, _, param_name=string.find(param_name,"^%s*(.-)%s*$"); end
 		if(param_value~=nil) then _, _, param_value=string.find(param_value,"^%s*(.-)%s*$"); end
@@ -2278,12 +2293,12 @@ function ATSW_GetItemRarity(tradeskillid)
 	return 0;
 end
 
-function ATSW_Test()
+function ATSW_Test(self)
 	local stats=GetTradeSkillItemStats(3);
 	ATSW_DisplayMessage(stats);
 end
 
-function ATSW_ToggleOptionsFrame()
+function ATSW_ToggleOptionsFrame(self)
 	if(ATSWOptionsFrame:IsVisible()) then
 		HideUIPanel(ATSWOptionsFrame);
 		else
@@ -2328,7 +2343,7 @@ function ATSW_ToggleOptionsFrame()
 	end
 end
 
-function ATSW_ToggleCSFrame()
+function ATSW_ToggleCSFrame(self)
 	ShowUIPanel(ATSWCSFrame);
 end
 
@@ -2336,12 +2351,12 @@ end
 
 atsw_recipetooltip=true;
 
-function ATSW_DisplayTradeskillTooltip()
+function ATSW_DisplayTradeskillTooltip(self)
 	if(atsw_recipetooltip==false) then return; end
-	ATSWTradeskillTooltip:SetOwner(this, "ANCHOR_BOTTOMRIGHT",-300);
+	ATSWTradeskillTooltip:SetOwner( "ANCHOR_BOTTOMRIGHT",-300);
 	ATSWTradeskillTooltip:SetBackdropColor(0,0,0,1);
 	
-	local tradeskillid=this:GetID();
+	local tradeskillid=self:GetID();
 	local skillName, skillType, numAvailable;
 	local listpos=ATSW_GetSkillListingPos(tradeskillid);
 	if(atsw_skilllisting[listpos]) then
@@ -2457,7 +2472,7 @@ atsw_itemlist={};
 atsw_queueditemlist={};
 atsw_temporaryitemlist={};
 
-function ATSWInv_UpdateItemList()
+function ATSWInv_UpdateItemList(self)
 	if(atsw_incombat==true) then return; end
 	if(not atsw_itemlist[GetRealmName()]) then
 		atsw_itemlist[GetRealmName()]={};
@@ -2472,7 +2487,7 @@ function ATSWInv_UpdateItemList()
 					atsw_itemlist[GetRealmName()][UnitName("player")][itemname]=atsw_itemlist[GetRealmName()][UnitName("player")][itemname]+itemcount;
 					else
 					atsw_itemlist[GetRealmName()][UnitName("player")][itemname]=itemcount;
-					table.setn(atsw_itemlist[GetRealmName()][UnitName("player")],table.getn(atsw_itemlist[GetRealmName()][UnitName("player")])+1);
+					setn(atsw_itemlist[GetRealmName()][UnitName("player")],table.getn(atsw_itemlist[GetRealmName()][UnitName("player")])+1);
 				end
 			end
 		end
@@ -2491,7 +2506,7 @@ function ATSWInv_GetItemCount(itemname)
 	return 0;
 end
 
-function ATSWInv_UpdateQueuedItemList()
+function ATSWInv_UpdateQueuedItemList(self)
 	atsw_queueditemlist={};
 	for i=1,table.getn(atsw_queue),1 do
 		for j=1,table.getn(atsw_tradeskilllist),1 do
@@ -2502,7 +2517,7 @@ function ATSWInv_UpdateQueuedItemList()
 							atsw_queueditemlist[atsw_tradeskilllist[j].reagents[k].name]=atsw_queueditemlist[atsw_tradeskilllist[j].reagents[k].name]+atsw_tradeskilllist[j].reagents[k].count*atsw_queue[i].count;
 							else
 							atsw_queueditemlist[atsw_tradeskilllist[j].reagents[k].name]=atsw_tradeskilllist[j].reagents[k].count*atsw_queue[i].count;
-							table.setn(atsw_queueditemlist,table.getn(atsw_queueditemlist)+1);
+							setn(atsw_queueditemlist,table.getn(atsw_queueditemlist)+1);
 						end
 					end
 				end
@@ -2515,7 +2530,7 @@ end
 
 atsw_bankitemlist={};
 
-function ATSWBank_UpdateBankList()
+function ATSWBank_UpdateBankList(self)
 	if(atsw_bankopened==true) then
 		if(not atsw_bankitemlist[GetRealmName()]) then
 			atsw_bankitemlist[GetRealmName()]={};
@@ -2640,7 +2655,7 @@ end
 atsw_displayshoppinglist=true;
 shoppinglist_updatedelay = 0.2;
 
-function ATSWShoppingListFrameOnUpdate()
+function ATSWShoppingListFrameOnUpdate(self)
 	
 	if(shoppinglist_updatedelay>0) then
 		
@@ -2665,7 +2680,7 @@ function ATSWShoppingListFrameOnUpdate()
 	end
 	end
 
-function ATSWAuction_ShowShoppingList()
+function ATSWAuction_ShowShoppingList(self)
 	if (table.getn(atsw_queue)>0 and atsw_displayshoppinglist) then
 		ATSWShoppingListFrame:Show();
 		ATSW_NoteNecessaryItemsForQueue();
@@ -2674,11 +2689,11 @@ function ATSWAuction_ShowShoppingList()
 	end;
 end
 
-function ATSWAuction_HideShoppingList()
+function ATSWAuction_HideShoppingList(self)
 	ATSWShoppingListFrame:Hide();	
 end
 
-function ATSWAuction_UpdateReagentList()
+function ATSWAuction_UpdateReagentList(self)
 	local reagents=table.getn(atsw_necessaryitems);
 	local offset=FauxScrollFrame_GetOffset(ATSWSLScrollFrame);
 	for i=1,5,1 do
@@ -2762,7 +2777,7 @@ end
 
 function ATSWAuction_SearchForItem(itemname)
 	if aux_frame:IsVisible() then
-		local _,_,linkid = string.find(this.link, 'item:(%d+)') 
+		local _,_,linkid = string.find(self.link, 'item:(%d+)') 
 		local linkout
 		if not linkid then
 			_,_,linkid = string.find(link, 'enchant:(%d+)')
@@ -2783,7 +2798,7 @@ end
 atsw_autobuy=false;
 atsw_merchantlist={};
 
-function ATSWMerchant_InsertAutoBuyButton()
+function ATSWMerchant_InsertAutoBuyButton(self)
 	if(table.getn(atsw_queue)==0) then return; end
 	if(ATSWMerchant_Buy(true)==false) then return; end
 	ATSWAutoBuyButtonFrame:Show();
@@ -2804,16 +2819,16 @@ function ATSWMerchant_InsertAutoBuyButton()
 	ATSWAutoBuyButtonFrame:SetFrameStrata("HIGH");
 end
 
-function ATSWMerchant_RemoveAutoBuyButton()
+function ATSWMerchant_RemoveAutoBuyButton(self)
 	ATSWAutoBuyButtonFrame:Hide();
 end
 
-function ATSWMerchant_ExecuteAutoBuy()
+function ATSWMerchant_ExecuteAutoBuy(self)
 	ATSWMerchant_RemoveAutoBuyButton();
 	ATSWMerchant_Buy();
 end
 
-function ATSWMerchant_UpdateMerchantList()
+function ATSWMerchant_UpdateMerchantList(self)
 	if(MerchantFrame:IsVisible()) then
 		local numitems=GetMerchantNumItems();
 		if(numitems==148) then numitems=0; end
@@ -2847,7 +2862,7 @@ function ATSWMerchant_CheckIfAvailable(itemname)
 	end
 end
 
-function ATSWMerchant_AutoBuy()
+function ATSWMerchant_AutoBuy(self)
 	if(atsw_autobuy==true) then
 		ATSWMerchant_Buy();
 	end
@@ -2924,18 +2939,18 @@ end
 
 -- all reagents for all queues frame functions
 
-function ATSWAllReagentListCharDropDown_OnLoad()
-	UIDropDownMenu_Initialize(this, ATSWAllReagentListCharDropDown_Initialize);
-	UIDropDownMenu_SetWidth(400);
+function ATSWAllReagentListCharDropDown_OnLoad(self)
+	UIDropDownMenu_Initialize( ATSWAllReagentListCharDropDown, ATSWAllReagentListCharDropDown_Initialize);
+	UIDropDownMenu_SetWidth(ATSWAllReagentListCharDropDown, 400);
 	UIDropDownMenu_SetSelectedID(ATSWAllReagentListCharDropDown, 1);
 end
 
-function ATSWAllReagentListCharDropDown_OnShow()
-	UIDropDownMenu_Initialize(this, ATSWAllReagentListCharDropDown_Initialize);
+function ATSWAllReagentListCharDropDown_OnShow(self)
+	UIDropDownMenu_Initialize( ATSWAllReagentListCharDropDown, ATSWAllReagentListCharDropDown_Initialize);
 	UIDropDownMenu_SetSelectedID(ATSWAllReagentListCharDropDown, 1);
 end
 
-function ATSWAllReagentListCharDropDown_Initialize()
+function ATSWAllReagentListCharDropDown_Initialize(self)
 	local info={};
 	local count=0;
 	if(atsw_savednecessaryitems) then
@@ -2996,6 +3011,6 @@ function ATSW_Round(number,decimals)
 	return math.floor((number*math.pow(10,decimals)+0.5))/math.pow(10,decimals);
 end
 
-function ATSW_NOP()
+function ATSW_NOP(self)
 	-- do nothing!
 end

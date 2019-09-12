@@ -15,17 +15,17 @@
 		</Layers>
 		<Scripts>
 			<OnLoad>
-				this:SetFrameLevel(this:GetFrameLevel() + 1);
+				self:SetFrameLevel(self:GetFrameLevel() + 1);
 			</OnLoad>
 			<OnClick>
-				ATSWSkillButton_OnClick(arg1);
+				ATSWSkillButton_OnClick(self, arg1);
 			</OnClick>
 			<OnEnter>
-				getglobal(this:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+				getglobal(self:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 				ATSW_DisplayTradeskillTooltip();
 			</OnEnter>
 			<OnLeave>
-				getglobal(this:GetName().."SubText"):SetTextColor(this.r, this.g, this.b);
+				getglobal(self:GetName().."SubText"):SetTextColor(self.r, self.g, self.b);
 				ATSWTradeskillTooltip:Hide();
 			</OnLeave>
 		</Scripts>
@@ -111,7 +111,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						this:GetParent():Hide();
+						self:GetParent():Hide();
 					</OnClick>
 				</Scripts>
 				<NormalTexture inherits="DialogButtonNormalTexture"/>
@@ -151,8 +151,8 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWDBF_OnOK(this:GetParent():GetName());
-						this:GetParent():Hide();
+						ATSWDBF_OnOK(self:GetParent():GetName());
+						self:GetParent():Hide();
 					</OnClick>
 				</Scripts>
 				<NormalTexture inherits="DialogButtonNormalTexture"/>
@@ -173,8 +173,8 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWDBF_OnAbort(this:GetParent():GetName());
-						this:GetParent():Hide();
+						ATSWDBF_OnAbort(self:GetParent():GetName());
+						self:GetParent():Hide();
 					</OnClick>
 				</Scripts>
 				<NormalTexture inherits="DialogButtonNormalTexture"/>
@@ -251,7 +251,7 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				this:SetFrameLevel(this:GetFrameLevel() + 1);
+				self:SetFrameLevel(self:GetFrameLevel() + 1);
 			</OnLoad>
 			</Scripts>
 	</Frame>
@@ -338,14 +338,14 @@
 	<Button name="ATSWItemTemplate" inherits="QuestItemTemplate" virtual="true">
 		<Scripts>
 			<OnLoad>
-				this:RegisterForClicks("LeftButtonUp","RightButtonUp")
+				self:RegisterForClicks("LeftButtonUp","RightButtonUp")
 			</OnLoad>
 			<OnEnter>
-				GameTooltip:SetOwner(this, "ANCHOR_TOPLEFT");
+				GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT");
 				if(atsw_oldmode) then
-					GameTooltip:SetCraftItem(ATSWFrame.selectedSkill, this:GetID());
+					GameTooltip:SetCraftItem(ATSWFrame.selectedSkill, self:GetID());
 				else
-					GameTooltip:SetTradeSkillItem(ATSWFrame.selectedSkill, this:GetID());
+					GameTooltip:SetTradeSkillItem(ATSWFrame.selectedSkill, self:GetID());
 				end
 				CursorUpdate();
 			</OnEnter>
@@ -357,7 +357,7 @@
 				CursorOnUpdate();
 			</OnUpdate>
 			<OnClick>
-				ATSW_ItemOnClick(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, this:GetID()));
+				ATSW_ItemOnClick(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, self:GetID()));
 			</OnClick>
 		<OnDoubleClick>
 				ATSW_ItemOnDoubleClick()
@@ -734,7 +734,7 @@
 				</Frames>
 				<Scripts>
 					<OnLoad>
-						this:RegisterEvent("SKILL_LINES_CHANGED");
+						self:RegisterEvent("SKILL_LINES_CHANGED");
 					</OnLoad>
 					<OnEvent>
 						if ( event == "SKILL_LINES_CHANGED" ) then
@@ -1043,10 +1043,10 @@
 						</Anchors>
 						<Scripts>
 							<OnLoad>
-								getglobal(this:GetName()):SetText(ALL);
+								getglobal(self:GetName()):SetText(self,ALL);
 							</OnLoad>
 							<OnClick>
-								ATSWCollapseAllButton_OnClick();
+								ATSWCollapseAllButton_OnClick(self);
 							</OnClick>
 						</Scripts>
 					</Button>
@@ -1063,7 +1063,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						ATSWInvSlotDropDown_OnLoad();
+						ATSWInvSlotDropDown_OnLoad(self);
 					</OnLoad>
 					<OnShow>
 						ATSWInvSlotDropDown_OnShow();
@@ -1080,10 +1080,10 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						ATSWSubClassDropDown_OnLoad();
+						ATSWSubClassDropDown_OnLoad(self);
 					</OnLoad>
 					<OnShow>
-						ATSWSubClassDropDown_OnShow();
+						ATSWSubClassDropDown_OnShow(self);
 					</OnShow>
 				</Scripts>
 			</Frame>
@@ -1114,7 +1114,7 @@
                 </Layers>
                 <Scripts>
                     <OnClick>
-                        if(this:GetChecked()) then
+                        if(self:GetChecked()) then
 							PlaySound("igMainMenuOptionCheckBoxOn");
 							ATSW_OrderBy("nothing");
 							ATSWNameSortButton:SetChecked(false);
@@ -1158,7 +1158,7 @@
                 </Layers>
                 <Scripts>
                     <OnClick>
-                        if(this:GetChecked()) then
+                        if(self:GetChecked()) then
                             PlaySound("igMainMenuOptionCheckBoxOn");
 							ATSW_OrderBy("name");
 							ATSWHeaderSortButton:SetChecked(false);
@@ -1202,7 +1202,7 @@
                 </Layers>
                 <Scripts>
                     <OnClick>
-                        if(this:GetChecked()) then
+                        if(self:GetChecked()) then
 							PlaySound("igMainMenuOptionCheckBoxOn");
 							ATSW_OrderBy("difficulty");
 							ATSWNameSortButton:SetChecked(false);
@@ -1246,7 +1246,7 @@
                 </Layers>
                 <Scripts>
                     <OnClick>
-                        if(this:GetChecked()) then
+                        if(self:GetChecked()) then
 							PlaySound("igMainMenuOptionCheckBoxOn");
 							ATSW_OrderBy("custom");
 							ATSWNameSortButton:SetChecked(false);
@@ -1291,8 +1291,8 @@
 				</Layers>
 				<Scripts>
 					<OnLoad>
-						this.hasItem = 1;
-						this:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+						self.hasItem = 1;
+						self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 					</OnLoad>
 					<OnClick>
 						ATSW_ItemOnClick(ATSW_GetTradeSkillItemLink(ATSWFrame.selectedSkill));
@@ -1301,7 +1301,7 @@
 					</OnClick>
 					<OnEnter>
 						if ( ATSWFrame.selectedSkill ~= 0 ) then
-							GameTooltip:SetOwner(this, "ANCHOR_RIGHT");
+							GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
 							if(atsw_oldmode) then	
 								GameTooltip:SetCraftSpell(ATSWFrame.selectedSkill);
 							else
@@ -1493,8 +1493,8 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWFrameDecrement_OnClick();
-						ATSWInputBox:ClearFocus();
+						ATSWFrameDecrement_OnClick(self);
+						ATSWInputBox:ClearFocus(self);
 					</OnClick>
 				</Scripts>
 				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
@@ -1555,21 +1555,21 @@
 				</Layers>
 				<Scripts>
 					<OnEnterPressed>
-						this:ClearFocus();
+						self:ClearFocus();
 					</OnEnterPressed>
 					<OnEscapePressed>
-						this:ClearFocus();
+						self:ClearFocus();
 					</OnEscapePressed>
 					<OnTextChanged>
-						if ( this:GetText() == "0" ) then
-							this:SetText("1");
+						if ( self:GetText() == "0" ) then
+							self:SetText(self,"1");
 						end
 					</OnTextChanged> 
 					<OnEditFocusLost>
-						this:HighlightText(0, 0);
+						self:HighlightText(0, 0);
 					</OnEditFocusLost>
 					<OnEditFocusGained>
-						this:HighlightText();
+						self:HighlightText();
 					</OnEditFocusGained>
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>
@@ -1587,8 +1587,8 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWFrameIncrement_OnClick();
-						ATSWInputBox:ClearFocus();
+						ATSWFrameIncrement_OnClick(self);
+						ATSWInputBox:ClearFocus(self);
 					</OnClick>
 				</Scripts>
 				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
@@ -1639,7 +1639,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(this.jobindex);
+						ATSW_DeleteJob(self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1666,7 +1666,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(this.jobindex);
+						ATSW_DeleteJob(self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1693,7 +1693,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(this.jobindex);
+						ATSW_DeleteJob(self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1720,7 +1720,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(this.jobindex);
+						ATSW_DeleteJob(self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1738,7 +1738,7 @@
 				</Anchors>
 				<Scripts>
 					<OnVerticalScroll>
-						FauxScrollFrame_OnVerticalScroll(22, ATSWFrame_UpdateQueue);
+						FauxScrollFrame_OnVerticalScroll(self, 22, ATSWFrame_UpdateQueue);
 					</OnVerticalScroll>
 				</Scripts>
 			</ScrollFrame>
@@ -1756,9 +1756,9 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						if(this:GetText()==ATSW_CONTINUEQUEUE) then
+						if(self:GetText()==ATSW_CONTINUEQUEUE) then
 							ATSWQueueStartStopButton:Disable();
-							ATSWQueueStartStopButton:SetText(ATSW_STARTQUEUE);
+							ATSWQueueStartStopButton:SetText(self,ATSW_STARTQUEUE);
 							if(table.getn(atsw_queue)>0) then
 								ATSW_ProcessIt();
 							else
@@ -1913,19 +1913,19 @@
 				</Layers>
 				<Scripts>
 					<OnEnterPressed>
-						this:ClearFocus();
+						self:ClearFocus();
 					</OnEnterPressed>
 					<OnEscapePressed>
-						this:ClearFocus();
+						self:ClearFocus();
 					</OnEscapePressed>
 					<OnTextChanged>
-						ATSW_UpdateFilter(this:GetText());
+						ATSW_UpdateFilter(self:GetText());
 					</OnTextChanged> 
 					<OnEditFocusLost>
-						this:HighlightText(0, 0);
+						self:HighlightText(0, 0);
 					</OnEditFocusLost>
 					<OnEditFocusGained>
-						this:HighlightText();
+						self:HighlightText();
 					</OnEditFocusGained>
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>
@@ -1943,10 +1943,10 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						this:SetText("X");
+						self:SetText(self,"X");
 					</OnLoad>
 					<OnClick>
-						ATSWFilterBox:SetText("")
+						ATSWFilterBox:SetText(self,"")
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1955,17 +1955,17 @@
         </Frames>
         <Scripts>
           <OnLoad>
-		  ATSW_OnLoad();
+		  ATSW_OnLoad(self);
           </OnLoad>
           <OnEvent>
-		  ATSWFrame_OnEvent();
+		  ATSWFrame_OnEvent(self, event, ...);
           </OnEvent>
           <OnShow>
-          PlaySound("igBackPackOpen");
+          PlaySound(SOUNDKIT.IG_BACKPACK_OPEN);
           </OnShow>
           <OnHide>
-		  ATSW_OnHide();
-          PlaySound("igBackPackClose");
+		  ATSW_OnHide(self);
+          PlaySound(SOUNDKIT.IG_BACKPACK_CLOSE);
           </OnHide>
         </Scripts>
     </Frame>
@@ -1995,10 +1995,10 @@
             <OnClick>
             </OnClick>
 			<OnEnter>
-                ATSWItemButton_OnEnter(this);
+                ATSWItemButton_OnEnter(self);
             </OnEnter>
             <OnLeave>
-                ATSWItemButton_OnLeave();
+                ATSWItemButton_OnLeave(self);
             </OnLeave>
         </Scripts>
         <ButtonText name="$parentText" inherits="GameFontNormal" justifyH="left">
@@ -2093,7 +2093,7 @@
                 </Anchors>
 				<Scripts>
 				  <OnClick>
-					ATSWAlt_GetItemLocation(this.itemname);
+					ATSWAlt_GetItemLocation(self.itemname);
 				  </OnClick>
 				</Scripts>
             </Button>
@@ -2491,7 +2491,7 @@
 			</Layers>
 			<Scripts>
 				<OnClick>
-					if(this:GetChecked()) then
+					if(self:GetChecked()) then
 						PlaySound("igMainMenuOptionCheckBoxOn");
 						atsw_multicount=true;
 						ATSW_ResetPossibleItemCounts();
@@ -2533,7 +2533,7 @@
 			</Layers>
 			<Scripts>
 				<OnClick>
-					if(this:GetChecked()) then
+					if(self:GetChecked()) then
 						PlaySound("igMainMenuOptionCheckBoxOn");
 						atsw_multicount=false;
 						ATSW_ResetPossibleItemCounts();
@@ -2575,7 +2575,7 @@
 			</Layers>
 			<Scripts>
 				<OnClick>
-					if(this:GetChecked()) then
+					if(self:GetChecked()) then
 						PlaySound("igMainMenuOptionCheckBoxOn");
 						atsw_considerbank=true;
 						ATSW_ResetPossibleItemCounts();
@@ -2621,7 +2621,7 @@
 			</Layers>
 			<Scripts>
 				<OnClick>
-					if(this:GetChecked()) then
+					if(self:GetChecked()) then
 						PlaySound("igMainMenuOptionCheckBoxOn");
 						atsw_consideralts=true;
 						ATSW_ResetPossibleItemCounts();
@@ -2667,7 +2667,7 @@
 				</Layers>
 			<Scripts>
 				<OnClick>
-					if(this:GetChecked()) then
+					if(self:GetChecked()) then
 						PlaySound("igMainMenuOptionCheckBoxOn");
 						atsw_considermerchants=true;
 						ATSW_ResetPossibleItemCounts();
@@ -2713,7 +2713,7 @@
 			</Layers>
 			<Scripts>
 				<OnClick>
-					if(this:GetChecked()) then
+					if(self:GetChecked()) then
 						PlaySound("igMainMenuOptionCheckBoxOn");
 						atsw_autobuy=true;
 						ATSW_ResetPossibleItemCounts();
@@ -2759,7 +2759,7 @@
 			</Layers>
 			<Scripts>
 				<OnClick>
-					if(this:GetChecked()) then
+					if(self:GetChecked()) then
 						PlaySound("igMainMenuOptionCheckBoxOn");
 						atsw_recipetooltip=true;
 					else
@@ -2801,7 +2801,7 @@
 			</Layers>
 			<Scripts>
 				<OnClick>
-					if(this:GetChecked()) then
+					if(self:GetChecked()) then
 						PlaySound("igMainMenuOptionCheckBoxOn");
 						atsw_displayshoppinglist=true;
 					else
@@ -3395,7 +3395,7 @@
 				</Anchors>
 				<Scripts>
 					<OnValueChanged>
-						HealthBar_OnValueChanged(arg1);
+						HealthBar_OnValueChanged(self, arg1);
 					</OnValueChanged>
 				</Scripts>
 				<BarTexture name="$parentTexture" file="Interface\TargetingFrame\UI-TargetingFrame-BarFill"/>
@@ -3406,7 +3406,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						SmallMoneyFrame_OnLoad();
+						SmallMoneyFrame_OnLoad(self);
 						MoneyFrame_SetType("STATIC");
 					</OnLoad>
 				</Scripts>
@@ -3414,19 +3414,19 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				GameTooltip_OnLoad();
+				GameTooltip_OnLoad(self);
 			</OnLoad>
 			<OnHide>
-				GameTooltip_OnHide();
+				GameTooltip_OnHide(self);
 			</OnHide>
 			<OnTooltipSetDefaultAnchor>
-				GameTooltip_SetDefaultAnchor(this, UIParent);
+				GameTooltip_SetDefaultAnchor(self, UIParent);
 			</OnTooltipSetDefaultAnchor>
 			<OnTooltipAddMoney>
-				SetTooltipMoney(this, arg1);
+				SetTooltipMoney(self, arg1);
 			</OnTooltipAddMoney>
 			<OnTooltipCleared>
-				GameTooltip_ClearMoney();
+				GameTooltip_ClearMoney(self);
 			</OnTooltipCleared>
 		</Scripts>
 	</GameTooltip>
@@ -3586,7 +3586,7 @@
                 </Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWAuction_SearchForItem(this.itemname);
+						ATSWAuction_SearchForItem(self.itemname);
 					</OnClick>
 				</Scripts>
             </Button>
@@ -3618,7 +3618,7 @@
                 </Anchors>
 				<Scripts>
 				  <OnClick>
-					ATSWAlt_GetItemLocation(this.itemname);
+					ATSWAlt_GetItemLocation(self.itemname);
 				  </OnClick>
 				</Scripts>
             </Button>
@@ -3790,7 +3790,7 @@
 				</Anchors>
 				<Scripts>
 					<OnVerticalScroll>
-						FauxScrollFrame_OnVerticalScroll(5, ATSWAuction_UpdateReagentList);
+						FauxScrollFrame_OnVerticalScroll(self, 5, ATSWAuction_UpdateReagentList);
 					</OnVerticalScroll>
 				</Scripts>
 			</ScrollFrame>
@@ -3866,7 +3866,7 @@
                 </Anchors>
 				<Scripts>
 				  <OnClick>
-					ATSWAlt_GetItemLocation(this.itemname);
+					ATSWAlt_GetItemLocation(self.itemname);
 				  </OnClick>
 				</Scripts>
             </Button>
@@ -4048,10 +4048,10 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						ATSWAllReagentListCharDropDown_OnLoad();
+						ATSWAllReagentListCharDropDown_OnLoad(self);
 					</OnLoad>
 					<OnShow>
-						ATSWAllReagentListCharDropDown_OnShow();
+						ATSWAllReagentListCharDropDown_OnShow(self);
 					</OnShow>
 				</Scripts>
 			</Frame>

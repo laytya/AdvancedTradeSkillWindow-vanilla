@@ -13,16 +13,16 @@
 		</Layers>
 		<Scripts>
 			<OnLoad>
-				this:SetFrameLevel(this:GetFrameLevel() + 1);
+				self:SetFrameLevel(self:GetFrameLevel() + 1);
 			</OnLoad>
 			<OnClick>
 				ATSWCSSkillButton_OnClick(this.skillname);
 			</OnClick>
 			<OnEnter>
-				getglobal(this:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+				getglobal(self:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 			</OnEnter>
 			<OnLeave>
-				getglobal(this:GetName().."SubText"):SetTextColor(this.r, this.g, this.b);
+				getglobal(self:GetName().."SubText"):SetTextColor(this.r, this.g, this.b);
 			</OnLeave>
 		</Scripts>
 		<ButtonText name="$parentText" inherits="GameFontNormal" justifyH="LEFT">
@@ -53,16 +53,16 @@
 		</Layers>
 		<Scripts>
 			<OnLoad>
-				this:SetFrameLevel(this:GetFrameLevel() + 1);
+				self:SetFrameLevel(self:GetFrameLevel() + 1);
 			</OnLoad>
 			<OnClick>
-				ATSWCSCSkillButton_OnClick(this:GetParent().skillname);
+				ATSWCSCSkillButton_OnClick(self:GetParent().skillname);
 			</OnClick>
 			<OnEnter>
-				getglobal(this:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+				getglobal(self:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 			</OnEnter>
 			<OnLeave>
-				getglobal(this:GetName().."SubText"):SetTextColor(this.r, this.g, this.b);
+				getglobal(self:GetName().."SubText"):SetTextColor(this.r, this.g, this.b);
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Buttons\UI-MinusButton-UP">
@@ -142,7 +142,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWCS_MoveUp(this:GetParent().skillname);
+						ATSWCS_MoveUp(self:GetParent().skillname);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -156,7 +156,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWCS_MoveDown(this:GetParent().skillname);
+						ATSWCS_MoveDown(self:GetParent().skillname);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -173,7 +173,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWCS_Delete(this:GetParent().skillname);
+						ATSWCS_Delete(self:GetParent().skillname);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -727,21 +727,21 @@
 				</Layers>
 				<Scripts>
 					<OnEnterPressed>
-						this:ClearFocus();
+						self:ClearFocus();
 					</OnEnterPressed>
 					<OnEscapePressed>
-						this:ClearFocus();
+						self:ClearFocus();
 					</OnEscapePressed>
 					<OnTextChanged>
-						if ( this:GetText() == "0" ) then
-							this:SetText("1");
+						if ( self:GetText() == "0" ) then
+							self:SetText("1");
 						end
 					</OnTextChanged> 
 					<OnEditFocusLost>
-						this:HighlightText(0, 0);
+						self:HighlightText(0, 0);
 					</OnEditFocusLost>
 					<OnEditFocusGained>
-						this:HighlightText();
+						self:HighlightText();
 					</OnEditFocusGained>
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>

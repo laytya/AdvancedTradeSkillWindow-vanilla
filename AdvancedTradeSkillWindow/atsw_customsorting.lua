@@ -5,7 +5,7 @@ atsw_customheaders={};
 atsw_uncategorized={};
 atsw_opencategory=0;
 
-function ATSWCS_OnLoad()
+function ATSWCS_OnLoad(self)
 	if(atsw_customsorting[UnitName("player")]==nil) then
 		atsw_customsorting[UnitName("player")]={};
 	end
@@ -24,11 +24,11 @@ function ATSWCS_OnLoad()
 	ATSWCS_UpdateSkillList();
 end
 
-function ATSWCS_OnHide()
+function ATSWCS_OnHide(self)
 
 end
 
-function ATSWCSFrame_OnEvent()
+function ATSWCSFrame_OnEvent(self)
 	
 end
 
@@ -290,7 +290,7 @@ function ATSWCS_MoveDown(skillName)
 end
 
 function ATSWCS_Delete(skillName,onlySkill)
-	if(this:GetParent().btype=="header" and onlySkill==nil) then
+	if(self:GetParent().btype=="header" and onlySkill==nil) then
 		for i=1,table.getn(atsw_customheaders[UnitName("player")][atsw_selectedskill]),1 do
 			if(atsw_customheaders[UnitName("player")][atsw_selectedskill][i].name==skillName) then
 				if(atsw_customsorting[UnitName("player")][atsw_selectedskill][atsw_customheaders[UnitName("player")][atsw_selectedskill][i].name]) then
@@ -321,8 +321,8 @@ function ATSWCS_Delete(skillName,onlySkill)
 	ATSWCS_UpdateSkillList();
 end
 
-function ATSWCSCSkillButton_OnClick(skillName)
-	if(this:GetParent().btype=="header") then
+function ATSWCSCSkillButton_OnClick(self,skillName)
+	if(self:GetParent().btype=="header") then
 		for i=1,table.getn(atsw_customheaders[UnitName("player")][atsw_selectedskill]),1 do
 			if(atsw_customheaders[UnitName("player")][atsw_selectedskill][i].name==skillName) then
 				if(atsw_opencategory==i) then
@@ -354,7 +354,7 @@ function ATSWCSCSkillButton_OnClick(skillName)
 	ATSWCS_UpdateSkillList();
 end
 
-function ATSWCSSkillButton_OnClick(skillName)
+function ATSWCSSkillButton_OnClick(self,skillName)
 	if(atsw_opencategory==0) then return; end
 	for i=1,table.getn(atsw_uncategorized),1 do
 		if(atsw_uncategorized[i].name==skillName) then
