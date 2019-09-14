@@ -1064,7 +1064,7 @@ end
 
 function ATSWSubClassDropDown_OnLoad(self)
 	UIDropDownMenu_Initialize( ATSWSubClassDropDown, ATSWSubClassDropDown_Initialize);
-	UIDropDownMenu_SetWidth(120);
+	UIDropDownMenu_SetWidth(ATSWSubClassDropDown, 120);
 	UIDropDownMenu_SetSelectedID(ATSWSubClassDropDown, 1);
 end
 
@@ -1084,32 +1084,34 @@ end
 function ATSWFilterFrame_LoadSubClasses(...)
 	local arg = ...
 	local info = {};
-	if ( getn(arg) > 1 ) then
-		info.text = ALL_SUBCLASSES;
-		info.func = ATSWSubClassDropDownButton_OnClick;
-		info.checked = false;
-		if(atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0) then info.checked=true; end
-		UIDropDownMenu_AddButton(info);
-	end
-	
-	local checked;
-	for i=1, getn(arg), 1 do
-		if (atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
-			checked = nil;
-			UIDropDownMenu_SetText(ALL_SUBCLASSES, ATSWSubClassDropDown);
-			else
-			if(atsw_currentsubclassfilter[atsw_selectedskill] and i==atsw_currentsubclassfilter[atsw_selectedskill]) then
-				checked=true;
-				UIDropDownMenu_SetText(arg[i], ATSWSubClassDropDown);
-				else
-				checked=false;
-			end
+	if arg then -- ROB FIX
+		if ( getn(arg) > 1 ) then
+			info.text = ALL_SUBCLASSES;
+			info.func = ATSWSubClassDropDownButton_OnClick;
+			info.checked = false;
+			if(atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0) then info.checked=true; end
+			UIDropDownMenu_AddButton(info);
 		end
-		info = {};
-		info.text = arg[i];
-		info.func = ATSWSubClassDropDownButton_OnClick;
-		info.checked = checked;
-		UIDropDownMenu_AddButton(info);
+		
+		local checked;
+		for i=1, getn(arg), 1 do
+			if (atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
+				checked = nil;
+				UIDropDownMenu_SetText(ALL_SUBCLASSES, ATSWSubClassDropDown);
+				else
+				if(atsw_currentsubclassfilter[atsw_selectedskill] and i==atsw_currentsubclassfilter[atsw_selectedskill]) then
+					checked=true;
+					UIDropDownMenu_SetText(arg[i], ATSWSubClassDropDown);
+					else
+					checked=false;
+				end
+			end
+			info = {};
+			info.text = arg[i];
+			info.func = ATSWSubClassDropDownButton_OnClick;
+			info.checked = checked;
+			UIDropDownMenu_AddButton(info);
+		end
 	end
 end
 
@@ -1129,37 +1131,39 @@ end
 function ATSWInvSlotDropDown_Initialize(self)
 	local inv_slots = GetTradeSkillInvSlots();
 	if inv_slots == nil then inv_slots = {} end -- ROB FIX
-	ATSWFilterFrame_LoadInvSlots(self, inv_slots);
+	ATSWFilterFrame_LoadInvSlots(inv_slots);
 end
 
 function ATSWFilterFrame_LoadInvSlots(self, arg)
 	local info = {}
-	if (getn(arg) > 1) then
-		info.text = ALL_INVENTORY_SLOTS;
-		info.func = ATSWInvSlotDropDownButton_OnClick;
-		info.checked = false;
-		if(atsw_currentinvslotfilter[atsw_selectedskill]==0) then info.checked=true; end
-		UIDropDownMenu_AddButton(info);
-	end
-	
-	local checked=false;
-	for i=1, getn(arg), 1 do
-		if (atsw_currentinvslotfilter[atsw_selectedskill] and atsw_currentinvslotfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
-			checked = false;
-			UIDropDownMenu_SetText(ALL_INVENTORY_SLOTS, ATSWInvSlotDropDown);
-			else
-			if(atsw_currentinvslotfilter[atsw_selectedskill] and i==atsw_currentinvslotfilter[atsw_selectedskill]) then
-				checked=true;
-				UIDropDownMenu_SetText(arg[i], ATSWInvSlotDropDown);
-				else
-				checked=false;
-			end
+	if arg then -- ROB FIX
+	    if (getn(arg) > 1) then
+			info.text = ALL_INVENTORY_SLOTS;
+			info.func = ATSWInvSlotDropDownButton_OnClick;
+			info.checked = false;
+			if(atsw_currentinvslotfilter[atsw_selectedskill]==0) then info.checked=true; end
+			UIDropDownMenu_AddButton(info);
 		end
-		info = {};
-		info.text = arg[i];
-		info.func = ATSWInvSlotDropDownButton_OnClick;
-		info.checked = checked;
-		UIDropDownMenu_AddButton(info);
+	
+		local checked=false;
+		for i=1, getn(arg), 1 do
+			if (atsw_currentinvslotfilter[atsw_selectedskill] and atsw_currentinvslotfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
+				checked = false;
+				UIDropDownMenu_SetText(ALL_INVENTORY_SLOTS, ATSWInvSlotDropDown);
+				else
+				if(atsw_currentinvslotfilter[atsw_selectedskill] and i==atsw_currentinvslotfilter[atsw_selectedskill]) then
+					checked=true;
+					UIDropDownMenu_SetText(arg[i], ATSWInvSlotDropDown);
+					else
+					checked=false;
+				end
+			end
+			info = {};
+			info.text = arg[i];
+			info.func = ATSWInvSlotDropDownButton_OnClick;
+			info.checked = checked;
+			UIDropDownMenu_AddButton(info);
+		end
 	end
 end
 
@@ -2099,15 +2103,15 @@ end
 
 function ATSWItemButton_OnEnter(self)
     if(self.link) then
-  --   	GameTooltip:SetOwner( "ANCHOR_NONE");
-  --       GameTooltip:SetPoint("BOTTOMLEFT",self:GetName(),"TOPLEFT");
-		-- GameTooltip:SetHyperlink(string.gsub(self.link, "|c(%x+)|H(item:%d+:%d+:%d+:%d+)|h%[(.-)%]|h|r", "%2"));
-  --       GameTooltip:Show();
+    	GameTooltip:SetOwner(self, "ANCHOR_NONE");
+        GameTooltip:SetPoint("BOTTOMLEFT",self:GetName(),"TOPLEFT");
+		GameTooltip:SetHyperlink(string.gsub(self.link, "|c(%x+)|H(item:%d+:%d+:%d+:%d+)|h%[(.-)%]|h|r", "%2"));
+        GameTooltip:Show();
 	end
 end
 
 function ATSWItemButton_OnLeave(self)
-	-- GameTooltip:Hide();
+	GameTooltip:Hide();
 end
 
 function ATSW_TemporaryUseItem(itemname,count)
@@ -2350,7 +2354,7 @@ atsw_recipetooltip=true;
 
 function ATSW_DisplayTradeskillTooltip(self)
 	if(atsw_recipetooltip==false) then return; end
-	ATSWTradeskillTooltip:SetOwner( "ANCHOR_BOTTOMRIGHT",-300);
+	ATSWTradeskillTooltip:SetOwner(ATSWFrame, "ANCHOR_BOTTOMRIGHT",-300);
 	ATSWTradeskillTooltip:SetBackdropColor(0,0,0,1);
 	
 	local tradeskillid=self:GetID();

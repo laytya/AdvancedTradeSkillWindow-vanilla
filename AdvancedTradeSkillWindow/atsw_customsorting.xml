@@ -774,12 +774,12 @@
 		  ATSWCSFrame_OnEvent();
           </OnEvent>
           <OnShow>
-          PlaySound("igBackPackOpen");
+          PlaySound(SOUNDKIT.IG_BACKPACK_OPEN);
 		  ATSWCS_OnLoad();
           </OnShow>
           <OnHide>
 		  ATSWCS_OnHide();
-          PlaySound("igBackPackClose");
+          PlaySound(SOUNDKIT.IG_BACKPACK_CLOSE);
           </OnHide>
         </Scripts>
     </Frame>

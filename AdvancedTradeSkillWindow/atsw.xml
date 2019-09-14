@@ -20,7 +20,7 @@
 			<OnClick function="ATSWSkillButton_OnClick" />
 			<OnEnter>
 				<!-- getglobal(self:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b); ROB FIX -->
-				ATSW_DisplayTradeskillTooltip();
+				ATSW_DisplayTradeskillTooltip(getglobal(self:GetName()));
 			</OnEnter>
 			<OnLeave>
 				<!-- getglobal(self:GetName().."SubText"):SetTextColor(self.r, self.g, self.b); ROB FIX -->
@@ -1111,7 +1111,7 @@
                 <Scripts>
                     <OnClick>
                         if(self:GetChecked()) then
-							PlaySound("igMainMenuOptionCheckBoxOn");
+							PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 							ATSW_OrderBy("nothing");
 							ATSWNameSortButton:SetChecked(false);
 							ATSWDifficultySortButton:SetChecked(false);
@@ -1155,7 +1155,7 @@
                 <Scripts>
                     <OnClick>
                         if(self:GetChecked()) then
-                            PlaySound("igMainMenuOptionCheckBoxOn");
+                            PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 							ATSW_OrderBy("name");
 							ATSWHeaderSortButton:SetChecked(false);
 							ATSWDifficultySortButton:SetChecked(false);
@@ -1199,7 +1199,7 @@
                 <Scripts>
                     <OnClick>
                         if(self:GetChecked()) then
-							PlaySound("igMainMenuOptionCheckBoxOn");
+							PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 							ATSW_OrderBy("difficulty");
 							ATSWNameSortButton:SetChecked(false);
 							ATSWHeaderSortButton:SetChecked(false);
@@ -1243,7 +1243,7 @@
                 <Scripts>
                     <OnClick>
                         if(self:GetChecked()) then
-							PlaySound("igMainMenuOptionCheckBoxOn");
+							PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 							ATSW_OrderBy("custom");
 							ATSWNameSortButton:SetChecked(false);
 							ATSWHeaderSortButton:SetChecked(false);
@@ -2488,7 +2488,7 @@
 			<Scripts>
 				<OnClick>
 					if(self:GetChecked()) then
-						PlaySound("igMainMenuOptionCheckBoxOn");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_multicount=true;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
@@ -2530,7 +2530,7 @@
 			<Scripts>
 				<OnClick>
 					if(self:GetChecked()) then
-						PlaySound("igMainMenuOptionCheckBoxOn");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_multicount=false;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
@@ -2572,7 +2572,7 @@
 			<Scripts>
 				<OnClick>
 					if(self:GetChecked()) then
-						PlaySound("igMainMenuOptionCheckBoxOn");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_considerbank=true;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
@@ -2618,12 +2618,12 @@
 			<Scripts>
 				<OnClick>
 					if(self:GetChecked()) then
-						PlaySound("igMainMenuOptionCheckBoxOn");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_consideralts=true;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
 					else
-						PlaySound("igMainMenuOptionCheckBoxOff");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_consideralts=false;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
@@ -2664,7 +2664,7 @@
 			<Scripts>
 				<OnClick>
 					if(self:GetChecked()) then
-						PlaySound("igMainMenuOptionCheckBoxOn");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_considermerchants=true;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
@@ -2710,7 +2710,7 @@
 			<Scripts>
 				<OnClick>
 					if(self:GetChecked()) then
-						PlaySound("igMainMenuOptionCheckBoxOn");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_autobuy=true;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
@@ -2756,7 +2756,7 @@
 			<Scripts>
 				<OnClick>
 					if(self:GetChecked()) then
-						PlaySound("igMainMenuOptionCheckBoxOn");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_recipetooltip=true;
 					else
 						PlaySound("igMainMenuOptionCheckBoxOff");
@@ -2798,7 +2798,7 @@
 			<Scripts>
 				<OnClick>
 					if(self:GetChecked()) then
-						PlaySound("igMainMenuOptionCheckBoxOn");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_displayshoppinglist=true;
 					else
 						PlaySound("igMainMenuOptionCheckBoxOff");
@@ -3401,7 +3401,7 @@
 				<Scripts>
 					<OnLoad>
 						SmallMoneyFrame_OnLoad(self);
-						MoneyFrame_SetType("STATIC");
+						MoneyFrame_SetType(self, "STATIC");
 					</OnLoad>
 				</Scripts>
 			</Frame>
