@@ -1076,42 +1076,38 @@ function ATSWSubClassDropDown_OnShow(self)
 end
 
 function ATSWSubClassDropDown_Initialize(self)
-	local skill_subs = GetTradeSkillSubClasses();
-	if skill_subs == nil then skill_subs = {} end  -- ROB FIX
+	local skill_subs = {GetTradeSkillSubClasses()};
 	ATSWFilterFrame_LoadSubClasses(skill_subs);
 end
 
-function ATSWFilterFrame_LoadSubClasses(...)
-	local arg = ...
+function ATSWFilterFrame_LoadSubClasses(arg)
 	local info = {};
-	if arg then -- ROB FIX
-		if ( getn(arg) > 1 ) then
-			info.text = ALL_SUBCLASSES;
-			info.func = ATSWSubClassDropDownButton_OnClick;
-			info.checked = false;
-			if(atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0) then info.checked=true; end
-			UIDropDownMenu_AddButton(info);
-		end
-		
-		local checked;
-		for i=1, getn(arg), 1 do
-			if (atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
-				checked = nil;
-				UIDropDownMenu_SetText(ALL_SUBCLASSES, ATSWSubClassDropDown);
+	if ( getn(arg) > 1 ) then
+		info.text = ALL_SUBCLASSES;
+		info.func = ATSWSubClassDropDownButton_OnClick;
+		info.checked = false;
+		if(atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0) then info.checked=true; end
+		UIDropDownMenu_AddButton(info);
+	end
+	
+	local checked;
+	for i=1, getn(arg), 1 do
+		if (atsw_currentsubclassfilter[atsw_selectedskill] and atsw_currentsubclassfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
+			checked = nil;
+			UIDropDownMenu_SetText(ALL_SUBCLASSES, ATSWSubClassDropDown);
+			else
+			if(atsw_currentsubclassfilter[atsw_selectedskill] and i==atsw_currentsubclassfilter[atsw_selectedskill]) then
+				checked=true;
+				UIDropDownMenu_SetText(arg[i], ATSWSubClassDropDown);
 				else
-				if(atsw_currentsubclassfilter[atsw_selectedskill] and i==atsw_currentsubclassfilter[atsw_selectedskill]) then
-					checked=true;
-					UIDropDownMenu_SetText(arg[i], ATSWSubClassDropDown);
-					else
-					checked=false;
-				end
+				checked=false;
 			end
-			info = {};
-			info.text = arg[i];
-			info.func = ATSWSubClassDropDownButton_OnClick;
-			info.checked = checked;
-			UIDropDownMenu_AddButton(info);
 		end
+		info = {};
+		info.text = arg[i];
+		info.func = ATSWSubClassDropDownButton_OnClick;
+		info.checked = checked;
+		UIDropDownMenu_AddButton(info);
 	end
 end
 
@@ -1129,41 +1125,38 @@ function ATSWInvSlotDropDown_OnShow(self)
 end
 
 function ATSWInvSlotDropDown_Initialize(self)
-	local inv_slots = GetTradeSkillInvSlots();
-	if inv_slots == nil then inv_slots = {} end -- ROB FIX
+	local inv_slots = {GetTradeSkillInvSlots()};
 	ATSWFilterFrame_LoadInvSlots(inv_slots);
 end
 
-function ATSWFilterFrame_LoadInvSlots(self, arg)
+function ATSWFilterFrame_LoadInvSlots(arg)
 	local info = {}
-	if arg then -- ROB FIX
-	    if (getn(arg) > 1) then
-			info.text = ALL_INVENTORY_SLOTS;
-			info.func = ATSWInvSlotDropDownButton_OnClick;
-			info.checked = false;
-			if(atsw_currentinvslotfilter[atsw_selectedskill]==0) then info.checked=true; end
-			UIDropDownMenu_AddButton(info);
-		end
-	
-		local checked=false;
-		for i=1, getn(arg), 1 do
-			if (atsw_currentinvslotfilter[atsw_selectedskill] and atsw_currentinvslotfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
-				checked = false;
-				UIDropDownMenu_SetText(ALL_INVENTORY_SLOTS, ATSWInvSlotDropDown);
+    if (getn(arg) > 1) then
+		info.text = ALL_INVENTORY_SLOTS;
+		info.func = ATSWInvSlotDropDownButton_OnClick;
+		info.checked = false;
+		if(atsw_currentinvslotfilter[atsw_selectedskill]==0) then info.checked=true; end
+		UIDropDownMenu_AddButton(info);
+	end
+
+	local checked=false;
+	for i=1, getn(arg), 1 do
+		if (atsw_currentinvslotfilter[atsw_selectedskill] and atsw_currentinvslotfilter[atsw_selectedskill]==0 and getn(arg) > 1) then
+			checked = false;
+			UIDropDownMenu_SetText(ALL_INVENTORY_SLOTS, ATSWInvSlotDropDown);
+			else
+			if(atsw_currentinvslotfilter[atsw_selectedskill] and i==atsw_currentinvslotfilter[atsw_selectedskill]) then
+				checked=true;
+				UIDropDownMenu_SetText(arg[i], ATSWInvSlotDropDown);
 				else
-				if(atsw_currentinvslotfilter[atsw_selectedskill] and i==atsw_currentinvslotfilter[atsw_selectedskill]) then
-					checked=true;
-					UIDropDownMenu_SetText(arg[i], ATSWInvSlotDropDown);
-					else
-					checked=false;
-				end
+				checked=false;
 			end
-			info = {};
-			info.text = arg[i];
-			info.func = ATSWInvSlotDropDownButton_OnClick;
-			info.checked = checked;
-			UIDropDownMenu_AddButton(info);
 		end
+		info = {};
+		info.text = arg[i];
+		info.func = ATSWInvSlotDropDownButton_OnClick;
+		info.checked = checked;
+		UIDropDownMenu_AddButton(info);
 	end
 end
 

@@ -20,7 +20,7 @@
 			<OnClick function="ATSWSkillButton_OnClick" />
 			<OnEnter>
 				<!-- getglobal(self:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b); ROB FIX -->
-				ATSW_DisplayTradeskillTooltip(getglobal(self:GetName()));
+				ATSW_DisplayTradeskillTooltip(self, getglobal(self:GetName()));
 			</OnEnter>
 			<OnLeave>
 				<!-- getglobal(self:GetName().."SubText"):SetTextColor(self.r, self.g, self.b); ROB FIX -->
@@ -149,7 +149,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWDBF_OnOK(self:GetParent():GetName());
+						ATSWDBF_OnOK(self, self:GetParent():GetName());
 						self:GetParent():Hide();
 					</OnClick>
 				</Scripts>
@@ -171,7 +171,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSWDBF_OnAbort(self:GetParent():GetName());
+						ATSWDBF_OnAbort(self, self:GetParent():GetName());
 						self:GetParent():Hide();
 					</OnClick>
 				</Scripts>
@@ -355,10 +355,10 @@
 				CursorOnUpdate(self);
 			</OnUpdate>
 			<OnClick>
-				ATSW_ItemOnClick(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, self:GetID()));
+				ATSW_ItemOnClick(self, ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, self:GetID()));
 			</OnClick>
 		<OnDoubleClick>
-				ATSW_ItemOnDoubleClick()
+				ATSW_ItemOnDoubleClick(self)
 			</OnDoubleClick>
 		</Scripts>
 	</Button>
@@ -667,7 +667,7 @@
                 </Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_HideWindow();
+						ATSW_HideWindow(self);
 					</OnClick>
 				</Scripts>
             </Button>
@@ -734,7 +734,7 @@
 					</OnLoad>
 					<OnEvent>
 						if ( event == "SKILL_LINES_CHANGED" ) then
-							ATSWFrame_Update();
+							ATSWFrame_Update(self);
 						end
 					</OnEvent>
 				</Scripts>
@@ -1039,7 +1039,7 @@
 						</Anchors>
 						<Scripts>
 							<OnLoad>
-								getglobal(self:GetName()):SetText(self,ALL);
+								getglobal(self:GetName()):SetText(self, ALL);
 							</OnLoad>
 							<OnClick>
 								ATSWCollapseAllButton_OnClick(self);
@@ -1059,10 +1059,10 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						ATSWInvSlotDropDown_OnLoad();
+						C_Timer.After(0, ATSWInvSlotDropDown_OnLoad);
 					</OnLoad>
 					<OnShow>
-						ATSWInvSlotDropDown_OnShow();
+						C_Timer.After(0, ATSWInvSlotDropDown_OnShow);
 					</OnShow>
 				</Scripts>
 			</Frame>
@@ -1079,7 +1079,7 @@
 						ATSWSubClassDropDown_OnLoad(self);
 					</OnLoad>
 					<OnShow>
-						ATSWSubClassDropDown_OnShow(self);
+						C_Timer.After(0, ATSWSubClassDropDown_OnShow);
 					</OnShow>
 				</Scripts>
 			</Frame>
@@ -1112,7 +1112,7 @@
                     <OnClick>
                         if(self:GetChecked()) then
 							PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-							ATSW_OrderBy("nothing");
+							ATSW_OrderBy(self, "nothing");
 							ATSWNameSortButton:SetChecked(false);
 							ATSWDifficultySortButton:SetChecked(false);
 							ATSWCustomSortButton:SetChecked(false);
@@ -1156,7 +1156,7 @@
                     <OnClick>
                         if(self:GetChecked()) then
                             PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-							ATSW_OrderBy("name");
+							ATSW_OrderBy(self, "name");
 							ATSWHeaderSortButton:SetChecked(false);
 							ATSWDifficultySortButton:SetChecked(false);
 							ATSWCustomSortButton:SetChecked(false);
@@ -1200,7 +1200,7 @@
                     <OnClick>
                         if(self:GetChecked()) then
 							PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-							ATSW_OrderBy("difficulty");
+							ATSW_OrderBy(self, "difficulty");
 							ATSWNameSortButton:SetChecked(false);
 							ATSWHeaderSortButton:SetChecked(false);
 							ATSWCustomSortButton:SetChecked(false);
@@ -1244,7 +1244,7 @@
                     <OnClick>
                         if(self:GetChecked()) then
 							PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-							ATSW_OrderBy("custom");
+							ATSW_OrderBy(self, "custom");
 							ATSWNameSortButton:SetChecked(false);
 							ATSWHeaderSortButton:SetChecked(false);
 							ATSWDifficultySortButton:SetChecked(false);
@@ -1291,7 +1291,7 @@
 						self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 					</OnLoad>
 					<OnClick>
-						ATSW_ItemOnClick(ATSW_GetTradeSkillItemLink(ATSWFrame.selectedSkill));
+						ATSW_ItemOnClick(self, ATSW_GetTradeSkillItemLink(ATSWFrame.selectedSkill));
 						
 						
 					</OnClick>
@@ -1402,12 +1402,12 @@
 				<Scripts>
 					<OnClick>
 						if(ATSWFrame.selectedSkillName~=nil) then
-							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
-							ATSWFrame_UpdateQueue();
+							ATSW_AddJob(self, ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
+							ATSWFrame_UpdateQueue(self);
 							ATSWInputBox:ClearFocus();
 							if(not atsw_processing) then
-							ATSW_StartStopProcessing();
-						end
+								ATSW_StartStopProcessing(self);
+							end
 						end
 					</OnClick>
 				</Scripts>
@@ -1426,8 +1426,8 @@
 				<Scripts>
 					<OnClick>
 						if(ATSWFrame.selectedSkillName~=nil) then
-							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
-							ATSWFrame_UpdateQueue();
+							ATSW_AddJob(self, ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
+							ATSWFrame_UpdateQueue(self);
 						end
 					</OnClick>
 				</Scripts>
@@ -1447,10 +1447,10 @@
 					<OnClick>
 						if(ATSWFrame.numAvailable>0 and ATSWFrame.selectedSkillName~=nil) then
 							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSW_GetNumItemsPossibleWithInventory(ATSWFrame.selectedSkillName));
-							ATSWFrame_UpdateQueue();
+							ATSWFrame_UpdateQueue(self);
 							ATSWInputBox:ClearFocus();
 							if(not atsw_processing) then
-							ATSW_StartStopProcessing();
+							ATSW_StartStopProcessing(self);
 						end
 						end
 					</OnClick>
@@ -1471,7 +1471,7 @@
 					<OnClick>
 						if(ATSWFrame.numAvailable>0 and ATSWFrame.selectedSkillName~=nil) then
 							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSWFrame.numAvailable);
-							ATSWFrame_UpdateQueue();
+							ATSWFrame_UpdateQueue(self);
 						end
 					</OnClick>
 				</Scripts>
@@ -1608,7 +1608,7 @@
                 <HighlightTexture file="Interface\Buttons\ButtonHilight-Round" alphaMode="ADD"/>
                 <Scripts>
                     <OnClick>
-                        ATSW_GoToPreviousRecipe()
+                        ATSW_GoToPreviousRecipe(self)
                     </OnClick>
                 </Scripts>
             </Button>
@@ -1635,7 +1635,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(self.jobindex);
+						ATSW_DeleteJob(self, self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1662,7 +1662,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(self.jobindex);
+						ATSW_DeleteJob(self, self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1689,7 +1689,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(self.jobindex);
+						ATSW_DeleteJob(self, self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1716,7 +1716,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(self.jobindex);
+						ATSW_DeleteJob(self, self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1756,12 +1756,12 @@
 							ATSWQueueStartStopButton:Disable();
 							ATSWQueueStartStopButton:SetText(self,ATSW_STARTQUEUE);
 							if(table.getn(atsw_queue)>0) then
-								ATSW_ProcessIt();
+								ATSW_ProcessIt(self);
 							else
-						ATSW_StartStopProcessing();
+								ATSW_StartStopProcessing(self);
 							end
 						else
-							ATSW_StartStopProcessing();
+							ATSW_StartStopProcessing(self);
 						end
 					</OnClick>
 				</Scripts>
@@ -1779,7 +1779,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_Enchant();
+						ATSW_Enchant(self);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1797,10 +1797,10 @@
 				<Scripts>
 					<OnClick>
 						if(ATSWQueueStartStopButton:GetText()==ATSW_CONTINUEQUEUE) then
-							ATSW_StartStopProcessing();
+							ATSW_StartStopProcessing(self);
 						end
-						ATSW_SpellcastInterrupted();
-						ATSW_DeleteQueue();
+						ATSW_SpellcastInterrupted(self);
+						ATSW_DeleteQueue(self);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1817,7 +1817,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_ToggleReagentFrame();
+						ATSW_ToggleReagentFrame(self);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1834,7 +1834,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_ToggleOptionsFrame();
+						ATSW_ToggleOptionsFrame(self);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1851,7 +1851,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_ToggleCSFrame();
+						ATSW_ToggleCSFrame(self);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1915,7 +1915,7 @@
 						self:ClearFocus();
 					</OnEscapePressed>
 					<OnTextChanged>
-						ATSW_UpdateFilter(self:GetText());
+						ATSW_UpdateFilter(self, self:GetText());
 					</OnTextChanged> 
 					<OnEditFocusLost>
 						self:HighlightText(0, 0);
@@ -1942,7 +1942,7 @@
 						self:SetText(self,"X");
 					</OnLoad>
 					<OnClick>
-						ATSWFilterBox:SetText(self,"")
+						ATSWFilterBox:SetText(self, "")
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -2089,7 +2089,7 @@
                 </Anchors>
 				<Scripts>
 				  <OnClick>
-					ATSWAlt_GetItemLocation(self.itemname);
+					ATSWAlt_GetItemLocation(self, self.itemname);
 				  </OnClick>
 				</Scripts>
             </Button>
