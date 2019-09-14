@@ -17,15 +17,13 @@
 			<OnLoad>
 				self:SetFrameLevel(self:GetFrameLevel() + 1);
 			</OnLoad>
-			<OnClick>
-				ATSWSkillButton_OnClick(self, arg1);
-			</OnClick>
+			<OnClick function="ATSWSkillButton_OnClick" />
 			<OnEnter>
-				getglobal(self:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+				<!-- getglobal(self:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b); ROB FIX -->
 				ATSW_DisplayTradeskillTooltip();
 			</OnEnter>
 			<OnLeave>
-				getglobal(self:GetName().."SubText"):SetTextColor(self.r, self.g, self.b);
+				<!-- getglobal(self:GetName().."SubText"):SetTextColor(self.r, self.g, self.b); ROB FIX -->
 				ATSWTradeskillTooltip:Hide();
 			</OnLeave>
 		</Scripts>
@@ -354,7 +352,7 @@
 				ResetCursor();
 			</OnLeave>
 			<OnUpdate>
-				CursorOnUpdate();
+				CursorOnUpdate(self);
 			</OnUpdate>
 			<OnClick>
 				ATSW_ItemOnClick(ATSW_GetTradeSkillReagentItemLink(ATSWFrame.selectedSkill, self:GetID()));
@@ -367,9 +365,7 @@
 
 	<Frame name="ATSWCheckerFrame" frameStrata="LOW" enableMouse="false" hidden="true">
     	<Scripts>
-    		<OnUpdate>
-    			ATSW_CheckForTradeSkillWindow(arg1);
-    		</OnUpdate>
+    		<OnUpdate function="ATSW_CheckForTradeSkillWindow" />
     	</Scripts>
     </Frame>
 
@@ -1063,7 +1059,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						ATSWInvSlotDropDown_OnLoad(self);
+						ATSWInvSlotDropDown_OnLoad();
 					</OnLoad>
 					<OnShow>
 						ATSWInvSlotDropDown_OnShow();
@@ -1315,7 +1311,7 @@
 						ResetCursor();
 					</OnLeave>
 					<OnUpdate>
-						CursorOnUpdate();
+						CursorOnUpdate(self);
 					</OnUpdate>
 				</Scripts>
 			</Button>
@@ -3394,9 +3390,7 @@
 					</Anchor>
 				</Anchors>
 				<Scripts>
-					<OnValueChanged>
-						HealthBar_OnValueChanged(self, arg1);
-					</OnValueChanged>
+					<OnValueChanged function="HealthBar_OnValueChanged" />
 				</Scripts>
 				<BarTexture name="$parentTexture" file="Interface\TargetingFrame\UI-TargetingFrame-BarFill"/>
 			</StatusBar>
@@ -3422,12 +3416,8 @@
 			<OnTooltipSetDefaultAnchor>
 				GameTooltip_SetDefaultAnchor(self, UIParent);
 			</OnTooltipSetDefaultAnchor>
-			<OnTooltipAddMoney>
-				SetTooltipMoney(self, arg1);
-			</OnTooltipAddMoney>
-			<OnTooltipCleared>
-				GameTooltip_ClearMoney(self);
-			</OnTooltipCleared>
+			<OnTooltipAddMoney function="SetTooltipMoney" />
+			<OnTooltipCleared function="GameTooltip_ClearMoney" />
 		</Scripts>
 	</GameTooltip>
 

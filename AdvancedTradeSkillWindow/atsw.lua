@@ -64,7 +64,6 @@ function setn(t,n)
 end
 
 function ATSW_OnLoad(self)
-	ATSW_DisplayMessage("Starting ATSW onLoad")
 	SLASH_ATSW1 = "/atsw";
 	SlashCmdList["ATSW"] = ATSW_Command;
 	self:RegisterEvent("TRADE_SKILL_UPDATE");
@@ -89,7 +88,6 @@ function ATSW_OnLoad(self)
 	self:RegisterEvent("CRAFT_CLOSE");
 	self:RegisterEvent("PLAYER_LOGOUT");
 	self:RegisterEvent("UI_ERROR_MESSAGE");
-	ATSW_DisplayMessage("Done ATSW onLoad")
 end
 
 function ATSW_ShowWindow(self)
@@ -221,11 +219,11 @@ end
 
 function ATSW_Command(cmd)
 	if(cmd=="show") then
-		ATSW_ShowWindow(self);
+		ATSW_ShowWindow();
 		elseif(cmd=="disable") then
-		ATSW_DisableForActiveTradeskill(self);
+		ATSW_DisableForActiveTradeskill();
 		elseif(cmd=="enable") then
-		ATSW_EnableForActiveTradeskill(self);
+		ATSW_EnableForActiveTradeskill();
 		elseif(cmd=="reagents") then
 		ShowUIPanel(ATSWAllReagentListFrame);
 	end
@@ -270,7 +268,7 @@ function ATSW_EnableForActiveTradeskill(self)
 		end
 		else
 		if(TradeSkillFrame and TradeSkillFrame:IsVisible()) then
-			ATSW_DisplayMessage("atsw_selectedskill is '"..atsw_selectedskill.."'");
+			-- ATSW_DisplayMessage("atsw_selectedskill is '"..atsw_selectedskill.."'");
 			atsw_disabled[UnitName("player")][atsw_selectedskill]=0;
 			ATSW_ShowWindow();
 			TradeSkillFrame:SetAlpha(0);
@@ -310,10 +308,10 @@ function ATSW_CheckForTradeSkillWindow(self, arg1)
 				ATSWQueueDeleteButton:Enable();
 				ATSWQueueStartStopButton:SetText(ATSW_STARTQUEUE);
 				atsw_processing=false;
-				ATSWFrame:UnregisterEvent("SPELLCAST_STOP");
-				ATSWFrame:UnregisterEvent("SPELLCAST_CHANNEL_STOP");
-				ATSWFrame:UnregisterEvent("SPELLCAST_START");
-				ATSWFrame:UnregisterEvent("SPELLCAST_INTERRUPTED");
+				ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_STOP");
+				ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_STOP");
+				ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_START");
+				ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_INTERRUPTED");
 			end
 		end
 		if(atsw_retry==true) then
@@ -437,11 +435,11 @@ function ATSWFrame_OnEvent(self, event, ...)
 		end
 		elseif(event=="UPDATE_TRADESKILL_RECAST") then
 		ATSWInputBox:SetNumber(GetTradeskillRepeatCount());
-		elseif(event=="SPELLCAST_STOP" or event=="SPELLCAST_CHANNEL_STOP") then
+		elseif(event=="UNIT_SPELLCAST_STOP" or event=="UNIT_SPELLCAST_CHANNEL_STOP") then
 		ATSW_SpellcastStop();
-		elseif(event=="SPELLCAST_START") then
+		elseif(event=="UNIT_SPELLCAST_START") then
 		ATSW_SpellcastStart();
-		elseif(event=="SPELLCAST_INTERRUPTED") then
+		elseif(event=="UNIT_SPELLCAST_INTERRUPTED") then
 		ATSW_SpellcastInterrupted();
 		elseif(event=="TRAINER_CLOSED") then
 		ATSW_ResetPossibleItemCounts();
@@ -661,7 +659,7 @@ function ATSWFrame_Update(self)
 				end
 				local color=ATSWTypeColor[skillType];
 				if(color) then
-					skillButton:SetTextColor(color.r, color.g, color.b);
+					-- skillButton:SetTextColor(color.r, color.g, color.b);-- ROB FIX
 				end
 				
 				if(atsw_skilllisting[skillIndex] and atsw_skilllisting[skillIndex].id) then
@@ -762,7 +760,7 @@ function ATSWFrame_Update(self)
 				end
 				local color=ATSWTypeColor[skillType];
 				if(color) then
-					skillButton:SetTextColor(color.r, color.g, color.b);
+					-- skillButton:SetTextColor(color.r, color.g, color.b);-- ROB FIX
 				end
 				
 				skillButton:SetID(skillIndex);
@@ -848,10 +846,10 @@ function ATSWFrame_SetSelection(id,wasClicked)
 -- pullreq#1	
 	if atsw_oldmode then
 		skillName, craftSubSpellName, skillType, numAvailable = GetCraftInfo(id)
-		ATSWSkillName:SetTest();
+		ATSWSkillName:SetText();
 	else
 		skillName, skillType, numAvailable = GetTradeSkillInfo(id)
-		ATSWSkillName:SetTest();		
+		ATSWSkillName:SetText();		
 	end
 -- /pullreq#1	
 	local skillOffset = FauxScrollFrame_GetOffset(ATSWListScrollFrame);
@@ -947,10 +945,10 @@ function ATSWFrame_SetSelection(id,wasClicked)
 			-- Grayout items
 			if(playerReagentCount<reagentCount) then
 				SetItemButtonTextureVertexColor(reagent, 0.5, 0.5, 0.5);
-				name:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+				-- name:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b); -- ROB FIX
 				else
 				SetItemButtonTextureVertexColor(reagent, 1.0, 1.0, 1.0);
-				name:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+				-- name:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);-- ROB FIX
 			end
 			if(playerReagentCount>=100) then
 				playerReagentCount = "*";
@@ -1080,7 +1078,7 @@ end
 function ATSWSubClassDropDown_Initialize(self)
 	local skill_subs = GetTradeSkillSubClasses();
 	if skill_subs == nil then skill_subs = {} end  -- ROB FIX
-	ATSWFilterFrame_LoadSubClasses(skill_subs());
+	ATSWFilterFrame_LoadSubClasses(skill_subs);
 end
 
 function ATSWFilterFrame_LoadSubClasses(...)
@@ -1131,11 +1129,10 @@ end
 function ATSWInvSlotDropDown_Initialize(self)
 	local inv_slots = GetTradeSkillInvSlots();
 	if inv_slots == nil then inv_slots = {} end -- ROB FIX
-	ATSWFilterFrame_LoadInvSlots(inv_slots);
+	ATSWFilterFrame_LoadInvSlots(self, inv_slots);
 end
 
-function ATSWFilterFrame_LoadInvSlots(...)
-	local arg = ...
+function ATSWFilterFrame_LoadInvSlots(self, arg)
 	local info = {}
 	if (getn(arg) > 1) then
 		info.text = ALL_INVENTORY_SLOTS;
@@ -1452,10 +1449,10 @@ atsw_lastremoved="";
 function ATSW_StartProcessing(self)
 	atsw_retries=0;
 	atsw_retry=false;
-	ATSWFrame:RegisterEvent("SPELLCAST_STOP");
-	ATSWFrame:RegisterEvent("SPELLCAST_START");
-	ATSWFrame:RegisterEvent("SPELLCAST_CHANNEL_STOP");
-	ATSWFrame:RegisterEvent("SPELLCAST_INTERRUPTED");
+	ATSWFrame:RegisterEvent("UNIT_SPELLCAST_STOP");
+	ATSWFrame:RegisterEvent("UNIT_SPELLCAST_START");
+	ATSWFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP");
+	ATSWFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED");
 	ATSW_ProcessNextQueueItem(true);	
 end
 
@@ -1507,10 +1504,10 @@ function ATSW_SpellcastStop(self)
 		ATSWQueueStartStopButton:Enable();
 		ATSWQueueStartStopButton:SetText(ATSW_STARTQUEUE);
 		ATSWQueueDeleteButton:Enable();
-		ATSWFrame:UnregisterEvent("SPELLCAST_STOP");
-		ATSWFrame:UnregisterEvent("SPELLCAST_START");
-		ATSWFrame:UnregisterEvent("SPELLCAST_CHANNEL_STOP");
-		ATSWFrame:UnregisterEvent("SPELLCAST_INTERRUPTED");
+		ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_STOP");
+		ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_START");
+		ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_STOP");
+		ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_INTERRUPTED");
 	end
 end
 
@@ -1530,10 +1527,10 @@ function ATSW_SpellcastInterrupted(self)
 		ATSWQueueStartStopButton:SetText(ATSW_STARTQUEUE);
 		atsw_processing=false;
 		atsw_interrupted=true;
-		ATSWFrame:UnregisterEvent("SPELLCAST_STOP");
-		ATSWFrame:UnregisterEvent("SPELLCAST_START");
-		ATSWFrame:UnregisterEvent("SPELLCAST_CHANNEL_STOP");
-		ATSWFrame:UnregisterEvent("SPELLCAST_INTERRUPTED");
+		ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_STOP");
+		ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_START");
+		ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_STOP");
+		ATSWFrame:UnregisterEvent("UNIT_SPELLCAST_INTERRUPTED");
 	end
 end
 
@@ -2046,17 +2043,17 @@ function ATSW_ShowNecessaryReagents(self)
 			inv:Disable();
 			inv:Show();
 			if(items_inventory>=atsw_necessaryitems[i].cnt) then
-				inv:SetDisabledTextColor(0,1,0);
+				-- inv:SetDisabledTextColor(0,1,0); -- ROB FIX
 				else
-				inv:SetDisabledTextColor(1,0,0);
+				-- inv:SetDisabledTextColor(1,0,0); -- ROB FIX
 			end
 			bank:SetText(items_bank);
 			bank:Disable();
 			bank:Show();
 			if(items_bank>=atsw_necessaryitems[i].cnt) then
-				bank:SetDisabledTextColor(0,1,0);
+				-- bank:SetDisabledTextColor(0,1,0); -- ROB FIX
 				else
-				bank:SetDisabledTextColor(1,0,0);
+				-- bank:SetDisabledTextColor(1,0,0); -- ROB FIX
 			end
 			merchant:SetText("X");
 			merchant:Disable();
@@ -2074,16 +2071,16 @@ function ATSW_ShowNecessaryReagents(self)
 			end
 			alt:Show();
 			if(items_alt>=atsw_necessaryitems[i].cnt) then
-				alt:SetDisabledTextColor(0,1,0);
+				-- alt:SetDisabledTextColor(0,1,0); -- ROB FIX
 				else
-				alt:SetDisabledTextColor(1,0,0);
+				-- alt:SetDisabledTextColor(1,0,0); -- ROB FIX
 			end
 			if(items_missing>=0) then
 				missing:SetText("+"..items_missing);
-				missing:SetDisabledTextColor(0,1,0);
+				-- missing:SetDisabledTextColor(0,1,0); -- ROB FIX
 				else
 				missing:SetText(items_missing);
-				missing:SetDisabledTextColor(1,0,0);
+				-- missing:SetDisabledTextColor(1,0,0); -- ROB FIX
 			end
 			missing:Disable();
 			missing:Show();
@@ -2102,15 +2099,15 @@ end
 
 function ATSWItemButton_OnEnter(self)
     if(self.link) then
-    	GameTooltip:SetOwner( "ANCHOR_NONE");
-        GameTooltip:SetPoint("BOTTOMLEFT",self:GetName(),"TOPLEFT");
-		GameTooltip:SetHyperlink(string.gsub(self.link, "|c(%x+)|H(item:%d+:%d+:%d+:%d+)|h%[(.-)%]|h|r", "%2"));
-        GameTooltip:Show();
+  --   	GameTooltip:SetOwner( "ANCHOR_NONE");
+  --       GameTooltip:SetPoint("BOTTOMLEFT",self:GetName(),"TOPLEFT");
+		-- GameTooltip:SetHyperlink(string.gsub(self.link, "|c(%x+)|H(item:%d+:%d+:%d+:%d+)|h%[(.-)%]|h|r", "%2"));
+  --       GameTooltip:Show();
 	end
 end
 
 function ATSWItemButton_OnLeave(self)
-	GameTooltip:Hide();
+	-- GameTooltip:Hide();
 end
 
 function ATSW_TemporaryUseItem(itemname,count)
@@ -2721,17 +2718,17 @@ function ATSWAuction_UpdateReagentList(self)
 			inv:Disable();
 			inv:Show();
 			if(items_inventory>=atsw_necessaryitems[offset+i].cnt) then
-				inv:SetDisabledTextColor(0,1,0);
+				-- inv:SetDisabledTextColor(0,1,0); -- ROB FIX
 				else
-				inv:SetDisabledTextColor(1,0,0);
+				-- inv:SetDisabledTextColor(1,0,0); -- ROB FIX
 			end
 			bank:SetText(items_bank);
 			bank:Disable();
 			bank:Show();
 			if(items_bank>=atsw_necessaryitems[offset+i].cnt) then
-				bank:SetDisabledTextColor(0,1,0);
+				-- bank:SetDisabledTextColor(0,1,0); -- ROB FIX
 				else
-				bank:SetDisabledTextColor(1,0,0);
+				-- bank:SetDisabledTextColor(1,0,0); -- ROB FIX
 			end
 			merchant:SetText("X");
 			merchant:Disable();
@@ -2749,16 +2746,16 @@ function ATSWAuction_UpdateReagentList(self)
 			end
 			alt:Show();
 			if(items_alt>=atsw_necessaryitems[offset+i].cnt) then
-				alt:SetDisabledTextColor(0,1,0);
+				-- alt:SetDisabledTextColor(0,1,0); -- ROB FIX
 				else
-				alt:SetDisabledTextColor(1,0,0);
+				-- alt:SetDisabledTextColor(1,0,0); -- ROB FIX
 			end
 			if(items_missing>=0) then
 				missing:SetText("+"..items_missing);
-				missing:SetDisabledTextColor(0,1,0);
+				-- missing:SetDisabledTextColor(0,1,0); -- ROB FIX
 				else
 				missing:SetText(items_missing);
-				missing:SetDisabledTextColor(1,0,0);
+				-- missing:SetDisabledTextColor(1,0,0); -- ROB FIX
 			end
 			missing:Disable();
 			missing:Show();
@@ -2777,7 +2774,7 @@ end
 
 function ATSWAuction_SearchForItem(itemname)
 	if aux_frame:IsVisible() then
-		local _,_,linkid = string.find(self.link, 'item:(%d+)') 
+		local _,_,linkid = string.find(self.link, 'item:(%d+)')
 		local linkout
 		if not linkid then
 			_,_,linkid = string.find(link, 'enchant:(%d+)')
