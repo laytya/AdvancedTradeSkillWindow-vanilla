@@ -2577,7 +2577,7 @@
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
 					else
-						PlaySound("igMainMenuOptionCheckBoxOff");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_considerbank=false;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
@@ -2669,7 +2669,7 @@
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
 					else
-						PlaySound("igMainMenuOptionCheckBoxOff");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_considermerchants=false;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
@@ -2715,7 +2715,7 @@
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
 					else
-						PlaySound("igMainMenuOptionCheckBoxOff");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_autobuy=false;
 						ATSW_ResetPossibleItemCounts();
 						ATSWFrame_Update();
@@ -2759,7 +2759,7 @@
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_recipetooltip=true;
 					else
-						PlaySound("igMainMenuOptionCheckBoxOff");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_recipetooltip=false;
 					end
 				</OnClick>
@@ -2801,7 +2801,7 @@
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_displayshoppinglist=true;
 					else
-						PlaySound("igMainMenuOptionCheckBoxOff");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_displayshoppinglist=false;
 					end
 				</OnClick>
