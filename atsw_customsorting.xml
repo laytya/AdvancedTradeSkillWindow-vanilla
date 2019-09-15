@@ -16,13 +16,13 @@
 				self:SetFrameLevel(self:GetFrameLevel() + 1);
 			</OnLoad>
 			<OnClick>
-				ATSWCSSkillButton_OnClick(this.skillname);
+				ATSWCSSkillButton_OnClick(self.skillname);
 			</OnClick>
 			<OnEnter>
 				getglobal(self:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 			</OnEnter>
 			<OnLeave>
-				getglobal(self:GetName().."SubText"):SetTextColor(this.r, this.g, this.b);
+				getglobal(self:GetName().."SubText"):SetTextColor(self.r, self.g, self.b);
 			</OnLeave>
 		</Scripts>
 		<ButtonText name="$parentText" inherits="GameFontNormal" justifyH="LEFT">
@@ -62,7 +62,7 @@
 				getglobal(self:GetName().."SubText"):SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 			</OnEnter>
 			<OnLeave>
-				getglobal(self:GetName().."SubText"):SetTextColor(this.r, this.g, this.b);
+				getglobal(self:GetName().."SubText"):SetTextColor(self.r, self.g, self.b);
 			</OnLeave>
 		</Scripts>
 		<NormalTexture file="Interface\Buttons\UI-MinusButton-UP">

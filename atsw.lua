@@ -566,7 +566,7 @@ function ATSW_CompareDifficulty(i,j)
 	return string.lower(i.skilltype) > string.lower(j.skilltype);
 end
 
-function ATSW_OrderBy(order)
+function ATSW_OrderBy(self, order)
 	atsw_orderby[UnitName("player")][atsw_selectedskill]=order;
 	atsw_is_sorted=false;
 	ATSW_CreateSkillListing();
@@ -2126,7 +2126,7 @@ end
 
 atsw_filter="";
 
-function ATSW_UpdateFilter(self, filtertext)
+function ATSW_UpdateFilter(filtertext)
 	atsw_filter=filtertext;
 	ATSWFrame_Update();	
 end

@@ -63,7 +63,13 @@ function ATSWCS_UpdateSkillList()
 			skillbutton.skillname=atsw_uncategorized[offset+i].name;
 			local color=ATSWTypeColor[atsw_uncategorized[offset+i].type];
 			if(color) then
-				skillbutton:SetTextColor(color.r, color.g, color.b);
+				local font_obj = skillbutton:GetNormalFontObject();
+				if not font_obj then
+					skillbutton:SetNormalFontObject("GameFontNormal");
+					font_obj = skillbutton:GetNormalFontObject();
+				end
+				font_obj:SetTextColor(color.r, color.g, color.b);
+				skillbutton:SetNormalFontObject(font_obj);
 			end
 		else
 			skillbutton:Hide();

@@ -1039,7 +1039,7 @@
 						</Anchors>
 						<Scripts>
 							<OnLoad>
-								getglobal(self:GetName()):SetText(self, ALL);
+								getglobal(self:GetName()):SetText(ALL);
 							</OnLoad>
 							<OnClick>
 								ATSWCollapseAllButton_OnClick(self);
@@ -1558,7 +1558,7 @@
 					</OnEscapePressed>
 					<OnTextChanged>
 						if ( self:GetText() == "0" ) then
-							self:SetText(self,"1");
+							self:SetText("1");
 						end
 					</OnTextChanged> 
 					<OnEditFocusLost>
@@ -1754,7 +1754,7 @@
 					<OnClick>
 						if(self:GetText()==ATSW_CONTINUEQUEUE) then
 							ATSWQueueStartStopButton:Disable();
-							ATSWQueueStartStopButton:SetText(self,ATSW_STARTQUEUE);
+							ATSWQueueStartStopButton:SetText(ATSW_STARTQUEUE);
 							if(table.getn(atsw_queue)>0) then
 								ATSW_ProcessIt(self);
 							else
@@ -1939,10 +1939,10 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						self:SetText(self,"X");
+						self:SetText("X");
 					</OnLoad>
 					<OnClick>
-						ATSWFilterBox:SetText(self, "")
+						ATSWFilterBox:SetText("")
 					</OnClick>
 				</Scripts>
 			</Button>
