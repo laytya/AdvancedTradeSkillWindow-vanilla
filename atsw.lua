@@ -810,7 +810,7 @@ function ATSWFrame_Update(self)
 	end
 end
 
-function ATSWSkillButton_OnClick(button)
+function ATSWSkillButton_OnClick(self, button)
 	if(button=="LeftButton") then
 		ATSWFrame_SetSelection(self:GetID(),true);
 		ATSWFrame_Update();
