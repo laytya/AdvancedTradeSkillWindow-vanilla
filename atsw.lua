@@ -2126,7 +2126,7 @@ end
 
 atsw_filter="";
 
-function ATSW_UpdateFilter(filtertext)
+function ATSW_UpdateFilter(self, filtertext)
 	atsw_filter=filtertext;
 	ATSWFrame_Update();	
 end
