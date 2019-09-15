@@ -1915,7 +1915,7 @@
 						self:ClearFocus();
 					</OnEscapePressed>
 					<OnTextChanged>
-						ATSW_UpdateFilter(self, self:GetText());
+						ATSW_UpdateFilter(self:GetText());
 					</OnTextChanged> 
 					<OnEditFocusLost>
 						self:HighlightText(0, 0);
