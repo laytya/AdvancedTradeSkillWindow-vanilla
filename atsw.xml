@@ -1402,7 +1402,7 @@
 				<Scripts>
 					<OnClick>
 						if(ATSWFrame.selectedSkillName~=nil) then
-							ATSW_AddJob(self, ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
+							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
 							ATSWFrame_UpdateQueue(self);
 							ATSWInputBox:ClearFocus();
 							if(not atsw_processing) then
@@ -1426,7 +1426,7 @@
 				<Scripts>
 					<OnClick>
 						if(ATSWFrame.selectedSkillName~=nil) then
-							ATSW_AddJob(self, ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
+							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
 							ATSWFrame_UpdateQueue(self);
 						end
 					</OnClick>
@@ -1635,7 +1635,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(self, self.jobindex);
+						ATSW_DeleteJob(self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1662,7 +1662,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(self, self.jobindex);
+						ATSW_DeleteJob(self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1689,7 +1689,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(self, self.jobindex);
+						ATSW_DeleteJob(self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -1716,7 +1716,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ATSW_DeleteJob(self, self.jobindex);
+						ATSW_DeleteJob(self.jobindex);
 					</OnClick>
 				</Scripts>
 			</Button>
