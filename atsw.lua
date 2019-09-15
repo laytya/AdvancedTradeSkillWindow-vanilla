@@ -59,6 +59,12 @@ atsw_savednecessaryitems={};
 atsw_is_sorted=false;
 local previousRecipies = {}
 
+function printTable(t)
+	for k, v in pairs(t) do
+		print(k, v)
+	end
+end
+
 function setn(t,n)
     setmetatable(t,{__len=function() return n end})
 end
@@ -133,14 +139,14 @@ function ATSW_ShowWindow(self)
 	end
 	ATSWFrameTitleText:SetText(format(TRADE_SKILL_TITLE, ATSW_GetTradeSkillLine()).." - "..ATSW_VERSION);
 	ATSW_AdjustFrame();
-	ATSW_ResetPossibleItemCounts();
-	ATSW_CreateTradeSkillList();
-	ATSW_CreateSkillListing();
-	ATSWInv_UpdateItemList();
+	ATSW_ResetPossibleItemCounts(self);
+	ATSW_CreateTradeSkillList(self);
+	ATSW_CreateSkillListing(self);
+	ATSWInv_UpdateItemList(self);
 	ShowUIPanel(ATSWFrame);
-	ATSWFrame_UpdateQueue();
-	ATSWInv_UpdateQueuedItemList();
-	ATSWFrame_Update();
+	ATSWFrame_UpdateQueue(self);
+	ATSWInv_UpdateQueuedItemList(self);
+	ATSWFrame_Update(self);
 	ATSWInputBox:SetText("1");
 	atsw_updatedelay=0.5;
 	ATSWQueueStartStopButton:Enable();
@@ -174,7 +180,7 @@ function ATSW_CheckForRescan(self)
 			atsw_displayedgroup=skillname;
 			atsw_selectedskill=skillname;
 			ATSW_RestoreQueue();
-			ATSW_CreateTradeSkillList();
+			ATSW_CreateTradeSkillList(self);
 			ATSW_NoteNecessaryItemsForQueue();
 		end
 	end
@@ -288,7 +294,7 @@ function ATSW_CheckForTradeSkillWindow(self, arg1)
 		if(atsw_updatedelay>0) then
 			atsw_updatedelay=atsw_updatedelay-arg1;
 			if(atsw_updatedelay<=0) then
-				ATSWFrame_Update();
+				ATSWFrame_Update(self);
 				atsw_updatedelay=0;
 			end
 		end
@@ -296,7 +302,7 @@ function ATSW_CheckForTradeSkillWindow(self, arg1)
 	end
 	if(atsw_processnext==true) then 
 		atsw_processnext=false;
-		ATSW_ProcessNextQueueItem();
+		ATSW_ProcessNextQueueItem(self);
 	end
 	if(atsw_processing==true) then
 		if(atsw_processingtimeout~=0) then
@@ -319,7 +325,7 @@ function ATSW_CheckForTradeSkillWindow(self, arg1)
 				atsw_retrydelay=atsw_retrydelay+arg1;
 				else
 				atsw_retrydelay=0;
-				ATSW_ProcessNextQueueItem();
+				ATSW_ProcessNextQueueItem(self);
 			end
 		end		
 	end
@@ -387,8 +393,8 @@ function ATSWFrame_OnEvent(self, event, ...)
 			atsw_retries=0;
 			atsw_retrydelay=ATSW_MAX_DELAY;
 		end
-		ATSW_ResetPossibleItemCounts();
-		ATSWInv_UpdateItemList();
+		ATSW_ResetPossibleItemCounts(self);
+		ATSWInv_UpdateItemList(self);
 		ATSWBank_UpdateBankList();
 		if(ATSW_GetTradeSkillSelectionIndex()>0 and ATSWFrame:IsVisible()) then
 			ATSWFrame_SetSelection(ATSW_GetTradeSkillSelectionIndex()); --069
@@ -408,7 +414,7 @@ function ATSWFrame_OnEvent(self, event, ...)
 	if(event=="TRADE_SKILL_UPDATE") then
 		if(atsw_scans<2) then
 			atsw_scans=atsw_scans+1;
-			ATSW_CreateTradeSkillList();
+			ATSW_CreateTradeSkillList(self);
 			ATSWCreateButton:Disable();
 			ATSWQueueButton:Disable();
 			ATSWCreateAllButton:Disable();
@@ -424,9 +430,9 @@ function ATSWFrame_OnEvent(self, event, ...)
 				ATSWListScrollFrameScrollBar:SetValue(0);
 			end
 			if(atsw_updating==false) then
-				ATSW_ResetPossibleItemCounts();
-				ATSW_CreateSkillListing();
-				ATSWFrame_Update(); 
+				ATSW_ResetPossibleItemCounts(self);
+				ATSW_CreateSkillListing(self);
+				ATSWFrame_Update(self); 
 			end
 		end
 		elseif(event=="UNIT_PORTRAIT_UPDATE") then
@@ -436,40 +442,40 @@ function ATSWFrame_OnEvent(self, event, ...)
 		elseif(event=="UPDATE_TRADESKILL_RECAST") then
 		ATSWInputBox:SetNumber(GetTradeskillRepeatCount());
 		elseif(event=="UNIT_SPELLCAST_STOP" or event=="UNIT_SPELLCAST_CHANNEL_STOP") then
-		ATSW_SpellcastStop();
+		ATSW_SpellcastStop(self);
 		elseif(event=="UNIT_SPELLCAST_START") then
-		ATSW_SpellcastStart();
+		ATSW_SpellcastStart(self);
 		elseif(event=="UNIT_SPELLCAST_INTERRUPTED") then
-		ATSW_SpellcastInterrupted();
+		ATSW_SpellcastInterrupted(self);
 		elseif(event=="TRAINER_CLOSED") then
-		ATSW_ResetPossibleItemCounts();
-		ATSW_CreateSkillListing();
-		if(ATSWFrame:IsVisible()) then ATSWFrame_Update(); end
+		ATSW_ResetPossibleItemCounts(self);
+		ATSW_CreateSkillListing(self);
+		if(ATSWFrame:IsVisible()) then ATSWFrame_Update(self); end
 		elseif(event=="PLAYER_REGEN_ENABLED") then
 		atsw_incombat=false;
 		elseif(event=="PLAYER_REGEN_DISABLED") then
 		atsw_incombat=true;
 		elseif(event=="PLAYER_LOGOUT") then
 		ATSW_SaveQueue(false);
-		elseif(event=="UI_ERROR_MESSAGE") then
-		if atsw_working and arg1 == "Interraupted" then
-			ATSW_SpellcastStop();
-			ATSW_SpellcastInterrupted();
+		elseif(event=="UI_ERROR_MESSAGE") then			
+		if atsw_working and arg1 == "Interrupted" then
+			ATSW_SpellcastStop(self);
+			ATSW_SpellcastInterrupted(self);
 		end
 		
 --		Sea.io.printTable({arg1 or "nil",event})
 		if(ATSWFrame:IsVisible()) then
 			if(arg1==INVENTORY_FULL) then
-				ATSW_SpellcastStop();
-				ATSW_SpellcastInterrupted();
+				ATSW_SpellcastStop(self);
+				ATSW_SpellcastInterrupted(self);
 			end
 			if(string.find(arg1,string.sub(SPELL_FAILED_REAGENTS,1,string.len(SPELL_FAILED_REAGENTS)-2),1,true)~=nil) then
-				ATSW_SpellcastStop(); --069
-				ATSW_SpellcastInterrupted();
+				ATSW_SpellcastStop(self); --069
+				ATSW_SpellcastInterrupted(self);
 			end
 			if(string.find(arg1,string.sub(SPELL_FAILED_REQUIRES_SPELL_FOCUS,1,string.len(SPELL_FAILED_REQUIRES_SPELL_FOCUS)-4),1,true)~=nil) then
-				ATSW_SpellcastStop();
-				ATSW_SpellcastInterrupted();
+				ATSW_SpellcastStop(self);
+				ATSW_SpellcastInterrupted(self);
 			end
 		end
 	end
@@ -569,8 +575,8 @@ end
 function ATSW_OrderBy(order)
 	atsw_orderby[UnitName("player")][atsw_selectedskill]=order;
 	atsw_is_sorted=false;
-	ATSW_CreateSkillListing();
-	ATSWFrame_Update();
+	ATSW_CreateSkillListing(self);
+	ATSWFrame_Update(self);
 end
 
 function ATSWFrame_Update(self)
@@ -813,7 +819,7 @@ end
 function ATSWSkillButton_OnClick(self, button)
 	if(button=="LeftButton") then
 		ATSWFrame_SetSelection(self:GetID(),true);
-		ATSWFrame_Update();
+		ATSWFrame_Update(self);
 	end
 end
 
@@ -840,7 +846,7 @@ function ATSWFrame_SetSelection(id,wasClicked)
 			else
 			ATSW_SetHeaderExpanded(id,true);
 		end
-		ATSWFrame_Update();
+		ATSWFrame_Update(self);
 		return;
 	end
 -- pullreq#1	
@@ -1048,7 +1054,7 @@ function ATSW_ItemOnDoubleClick(self)
 			table.insert(previousRecipies,ATSWFrame.selectedSkill)
 --			Sea.io.print(ATSWFrame.selectedSkill)
 			ATSWFrame_SetSelection(i,false)
-			ATSWFrame_Update();
+			ATSWFrame_Update(self);
 		end
 	end
 end
@@ -1057,7 +1063,7 @@ function ATSW_GoToPreviousRecipe(self)
     local itemID = table.remove(previousRecipies)
     if itemID then
         ATSWFrame_SetSelection(itemID,false)
-		ATSWFrame_Update();
+		ATSWFrame_Update(self);
     end
 end
 
@@ -1166,8 +1172,8 @@ function ATSWSubClassDropDownButton_OnClick(self)
 		atsw_subclassfilter[atsw_selectedskill]=nil;
 		atsw_subclassfiltered[atsw_selectedskill]={};
 		atsw_currentsubclassfilter[atsw_selectedskill]=0;
-		ATSW_CreateSkillListing();
-		ATSWFrame_Update();
+		ATSW_CreateSkillListing(self);
+		ATSWFrame_Update(self);
 		else
 		atsw_subclassfilter[atsw_selectedskill]=self:GetID()-1;
 		atsw_currentsubclassfilter[atsw_selectedskill]=atsw_subclassfilter[atsw_selectedskill];
@@ -1188,8 +1194,8 @@ function ATSWInvSlotDropDownButton_OnClick(self)
 		atsw_invslotfilter[atsw_selectedskill]=nil;
 		atsw_invslotfiltered[atsw_selectedskill]={};
 		atsw_currentinvslotfilter[atsw_selectedskill]=0;
-		ATSW_CreateSkillListing();
-		ATSWFrame_Update();
+		ATSW_CreateSkillListing(self);
+		ATSWFrame_Update(self);
 		else
 		atsw_invslotfilter[atsw_selectedskill]=self:GetID()-1;
 		atsw_currentinvslotfilter[atsw_selectedskill]=atsw_invslotfilter[atsw_selectedskill];
@@ -1254,8 +1260,8 @@ function ATSWCollapseAllButton_OnClick(self)
 			end
 		end
 	end
-	ATSW_CreateSkillListing();
-	ATSWFrame_Update();
+	ATSW_CreateSkillListing(self);
+	ATSWFrame_Update(self);
 end
 
 atsw_queue={};
@@ -1263,7 +1269,7 @@ atsw_queue={};
 function ATSWFrame_UpdateQueue(self)
 	local jobs=table.getn(atsw_queue);
 	local offset=FauxScrollFrame_GetOffset(ATSWQueueScrollFrame);
-	
+
 	for i=1,4,1 do
 		local jobindex=i+offset;
 		local queueCount=getglobal("ATSWQueueItem"..i.."CountText");
@@ -1290,10 +1296,10 @@ atsw_preventupdate=false;
 
 function ATSW_DeleteQueue(self)
 	atsw_queue={};
-	ATSW_ResetPossibleItemCounts();
-	ATSWInv_UpdateQueuedItemList();
-	ATSWFrame_UpdateQueue();
-	ATSWFrame_Update();
+	ATSW_ResetPossibleItemCounts(self);
+	ATSWInv_UpdateQueuedItemList(self);
+	ATSWFrame_UpdateQueue(self);
+	ATSWFrame_Update(self);
 	ATSWQueueStartStopButton:Enable();
 	ATSWQueueDeleteButton:Enable();
 	ATSWQueueStartStopButton:SetText(ATSW_STARTQUEUE);
@@ -1321,10 +1327,10 @@ function ATSW_RestoreQueue(self)
 		if(atsw_savedqueue[UnitName("player")]~=nil) then
 			if(atsw_savedqueue[UnitName("player")][atsw_selectedskill]~=nil) then
 				atsw_queue=atsw_savedqueue[UnitName("player")][atsw_displayedgroup];
-				ATSW_ResetPossibleItemCounts();
-				ATSWInv_UpdateQueuedItemList();
-				ATSWFrame_UpdateQueue();
-				ATSWFrame_Update();
+				ATSW_ResetPossibleItemCounts(self);
+				ATSWInv_UpdateQueuedItemList(self);
+				ATSWFrame_UpdateQueue(self);
+				ATSWFrame_Update(self);
 				return;
 			end
 		end
@@ -1339,10 +1345,10 @@ function ATSW_DeleteJob(jobindex)
 			FauxScrollFrame_SetOffset(ATSWQueueScrollFrame,FauxScrollFrame_GetOffset(ATSWQueueScrollFrame)-1);
 		end
 		if(atsw_preventupdate==false) then
-			ATSW_ResetPossibleItemCounts();
-			ATSWInv_UpdateQueuedItemList();
-			ATSWFrame_UpdateQueue();
-			ATSWFrame_Update();
+			ATSW_ResetPossibleItemCounts(self);
+			ATSWInv_UpdateQueuedItemList(self);
+			ATSWFrame_UpdateQueue(self);
+			ATSWFrame_Update(self);
 		end
 	end
 end
@@ -1352,55 +1358,57 @@ function ATSW_AddJobLL(skillname, num)
 		if(atsw_queue[i].name==skillname) then
 			atsw_queue[i].count=atsw_queue[i].count+num;
 			if(atsw_preventupdate==false) then
-				ATSW_ResetPossibleItemCounts();
-				ATSWInv_UpdateQueuedItemList();
-				ATSWFrame_UpdateQueue();
-				ATSWFrame_Update();
+				ATSW_ResetPossibleItemCounts(self);
+				ATSWInv_UpdateQueuedItemList(self);
+				ATSWFrame_UpdateQueue(self);
+				ATSWFrame_Update(self);
 			end
 			return;
 		end
 	end
 	table.insert(atsw_queue,{name=skillname,count=num});
 	if(atsw_preventupdate==false) then
-		ATSW_ResetPossibleItemCounts();
-		ATSWInv_UpdateQueuedItemList();
-		ATSWFrame_UpdateQueue();
-		ATSWFrame_Update();
+		ATSW_ResetPossibleItemCounts(self);
+		ATSWInv_UpdateQueuedItemList(self);
+		ATSWFrame_UpdateQueue(self);
+		ATSWFrame_Update(self);
 	end
 end
 
-function ATSW_AddJobFirst(skillname, num)
+function ATSW_AddJobFirst(self, skillname, num)
 	for i=1,table.getn(atsw_queue),1 do
 		if(atsw_queue[i].name==skillname) then
 			atsw_queue[i].count=atsw_queue[i].count+num;
 			if(atsw_preventupdate==false) then
-				ATSW_ResetPossibleItemCounts();
-				ATSWInv_UpdateQueuedItemList();
-				ATSWFrame_UpdateQueue();
-				ATSWFrame_Update();
+				ATSW_ResetPossibleItemCounts(self);
+				ATSWInv_UpdateQueuedItemList(self);
+				ATSWFrame_UpdateQueue(self);
+				ATSWFrame_Update(self);
 			end
 			return;
 		end
 	end
-	table.insert(atsw_queue,1,{name=skillname,count=num});
+	if skillname ~= "" then
+		table.insert(atsw_queue,1,{name=skillname,count=num});
+	end
 	if(atsw_preventupdate==false) then
-		ATSW_ResetPossibleItemCounts();
-		ATSWInv_UpdateQueuedItemList();
-		ATSWFrame_UpdateQueue();
-		ATSWFrame_Update();
+		ATSW_ResetPossibleItemCounts(self);
+		ATSWInv_UpdateQueuedItemList(self);
+		ATSWFrame_UpdateQueue(self);
+		ATSWFrame_Update(self);
 	end
 end
 
-function ATSW_DeleteJobPartial(skillname, num)
+function ATSW_DeleteJobPartial(self, skillname, num)
 	for i=1,table.getn(atsw_queue),1 do
 		if(atsw_queue[i].name==skillname) then
 			atsw_queue[i].count=atsw_queue[i].count-num;
 			if(atsw_queue[i].count<=0) then ATSW_DeleteJob(i); end
 			if(atsw_preventupdate==false) then
-				ATSW_ResetPossibleItemCounts();
-				ATSWInv_UpdateQueuedItemList();
-				ATSWFrame_UpdateQueue();
-				ATSWFrame_Update();
+				ATSW_ResetPossibleItemCounts(self);
+				ATSWInv_UpdateQueuedItemList(self);
+				ATSWFrame_UpdateQueue(self);
+				ATSWFrame_Update(self);
 			end
 			return;
 		end
@@ -1410,7 +1418,7 @@ end
 function ATSW_StartStopProcessing(self)
 	if(atsw_processing==true) then
 		--	SpellStopCasting();
-		ATSW_AddJobFirst(atsw_processingname,1);
+		ATSW_AddJobFirst(self, atsw_processingname,1);
 		atsw_processing=false;
 		ATSWQueueStartStopButton:Enable();
 		ATSWQueueDeleteButton:Enable();
@@ -1450,10 +1458,10 @@ function ATSW_StartProcessing(self)
 	ATSWFrame:RegisterEvent("UNIT_SPELLCAST_START");
 	ATSWFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP");
 	ATSWFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED");
-	ATSW_ProcessNextQueueItem(true);	
+	ATSW_ProcessNextQueueItem(self, true);	
 end
 
-function ATSW_ProcessNextQueueItem(directClick)
+function ATSW_ProcessNextQueueItem(self, directClick)
 	if(table.getn(atsw_queue)>0 and atsw_retries<ATSW_MAX_RETRIES) then
 		--		atsw_processingname=atsw_queue[1].name;
 		--		atsw_working=true;
@@ -1462,7 +1470,7 @@ function ATSW_ProcessNextQueueItem(directClick)
 		--		atsw_retrydelay=0;
 		--		DoTradeSkill(ATSW_GetTradeSkillID(atsw_queue[1].name),1);
 		if(directClick~=nil and directClick==true) then
-			ATSW_ProcessIt();
+			ATSW_ProcessIt(self);
 			else
 			--ATSWCFItemName:SetText(ATSWCF_TITLE2.."\n"..atsw_queue[1].count.."x "..atsw_queue[1].name);
 			--ShowUIPanel(ATSWContinueFrame);
@@ -1489,8 +1497,8 @@ function ATSW_SpellcastStop(self)
 	atsw_working=false;
 	if(atsw_queue[1]) then
 		atsw_lastremoved=atsw_processingname;
-		ATSW_DeleteJobPartial(atsw_processingname,1);
-		ATSWFrame_UpdateQueue();
+		ATSW_DeleteJobPartial(self, atsw_processingname,1);
+		ATSWFrame_UpdateQueue(self);
 		atsw_processingtimeout = 5
 	end
 	if(atsw_processing==true) then 
@@ -1511,8 +1519,8 @@ end
 function ATSW_SpellcastInterrupted(self)
 	if(atsw_processing==true) then 
 		atsw_working=false;
-		ATSW_AddJobFirst(atsw_lastremoved,1);
-		ATSWFrame_UpdateQueue();
+		ATSW_AddJobFirst(self, atsw_lastremoved,1);
+		ATSWFrame_UpdateQueue(self);
 		--if(atsw_retries<ATSW_MAX_RETRIES) then
 		--	atsw_retries=atsw_retries+1;
 		--	atsw_retry=true;
@@ -1539,7 +1547,7 @@ end
 
 function ATSWDBF_OnOK(self)
 	if(table.getn(atsw_queue)>0) then
-		ATSW_ProcessIt();
+		ATSW_ProcessIt(self);
 	end
 end
 
@@ -1652,7 +1660,7 @@ function ATSW_CreateTradeSkillList(self)
 	end
 	
 	if(check==false) then
-		ATSW_CreateSkillListing();
+		ATSW_CreateSkillListing(self);
 	end
 end
 
@@ -1759,7 +1767,7 @@ function ATSW_SetHeaderExpanded(id,value)
 			atsw_customheaders[UnitName("player")][atsw_selectedskill][id/1000].expanded=value;
 		end
 	end
-	ATSW_CreateSkillListing();
+	ATSW_CreateSkillListing(self);
 end
 
 function ATSW_AddTradeSkillReagentLinksToChatFrame(skillName)
@@ -1852,7 +1860,7 @@ function ATSW_ResetPossibleItemCounts(self)
 	atsw_tradeskillcounter={};
 end
 
-function ATSW_AddJob(skillName,count)
+function ATSW_AddJob(self, skillName,count)
 	atsw_temporaryitemlist={};
 	local numMade=1;
 	for i=1,table.getn(atsw_tradeskilllist),1 do
@@ -1860,10 +1868,10 @@ function ATSW_AddJob(skillName,count)
 			numMade=atsw_tradeskilllist[i].num;
 		end
 	end
-	ATSW_AddJobRecursive(skillName,count*numMade,true);	
+	ATSW_AddJobRecursive(self, skillName,count*numMade,true);	
 end
 
-function ATSW_AddJobRecursive(skillName,count,firstcall)
+function ATSW_AddJobRecursive(self, skillName,count,firstcall)
 	if(ATSW_CheckBlacklist(skillName)==false or firstcall==true) then
 		for i=1,table.getn(atsw_tradeskilllist),1 do
 			if(atsw_tradeskilllist[i].name==skillName) then
@@ -1874,7 +1882,7 @@ function ATSW_AddJobRecursive(skillName,count,firstcall)
 					local necessary=atsw_tradeskilllist[i].reagents[j].count*usagecount;
 					if(itemcount<necessary) then
 						local missing=necessary-itemcount;
-						ATSW_AddJobRecursive(atsw_tradeskilllist[i].reagents[j].name,missing,false);
+						ATSW_AddJobRecursive(self, atsw_tradeskilllist[i].reagents[j].name,missing,false);
 					end
 				end
 				ATSW_AddJobLL(skillName,usagecount);
@@ -2008,7 +2016,7 @@ function ATSW_NoteNecessaryItemsForTradeskill(skillName,skillCount)
 	local atsw_queue_backup=atsw_queue;
 	atsw_preventupdate=true;
 	atsw_queue={};
-	ATSW_AddJob(skillName,skillCount);
+	ATSW_AddJob(self, skillName,skillCount);
 	ATSW_NoteNecessaryItemsForQueue();
 	atsw_queue=atsw_queue_backup;
 	atsw_preventupdate=false;
@@ -2128,7 +2136,7 @@ atsw_filter="";
 
 function ATSW_UpdateFilter(filtertext)
 	atsw_filter=filtertext;
-	ATSWFrame_Update();	
+	ATSWFrame_Update(self);	
 end
 
 function ATSW_Filter(skillname)
@@ -2486,7 +2494,7 @@ function ATSWInv_UpdateItemList(self)
 			end
 		end
 	end
-	if(ATSWFrame:IsVisible()) then ATSWFrame_Update(); end
+	if(ATSWFrame:IsVisible()) then ATSWFrame_Update(self); end
 end
 
 function ATSWInv_GetItemCount(itemname)

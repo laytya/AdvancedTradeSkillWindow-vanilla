@@ -1402,7 +1402,7 @@
 				<Scripts>
 					<OnClick>
 						if(ATSWFrame.selectedSkillName~=nil) then
-							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
+							ATSW_AddJob(self, ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
 							ATSWFrame_UpdateQueue(self);
 							ATSWInputBox:ClearFocus();
 							if(not atsw_processing) then
@@ -1426,7 +1426,7 @@
 				<Scripts>
 					<OnClick>
 						if(ATSWFrame.selectedSkillName~=nil) then
-							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
+							ATSW_AddJob(self, ATSWFrame.selectedSkillName,ATSWInputBox:GetNumber());
 							ATSWFrame_UpdateQueue(self);
 						end
 					</OnClick>
@@ -1446,7 +1446,7 @@
 				<Scripts>
 					<OnClick>
 						if(ATSWFrame.numAvailable>0 and ATSWFrame.selectedSkillName~=nil) then
-							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSW_GetNumItemsPossibleWithInventory(ATSWFrame.selectedSkillName));
+							ATSW_AddJob(self, ATSWFrame.selectedSkillName,ATSW_GetNumItemsPossibleWithInventory(ATSWFrame.selectedSkillName));
 							ATSWFrame_UpdateQueue(self);
 							ATSWInputBox:ClearFocus();
 							if(not atsw_processing) then
@@ -1470,7 +1470,7 @@
 				<Scripts>
 					<OnClick>
 						if(ATSWFrame.numAvailable>0 and ATSWFrame.selectedSkillName~=nil) then
-							ATSW_AddJob(ATSWFrame.selectedSkillName,ATSWFrame.numAvailable);
+							ATSW_AddJob(self, ATSWFrame.selectedSkillName,ATSWFrame.numAvailable);
 							ATSWFrame_UpdateQueue(self);
 						end
 					</OnClick>
@@ -2490,8 +2490,8 @@
 					if(self:GetChecked()) then
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_multicount=true;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 						ATSWOFSeparateCounterButton:SetChecked(false);
 					end
 				</OnClick>
@@ -2532,8 +2532,8 @@
 					if(self:GetChecked()) then
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_multicount=false;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 						ATSWOFUnifiedCounterButton:SetChecked(false);
 					end
 				</OnClick>
@@ -2574,13 +2574,13 @@
 					if(self:GetChecked()) then
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_considerbank=true;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 					else
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_considerbank=false;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 					end
 				</OnClick>
 			</Scripts>
@@ -2620,13 +2620,13 @@
 					if(self:GetChecked()) then
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_consideralts=true;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 					else
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_consideralts=false;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 					end
 				</OnClick>
 			</Scripts>
@@ -2666,13 +2666,13 @@
 					if(self:GetChecked()) then
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_considermerchants=true;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 					else
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_considermerchants=false;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 					end
 				</OnClick>
 			</Scripts>
@@ -2712,13 +2712,13 @@
 					if(self:GetChecked()) then
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 						atsw_autobuy=true;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 					else
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 						atsw_autobuy=false;
-						ATSW_ResetPossibleItemCounts();
-						ATSWFrame_Update();
+						ATSW_ResetPossibleItemCounts(self);
+						ATSWFrame_Update(self);
 					end
 				</OnClick>
 			</Scripts>

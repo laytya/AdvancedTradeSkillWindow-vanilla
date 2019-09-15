@@ -182,8 +182,8 @@ function ATSWCS_UpdateSkillList()
 	end
 	FauxScrollFrame_Update(ATSWCSUListScrollFrame, totalcount, 23, 16);
 	FauxScrollFrame_Update(ATSWCSSListScrollFrame, totalcount2, 17, 16);
-	ATSW_CreateSkillListing();
-	ATSWFrame_Update();
+	ATSW_CreateSkillListing(self);
+	ATSWFrame_Update(self);
 end
 
 function ATSWCS_UpdateUncategorizedList()
