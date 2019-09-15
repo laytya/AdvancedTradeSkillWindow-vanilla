@@ -347,7 +347,7 @@
 				</Anchors>
 				<Scripts>
 					<OnVerticalScroll>
-						FauxScrollFrame_OnVerticalScroll(16, ATSWCS_Update);
+						FauxScrollFrame_OnVerticalScroll(self, offset, 16, ATSWCS_Update);
 					</OnVerticalScroll>
 					<OnShow>
 						ATSWCS_Update()
@@ -368,7 +368,7 @@
 				</Anchors>
 				<Scripts>
 					<OnVerticalScroll>
-						FauxScrollFrame_OnVerticalScroll(16, ATSWCS_Update);
+						FauxScrollFrame_OnVerticalScroll(self, offset, 16, ATSWCS_Update);
 					</OnVerticalScroll>
 					<OnShow>
 						ATSWCS_Update()

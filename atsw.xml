@@ -977,7 +977,7 @@
 				</Anchors>
 				<Scripts>
 					<OnVerticalScroll>
-						FauxScrollFrame_OnVerticalScroll(ATSW_TRADE_SKILL_HEIGHT, ATSWFrame_Update);
+						FauxScrollFrame_OnVerticalScroll(self, offset, ATSW_TRADE_SKILL_HEIGHT, ATSWFrame_Update);
 					</OnVerticalScroll>
 				</Scripts>
 			</ScrollFrame>
@@ -1734,7 +1734,7 @@
 				</Anchors>
 				<Scripts>
 					<OnVerticalScroll>
-						FauxScrollFrame_OnVerticalScroll(self, 22, ATSWFrame_UpdateQueue);
+						FauxScrollFrame_OnVerticalScroll(self, offset, 22, ATSWFrame_UpdateQueue);
 					</OnVerticalScroll>
 				</Scripts>
 			</ScrollFrame>
@@ -3780,7 +3780,7 @@
 				</Anchors>
 				<Scripts>
 					<OnVerticalScroll>
-						FauxScrollFrame_OnVerticalScroll(self, 5, ATSWAuction_UpdateReagentList);
+						FauxScrollFrame_OnVerticalScroll(self, offset, 5, ATSWAuction_UpdateReagentList);
 					</OnVerticalScroll>
 				</Scripts>
 			</ScrollFrame>
