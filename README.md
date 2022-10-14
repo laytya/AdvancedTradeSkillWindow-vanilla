@@ -43,6 +43,14 @@ of "green".
 
 #Changelog:
 
+v0.5.6a
+- Fix errors after RightClick on reagents
+
+v0.5.6
+- Fix double item links on shiftclicks
+- Fix ShoppingList placement (aux support)
+- Added "enchant" links support (aux not understand it yet)
+
 v0.5.5c:
 
 - fix AUX support (Shift-RightClick on item to auto search it)

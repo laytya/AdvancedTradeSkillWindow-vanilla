@@ -1,4 +1,4 @@
--- Advanced Trade Skill Window v0.5.5b for Vanilla
+-- Advanced Trade Skill Window v0.5.6a for Vanilla
 -- copyright 2006 by Rene Schneider (Slarti on EU-Blackhand), 2017 by laytya
 
 -- main script file
@@ -1002,7 +1002,7 @@ function ATSWFrame_SetSelection(id,wasClicked)
 end
 function ATSW_ItemOnClick(link)
 	if( arg1 and arg1 == "RightButton") then
-		if aux_frame:IsVisible() then
+		if aux_frame and aux_frame:IsVisible() then
 			local _,_,linkid = string.find(link, 'item:(%d+)') 
 			local linkout
 			if not linkid then
@@ -1012,7 +1012,7 @@ function ATSW_ItemOnClick(link)
 				linkout = string.format("item:%d",tonumber(linkid or 0)) 
 			end
 			SetItemRef(linkout,"","RightButton")
-		elseif(CanSendAuctionQuery()) then
+		elseif(CanSendAuctionQuery() and BrowseName) then
 			BrowseName:SetText(link);
 			AuctionFrameBrowse_Search();
 			BrowseNoResultsText:SetText(BROWSE_NO_RESULTS);
