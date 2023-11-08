@@ -84,6 +84,7 @@ function ATSW_OnLoad()
 	ATSWFrame:RegisterEvent("CRAFT_CLOSE");
 	ATSWFrame:RegisterEvent("PLAYER_LOGOUT");
 	ATSWFrame:RegisterEvent("UI_ERROR_MESSAGE");
+	ATSWFrame:RegisterEvent("VARIABLES_LOADED");
 end
 
 function ATSW_ShowWindow()
@@ -347,6 +348,14 @@ function ATSWFrame_OnEvent()
 				--HideUIPanel(ATSWFrame);
 			end
 		end
+		elseif(event=="VARIABLES_LOADED") then
+			if (IsAddOnLoaded("pfUI-addonskinner")) then
+				local penv = pfUI:GetEnvironment()
+				penv.SkinButton(ATSWFilterButton)
+				ATSWFilterButton:SetPoint("TOPLEFT", ATSWFrame, "TOPLEFT", 33, -94)
+				ATSWFilterButton:SetHeight(20)
+				ATSWFilterButton:SetWidth(70)
+			end
 		elseif(event=="CRAFT_CLOSE") then
 		ATSW_HideWindow();
 		elseif(event=="BANKFRAME_OPENED") then
@@ -726,6 +735,15 @@ function ATSWFrame_Update()
 			ATSWSkillIcon:Show();
 			ATSWCollapseAllButton:Enable();
 		end
+
+		local count = 0
+		for i=1,table.getn(atsw_skilllisting),1 do
+
+			if ATSW_Filter(atsw_skilllisting[i].name) then
+				count = count + 1
+			end
+		end
+		numTradeSkills = count
 		
 		FauxScrollFrame_Update(ATSWListScrollFrame, numTradeSkills, ATSW_TRADE_SKILLS_DISPLAYED, ATSW_TRADE_SKILL_HEIGHT, nil, nil, nil, ATSWHighlightFrame, 293, 316);
 		ATSWHighlightFrame:Hide();
@@ -868,9 +886,9 @@ function ATSWFrame_SetSelection(id,wasClicked)
 		if (idpos - skillOffset > ATSW_TRADE_SKILLS_DISPLAYED) or (idpos - skillOffset < 0) then
 			skillOffset = math.floor( idpos / ATSW_TRADE_SKILLS_DISPLAYED) * ATSW_TRADE_SKILLS_DISPLAYED
 			
-			
-			FauxScrollFrame_SetOffset(ATSWListScrollFrame, skillOffset);
-			ATSWListScrollFrameScrollBar:SetValue(skillOffset * ATSW_TRADE_SKILL_HEIGHT);
+		--	FIX SCROLL
+		--	FauxScrollFrame_SetOffset(ATSWListScrollFrame, skillOffset);
+		--	ATSWListScrollFrameScrollBar:SetValue(skillOffset * ATSW_TRADE_SKILL_HEIGHT);
 		end
 		
 	end
@@ -2330,6 +2348,40 @@ end
 
 function ATSW_ToggleCSFrame()
 	ShowUIPanel(ATSWCSFrame);
+end
+
+function ATSW_BuildFilterDropDown()
+	
+	local filters = {
+		[1]	= { ":minpossible 1",		"Min Possible",				":minpossible [count]",							"Filters the list to only include items that can be produced at least [count] times with the material in your inventory." },
+		[2]	= { ":minpossibletotal 1",	"Min Possible Total",		":minpossibletotal [count]",					"Filters the list to only include items that can be produced at least [count] times with the material in your inventory, bank and alts." },
+		[3]	= { ":minlevel 1",			"Min Level",				":minlevel [level]",							"Filters the list to only include recipes for items with at least the given level requirement." },
+		[4]	= { ":minrarity green",		"Min Rarity",				":minrarity [grey|white|green|blue|purple]",	"Filters the list to only include recipes for items with at least the given rarity." },		
+		[5]	= { ":maxpossible 10",		"Max Possible",				":maxpossible [count]",							"Filters the list to only include items that can be produced no more than [count] times with the material in your inventory." },
+		[6]	= { ":maxpossibletotal 10",	"Max Possible Total",		":maxpossibletotal [count]",					"Filters the list to only include items that can be produced no more than [count] times with the material in your inventory, bank and alts." },
+		[7]	= { ":maxlevel 60",			"Max Level",				":maxlevel [level]",							"Filters the list to only include recipes for items with no more than the given level requirement." },
+		[8]	= { ":maxrarity blue",		"Max Rarity",				":maxrarity [grey|white|green|blue|purple]",	"Filters the list to only include recipes for items with no more than the given rarity." },		
+		[9]	= { ":reagent ",			"Reagents",					":reagent [reagent name]",						"Filters the list to only include items that need the specified reagent." },
+	}
+	
+	for filter, values in ipairs(filters) do
+		local entry = {
+			text 				= values[2],
+			tooltipTitle		= values[3],
+			tooltipText			= values[4],
+			arg1				= values[1],
+			func				= function(filter)
+									ATSWFilterBox:SetText(filter)
+								end,
+		}
+		UIDropDownMenu_AddButton( entry, UIDROPDOWNMENU_MENU_LEVEL );
+	end
+end
+
+function ATSW_ToggleFilterFrame()
+	local ATSW_FilterDropdown = CreateFrame('Frame', 'ATSWFilterDropdown', UIParent, 'UIDropDownMenuTemplate')
+	UIDropDownMenu_Initialize(ATSWFilterDropdown, ATSW_BuildFilterDropDown, "MENU");
+    ToggleDropDownMenu(1, nil, ATSWFilterDropdown, "cursor", 2, 3);
 end
 
 -- tooltip functions

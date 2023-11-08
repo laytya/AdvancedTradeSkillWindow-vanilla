@@ -648,7 +648,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="ATSWFilterLabel" inherits="GameFontNormalSmall" text="ATSW_FILTERLABEL">
+				<!--FontString name="ATSWFilterLabel" inherits="GameFontNormalSmall" text="ATSW_FILTERLABEL">
 					<Anchors>
 						<Anchor point="TOPLEFT">
 							<Offset>
@@ -657,7 +657,7 @@
 						</Anchor>
 					</Anchors>
 					<Color r="1" g="1" b="1" a="1"/>
-				</FontString>
+				</FontString-->
 			</Layer>
 	    </Layers>
 	    <Frames>
@@ -1856,6 +1856,24 @@
 				<Scripts>
 					<OnClick>
 						ATSW_ToggleCSFrame();
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button name="ATSWFilterButton" inherits="UIPanelButtonTemplate" text="ATSW_FILTERLABEL">
+				<Size>
+					<AbsDimension x="50" y="21"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset>
+							<AbsDimension x="47" y="-93"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ATSW_ToggleFilterFrame();
 					</OnClick>
 				</Scripts>
 			</Button>
