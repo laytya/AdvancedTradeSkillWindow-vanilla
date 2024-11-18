@@ -356,7 +356,7 @@ function ATSWFrame_OnEvent()
 				ATSWFilterButton:SetHeight(20)
 				ATSWFilterButton:SetWidth(70)
 			end
-			if (IsAddOnLoaded('Blizzard_TradeSkillUI')) then
+			if (IsAddOnLoaded('Blizzard_TradeSkillUI') and getglobal('TradeSkillListScrollFrame')) then
 				getglobal('TradeSkillListScrollFrame').offset = 0
 			end
 		elseif(event=="CRAFT_CLOSE") then
